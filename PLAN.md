@@ -42,7 +42,9 @@ Muéstrame el plan antes de ejecutar.
 
 ---
 
-## Fase 2 — Sistema de componentes
+## Fase 2 — Sistema de componentes ✅
+
+- [x] **Completada el 16/10/2026** — 14 componentes en `src/components` y página `/[locale]/_kit` (solo desarrollo). `npm run build` y `npm run lint` limpios; probado a 375px y 1440px (y header de 375 a 1440px) en los 3 idiomas.
 
 **Prompt:**
 ```
