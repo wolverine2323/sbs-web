@@ -24,7 +24,9 @@ Las tareas marcadas con 👤 las haces tú (cuentas, accesos, aprobaciones). Tod
 
 ---
 
-## Fase 1 — Crear el proyecto
+## Fase 1 — Crear el proyecto ✅
+
+- [x] **Completada el 16/10/2026** — Next.js 16 + next-intl (fr/es/en) + fuentes y tokens Nocturne. `npm run build` y `npm run lint` limpios; probado a 375px y 1440px.
 
 **Prompt para Claude Code:**
 ```
