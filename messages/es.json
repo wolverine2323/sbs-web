@@ -3,6 +3,45 @@
     "title": "SBS Abogados — Abogados & Notarios en Costa Rica",
     "description": "Firma de abogados y notarios en Costa Rica: inversión extranjera, bienes raíces, derecho corporativo y laboral."
   },
+  "Common": {
+    "brand": "SBS Abogados",
+    "cta": "Agendar una cita",
+    "ctaShort": "Agendar cita"
+  },
+  "Navigation": {
+    "label": "Navegación principal",
+    "openMenu": "Abrir el menú",
+    "closeMenu": "Cerrar el menú",
+    "home": "Inicio",
+    "firm": "La Firma",
+    "expertise": "Áreas de práctica",
+    "invest": "Invertir en Costa Rica",
+    "experiences": "Experiencias",
+    "news": "Actualidad",
+    "contact": "Contacto"
+  },
+  "LocaleSwitcher": {
+    "label": "Idioma",
+    "fr": "Français",
+    "es": "Español",
+    "en": "English"
+  },
+  "Testimonials": {
+    "carousel": "carrusel",
+    "slide": "testimonio",
+    "position": "{current} de {total}",
+    "previous": "Testimonio anterior",
+    "next": "Testimonio siguiente"
+  },
+  "Contact": {
+    "address": "Dirección",
+    "phone": "Teléfono",
+    "email": "Email"
+  },
+  "WhatsApp": {
+    "label": "Escríbanos por WhatsApp",
+    "message": "Hola, quisiera agendar una cita con SBS Abogados."
+  },
   "HomePage": {
     "heroEyebrow": "Abogados & Notarios · Costa Rica",
     "heroTitle1": "Su agente de confianza",
