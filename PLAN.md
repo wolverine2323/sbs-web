@@ -78,6 +78,15 @@ Organiza el menú del Studio en español con secciones claras ("Blog", "Páginas
 Agrega vista previa (Presentation / draft mode) para que el cliente vea el artículo antes de publicar.
 Conecta Next.js a Sanity con GROQ y revalidación por webhook para que lo publicado aparezca en segundos.
 ```
+**Plan aprobado por José Luis (16/10/2026):**
+- Sanity **v6** (no v3: ya no es compatible con Next.js 16) y `next-sanity` 13 con Cache Components.
+- Proyecto Sanity `yxpe2eq3`, dataset `production` (público). Tokens como variables del entorno: `SANITY_API_READ_TOKEN` (Viewer) y `SANITY_API_WRITE_TOKEN` (Editor). CORS: `http://localhost:3000` con credenciales.
+- Tipo extra **category** (por idioma) para las categorías del blog.
+- `siteSettings.address` **por idioma** (cambia entre fr/es/en), igual que los textos del pie.
+- Menú del Studio: Páginas (Portada, Servicios, Guía del inversor, Páginas generales) · Blog (Artículos, Categorías) · Equipo · Testimonios · Configuración. Interfaz del Studio en español (francés disponible).
+- Vista previa con Presentation + draft mode; actualización con Sanity Live y webhook firmado en `/api/revalidate` (se da de alta en la Fase 9).
+- Página mínima `/[locale]/actualite/[slug]` para probar; diseño y rutas traducidas en la Fase 5.
+
 **👤 Después:** en sanity.io/manage → *Members*, invita al cliente. Rol sugerido para el cliente: **Editor**, y para ti: **Administrator**.
 ⚠️ Verifica qué roles incluye el plan gratuito de Sanity; si el rol Editor requiere plan de pago, decide entre pagarlo o darle al cliente un rol más amplio.
 
