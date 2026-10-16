@@ -87,6 +87,12 @@ Conecta Next.js a Sanity con GROQ y revalidación por webhook para que lo public
 - Vista previa con Presentation + draft mode; actualización con Sanity Live y webhook firmado en `/api/revalidate` (se da de alta en la Fase 9).
 - Página mínima `/[locale]/actualite/[slug]` para probar; diseño y rutas traducidas en la Fase 5.
 
+**Estado (16/10/2026):** código terminado y probado sin tokens (esquemas validados, build y lint limpios, Studio muestra el login, Sanity Live conecta, webhook firmado probado). Para cerrar la fase, en una sesión nueva con los tokens ya configurados:
+- [ ] Crear con `SANITY_API_WRITE_TOKEN` un artículo de prueba por la API y verlo en `/fr/actualite/…`.
+- [ ] Probar `/api/draft-mode/enable` con `SANITY_API_READ_TOKEN`.
+- [ ] 👤 José Luis entra en `/studio`, crea un artículo y lo ve publicado (necesita una URL pública: despliegue de prueba en Vercel).
+- Nota para este servidor en la nube: los comandos de Node que llaman a Sanity necesitan `NODE_USE_ENV_PROXY=1`, y Chromium `--proxy-server` + `--proxy-bypass-list=localhost`.
+
 **👤 Después:** en sanity.io/manage → *Members*, invita al cliente. Rol sugerido para el cliente: **Editor**, y para ti: **Administrator**.
 ⚠️ Verifica qué roles incluye el plan gratuito de Sanity; si el rol Editor requiere plan de pago, decide entre pagarlo o darle al cliente un rol más amplio.
 
