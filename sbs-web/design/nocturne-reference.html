@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>SBS Abogados — Nocturne</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&amp;family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&amp;display=swap">
+<style>
+body{margin:0;background:#131517;color:#F1ECE4;font-family:"DM Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#D4BC96}a:hover{color:#F1ECE4}
+*{box-sizing:border-box}
+.nv{display:flex}
+.mb{display:none}
+.row-svc{transition:background-color .25s ease}
+.row-svc:hover{background-color:rgba(212,188,150,.06)}
+.row-svc:hover .arr{transform:translateX(6px)}
+.arr{transition:transform .25s ease}
+.bp{transition:background-color .2s ease, color .2s ease}
+.bp:hover{background-color:#B0283F !important}
+.bo:hover{background-color:#F1ECE4 !important;color:#131517 !important}
+.inv:hover{color:#9D2137 !important}
+@media (max-width: 1100px){.nv{display:none}.mb{display:inline-flex}}
+@media (max-width: 760px){.hs{display:none !important}}
+</style>
+</helmet>
+
+<div style="width: 100%; background: #131517; color: #F1ECE4; font-family: 'DM Sans', system-ui, sans-serif;">
+
+<!-- HEADER -->
+<header style="position: sticky; top: 0; z-index: 30; background: rgba(19,21,23,.94); border-bottom: 1px solid rgba(212,188,150,.16); backdrop-filter: blur(10px);">
+  <div style="max-width: 1320px; margin: 0 auto; padding: 0 28px; height: 92px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 20px;">
+    <nav class="nv" aria-label="{{t.navLabel}}" style="gap: 26px; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase;">
+      <a href="#n-firm" style="color: #F1ECE4; text-decoration: none; padding: 12px 0;">{{t.nav.firm}}</a>
+      <a href="#n-exp" style="color: #F1ECE4; text-decoration: none; padding: 12px 0;">{{t.nav.expertise}}</a>
+      <a href="#n-inv" style="color: #F1ECE4; text-decoration: none; padding: 12px 0;">{{t.nav.invest}}</a>
+      <a href="#n-tes" style="color: #F1ECE4; text-decoration: none; padding: 12px 0;">{{t.nav.experiences}}</a>
+    </nav>
+    <button class="mb" type="button" onClick="{{toggleMobile}}" aria-expanded="{{mobileOpen}}" aria-label="{{t.menuLabel}}" style="width: 48px; height: 48px; align-items: center; justify-content: center; background: none; border: 1px solid rgba(212,188,150,.35); color: #F1ECE4; cursor: pointer; justify-self: start;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg>
+    </button>
+    <a href="#n-top" style="display: flex; flex-direction: column; align-items: center; gap: 6px; text-decoration: none; color: #F1ECE4;">
+      <img src="/_blob/36896a01fbd915e3a3d6238eb296bf8d" alt="" style="width: 42px; height: 42px; display: block;">
+      <span style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 15px; letter-spacing: 0.42em; padding-left: 0.42em;">SBS ABOGADOS</span>
+    </a>
+    <div style="display: flex; align-items: center; justify-content: flex-end; gap: 18px;">
+      <div role="group" aria-label="{{t.langLabel}}" class="hs" style="display: flex; gap: 2px;">
+        <sc-for list="{{langs}}" as="l" hint-placeholder-count="3">
+          <button type="button" onClick="{{l.pick}}" aria-pressed="{{l.pressed}}" style="{{l.style}}">{{l.code}}</button>
+        </sc-for>
+      </div>
+      <a class="bp" href="https://calendar.app.google/oU4teZWLHRAWEcy67" style="background: #9D2137; color: #FFFFFF; text-decoration: none; font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0 22px; height: 48px; display: inline-flex; align-items: center;">{{t.cta}}</a>
+    </div>
+  </div>
+  <sc-if value="{{mobileOpen}}" hint-placeholder-val="{{false}}">
+    <nav aria-label="{{t.navLabel}}" style="border-top: 1px solid rgba(212,188,150,.16); padding: 8px 28px 24px; display: flex; flex-direction: column;">
+      <a href="#n-firm" style="color: #F1ECE4; text-decoration: none; padding: 16px 0; border-bottom: 1px solid rgba(212,188,150,.12);">{{t.nav.firm}}</a>
+      <a href="#n-exp" style="color: #F1ECE4; text-decoration: none; padding: 16px 0; border-bottom: 1px solid rgba(212,188,150,.12);">{{t.nav.expertise}}</a>
+      <a href="#n-inv" style="color: #F1ECE4; text-decoration: none; padding: 16px 0; border-bottom: 1px solid rgba(212,188,150,.12);">{{t.nav.invest}}</a>
+      <a href="#n-tes" style="color: #F1ECE4; text-decoration: none; padding: 16px 0; border-bottom: 1px solid rgba(212,188,150,.12);">{{t.nav.experiences}}</a>
+      <a href="{{newsHref}}" style="color: #F1ECE4; text-decoration: none; padding: 16px 0; border-bottom: 1px solid rgba(212,188,150,.12);">{{t.nav.news}}</a>
+      <a href="#n-contact" style="color: #F1ECE4; text-decoration: none; padding: 16px 0;">{{t.nav.contact}}</a>
+      <div style="display: flex; gap: 4px; margin-top: 12px;">
+        <sc-for list="{{langs}}" as="l" hint-placeholder-count="3">
+          <button type="button" onClick="{{l.pick}}" aria-pressed="{{l.pressed}}" style="{{l.style}}">{{l.code}}</button>
+        </sc-for>
+      </div>
+    </nav>
+  </sc-if>
+</header>
+
+<!-- HERO -->
+<section id="n-top" style="position: relative; overflow: hidden; border-bottom: 1px solid rgba(212,188,150,.16);">
+  <img src="/_blob/36896a01fbd915e3a3d6238eb296bf8d" alt="" aria-hidden="true" style="position: absolute; left: 50%; top: 50%; width: 900px; height: 900px; margin-left: -450px; margin-top: -450px; opacity: 0.035; pointer-events: none; filter: grayscale(1) brightness(2);">
+  <div style="position: relative; max-width: 1080px; margin: 0 auto; padding: 136px 28px 112px; display: flex; flex-direction: column; align-items: center; text-align: center;">
+    <span style="font-size: 12px; letter-spacing: 0.36em; text-transform: uppercase; color: #D4BC96;">{{t.heroEyebrow}}</span>
+    <span style="width: 1px; height: 56px; background: linear-gradient(#D4BC96, rgba(212,188,150,0)); margin: 28px 0 32px;"></span>
+    <h1 style="margin: 0; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 400; font-size: clamp(50px, 7vw, 104px); line-height: 0.98; letter-spacing: -0.015em;">{{t.heroTitle1}}<br><em style="font-style: italic; color: #D4BC96;">{{t.heroTitle2}}</em></h1>
+    <p style="margin: 40px 0 0; max-width: 640px; font-size: 18px; line-height: 1.7; color: #B9B2A8;">{{t.heroLead}}</p>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 48px;">
+      <a class="bp" href="https://calendar.app.google/oU4teZWLHRAWEcy67" style="background: #9D2137; color: #FFFFFF; text-decoration: none; font-size: 14px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0 34px; height: 60px; display: inline-flex; align-items: center; gap: 14px;">{{t.cta}}
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a class="bo" href="tel:+50640003322" style="border: 1px solid rgba(241,236,228,.4); color: #F1ECE4; text-decoration: none; font-size: 14px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0 30px; height: 60px; display: inline-flex; align-items: center;">{{t.heroCta2}}</a>
+    </div>
+    <p style="margin: 22px 0 0; font-size: 13px; color: #8F887E;">{{t.heroNote}}</p>
+  </div>
+  <div style="position: relative; border-top: 1px solid rgba(212,188,150,.16);">
+    <div style="max-width: 1320px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+      <div style="padding: 36px 28px; border-right: 1px solid rgba(212,188,150,.16); display: flex; flex-direction: column; gap: 10px;">
+        <span style="font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #D4BC96;">{{t.recoLabel}}</span>
+        <span style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 26px; font-style: italic;">{{t.countriesLine}}</span>
+      </div>
+      <div style="padding: 36px 28px; border-right: 1px solid rgba(212,188,150,.16); display: flex; flex-direction: column; gap: 10px;">
+        <span style="font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #D4BC96;">{{t.distLabel}}</span>
+        <span style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 26px;">Chambers &amp; Partners · LACCA</span>
+      </div>
+      <div style="padding: 36px 28px; display: flex; flex-direction: column; gap: 10px;">
+        <span style="font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #D4BC96;">{{t.memberLabel}}</span>
+        <span style="font-size: 14.5px; line-height: 1.55; color: #CFC8BD;">{{t.members}}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FIRM (paper) -->
+<section id="n-firm" style="background: #F6F3EE; color: #141517;">
+  <div style="max-width: 1320px; margin: 0 auto; padding: 136px 28px; display: flex; flex-wrap: wrap; gap: 80px; align-items: center;">
+    <div style="flex: 1.2 1 560px; min-width: 0;">
+      <span style="font-size: 12px; letter-spacing: 0.32em; text-transform: uppercase; color: #9D2137;">{{t.firmEyebrow}}</span>
+      <h2 style="margin: 24px 0 0; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 400; font-size: clamp(38px, 4.2vw, 62px); line-height: 1.04;">{{t.firmTitle}}</h2>
+      <div style="width: 64px; height: 1px; background: #9B7D58; margin: 40px 0;"></div>
+      <p style="margin: 0; font-size: 17px; line-height: 1.8; color: #4A4540; max-width: 620px;"><span style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 22px; color: #141517; font-weight: 600;">SBS Abogados</span> {{t.firmBody}}</p>
+      <a href="#n-firm" style="margin-top: 40px; color: #141517; font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; display: inline-flex; align-items: center; gap: 14px; padding: 12px 0; border-bottom: 1px solid #141517;">{{t.firmMore}}
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+    <div style="flex: 1 1 400px; min-width: 0; display: flex; flex-direction: column; gap: 0;">
+      <div style="aspect-ratio: 3 / 4; background: #1B1D20; display: flex; align-items: flex-end; padding: 28px; position: relative;">
+        <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;">
+          <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#D4BC96" stroke-width="1" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-8 8"/></svg>
+        </div>
+        <span style="position: relative; font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: #D4BC96;">{{t.firmPhoto}}</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-left: 1px solid rgba(20,21,23,.14);">
+        <sc-for list="{{firmList}}" as="f" hint-placeholder-count="6">
+          <span style="padding: 16px 18px; border-right: 1px solid rgba(20,21,23,.14); border-bottom: 1px solid rgba(20,21,23,.14); font-size: 13.5px; line-height: 1.4; color: #141517;">{{f.label}}</span>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES (rows) -->
+<section id="n-exp" style="max-width: 1320px; margin: 0 auto; padding: 136px 28px;">
+  <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px 64px; margin-bottom: 64px;">
+    <div>
+      <span style="font-size: 12px; letter-spacing: 0.32em; text-transform: uppercase; color: #D4BC96;">{{t.servEyebrow}}</span>
+      <h2 style="margin: 24px 0 0; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 400; font-size: clamp(38px, 4.2vw, 62px); line-height: 1.04;">{{t.servTitle}}</h2>
+    </div>
+    <p style="margin: 0; max-width: 380px; font-size: 16px; line-height: 1.7; color: #B9B2A8;">{{t.servLead}}</p>
+  </div>
+  <div style="border-top: 1px solid rgba(212,188,150,.25);">
+    <sc-for list="{{services}}" as="s" hint-placeholder-count="4">
+      <a class="row-svc" href="#n-contact" style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px 40px; padding: 40px 12px; border-bottom: 1px solid rgba(212,188,150,.25); text-decoration: none; color: #F1ECE4;">
+        <span style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 20px; font-style: italic; color: #D4BC96; width: 48px;">{{s.num}}</span>
+        <span style="flex: 1 1 380px; font-family: 'Cormorant Garamond', Georgia, serif; font-size: clamp(30px, 3vw, 42px); line-height: 1.1;">{{s.title}}</span>
+        <span style="flex: 1 1 340px; font-size: 15px; line-height: 1.65; color: #B9B2A8;">{{s.desc}}</span>
+        <span class="arr" style="width: 52px; height: 52px; border: 1px solid rgba(212,188,150,.4); display: inline-flex; align-items: center; justify-content: center; color: #D4BC96;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+      </a>
+    </sc-for>
+  </div>
+</section>
+
+<!-- INVEST (paper, index) -->
+<section id="n-inv" style="background: #F6F3EE; color: #141517;">
+  <div style="max-width: 1320px; margin: 0 auto; padding: 128px 28px; display: flex; flex-wrap: wrap; gap: 72px;">
+    <div style="flex: 1 1 340px; min-width: 0;">
+      <span style="font-size: 12px; letter-spacing: 0.32em; text-transform: uppercase; color: #9D2137;">{{t.nav.invest}}</span>
+      <h2 style="margin: 24px 0 0; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 400; font-size: clamp(38px, 4.2vw, 62px); line-height: 1.04;">{{t.investTitle}}</h2>
+      <p style="margin: 24px 0 0; font-size: 16px; line-height: 1.7; color: #4A4540; max-width: 400px;">{{t.investLead}}</p>
+      <a class="bp" href="https://calendar.app.google/oU4teZWLHRAWEcy67" style="margin-top: 40px; background: #9D2137; color: #FFFFFF; text-decoration: none; font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0 28px; height: 56px; display: inline-flex; align-items: center;">{{t.investCta}}</a>
+    </div>
+    <ol style="flex: 2 1 580px; min-width: 0; list-style: none; margin: 0; padding: 0; columns: 2 280px; column-gap: 56px;">
+      <sc-for list="{{investTopics}}" as="s" hint-placeholder-count="9">
+        <li style="break-inside: avoid; border-top: 1px solid rgba(20,21,23,.14);">
+          <a class="inv" href="#n-inv" style="display: flex; align-items: baseline; gap: 20px; padding: 22px 0; color: #141517; text-decoration: none;">
+            <span style="font-size: 12px; color: #8A6E48; letter-spacing: 0.1em;">{{s.num}}</span>
+            <span style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 24px; line-height: 1.2;">{{s.label}}</span>
+          </a>
+        </li>
+      </sc-for>
+    </ol>
+  </div>
+</section>
+
+<!-- TESTIMONIALS (deep burgundy, centred) -->
+<section id="n-tes" style="background: #3E1A21; position: relative; overflow: hidden;">
+  <div style="max-width: 980px; margin: 0 auto; padding: 136px 28px 112px; display: flex; flex-direction: column; align-items: center; text-align: center;">
+    <span style="font-size: 12px; letter-spacing: 0.32em; text-transform: uppercase; color: #D4BC96;">{{t.testiEyebrow}}</span>
+    <h2 style="margin: 20px 0 0; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 400; font-size: clamp(30px, 3vw, 42px); line-height: 1.1; color: #F1ECE4;">{{t.testiTitle}}</h2>
+    <span style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 140px; line-height: 0.6; color: #9D2137; margin-top: 56px; height: 64px;" aria-hidden="true">“</span>
+    <blockquote style="margin: 0; font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: clamp(26px, 2.6vw, 36px); line-height: 1.4; color: #F1ECE4; min-height: 200px;">{{cur.quote}}</blockquote>
+    <div style="margin-top: 36px; display: flex; flex-direction: column; gap: 6px;">
+      <span style="font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase; color: #F1ECE4;">{{cur.name}}</span>
+      <span style="font-size: 14px; color: #D4BC96;">{{cur.role}}</span>
+    </div>
+    <div style="margin-top: 48px; display: flex; align-items: center; gap: 24px;">
+      <button type="button" onClick="{{prevT}}" aria-label="{{t.prev}}" style="width: 52px; height: 52px; border-radius: 50%; border: 1px solid rgba(212,188,150,.45); background: transparent; color: #F1ECE4; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+      </button>
+      <span style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 20px; color: #D4BC96; letter-spacing: 0.12em; min-width: 80px;">{{counter}}</span>
+      <button type="button" onClick="{{nextT}}" aria-label="{{t.next}}" style="width: 52px; height: 52px; border-radius: 50%; border: 1px solid rgba(212,188,150,.45); background: transparent; color: #F1ECE4; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+    <span style="margin-top: 56px; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: #A58F8F;">Volcan Arenal · La Fortuna de San Carlos, Alajuela</span>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section id="n-book" style="max-width: 1320px; margin: 0 auto; padding: 136px 28px; display: flex; flex-wrap: wrap; gap: 72px; align-items: stretch;">
+  <div style="flex: 1.2 1 520px; min-width: 0;">
+    <span style="font-size: 12px; letter-spacing: 0.32em; text-transform: uppercase; color: #D4BC96;">{{t.procEyebrow}}</span>
+    <h2 style="margin: 24px 0 0; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 400; font-size: clamp(38px, 4.2vw, 62px); line-height: 1.04;">{{t.procTitle}}</h2>
+    <div style="margin-top: 56px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px;">
+      <sc-for list="{{steps}}" as="s" hint-placeholder-count="3">
+        <div style="border-top: 1px solid #D4BC96; padding-top: 24px; display: flex; flex-direction: column; gap: 12px;">
+          <span style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 40px; font-style: italic; color: #D4BC96; line-height: 1;">{{s.num}}</span>
+          <span style="font-size: 17px; font-weight: 600;">{{s.title}}</span>
+          <span style="font-size: 14.5px; line-height: 1.65; color: #B9B2A8;">{{s.desc}}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+  <div style="flex: 1 1 400px; max-width: 480px; min-width: 0; border: 1px solid rgba(212,188,150,.45); padding: 10px;">
+    <div style="height: 100%; background: #1B1D20; padding: 48px 40px; display: flex; flex-direction: column;">
+      <span style="font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #D4BC96;">{{t.bookTag}}</span>
+      <h3 style="margin: 20px 0 0; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 500; font-size: 38px; line-height: 1.08;">{{t.bookTitle}}</h3>
+      <p style="margin: 16px 0 0; font-size: 15px; line-height: 1.7; color: #B9B2A8;">{{t.bookBody}}</p>
+      <a class="bp" href="https://calendar.app.google/oU4teZWLHRAWEcy67" style="margin-top: 32px; background: #9D2137; color: #FFFFFF; text-decoration: none; font-size: 14px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; height: 60px; display: flex; align-items: center; justify-content: center; gap: 12px;">{{t.bookBtn}}</a>
+      <div style="margin-top: auto; padding-top: 32px; display: flex; flex-direction: column; gap: 8px;">
+        <span style="font-size: 13px; color: #8F887E;">{{t.bookAlt}}</span>
+        <a href="tel:+50640003322" style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 30px; color: #F1ECE4; text-decoration: none;">(506) 4000 3322</a>
+        <a href="mailto:info@sbs.cr" style="font-size: 15px;">info@sbs.cr</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RECOGNITION (paper seals) -->
+<section style="background: #F6F3EE; color: #141517;">
+  <div style="max-width: 1320px; margin: 0 auto; padding: 112px 28px; text-align: center;">
+    <span style="font-size: 12px; letter-spacing: 0.32em; text-transform: uppercase; color: #9D2137;">{{t.recoEyebrow}}</span>
+    <h2 style="margin: 20px auto 0; max-width: 760px; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 400; font-size: clamp(32px, 3.4vw, 50px); line-height: 1.1;">{{t.recoTitle}}</h2>
+    <div style="margin-top: 64px; display: flex; flex-wrap: wrap; justify-content: center; gap: 40px 56px;">
+      <sc-for list="{{embassies}}" as="e" hint-placeholder-count="3">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 16px; width: 170px;">
+          <span style="width: 128px; height: 128px; border-radius: 50%; border: 1px solid #9B7D58; box-shadow: inset 0 0 0 6px #F6F3EE, inset 0 0 0 7px rgba(155,125,88,.5); display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 22px; font-style: italic; color: #3E1A21;">{{e.short}}</span>
+          <span style="font-size: 13px; line-height: 1.45; color: #4A4540;">{{e.label}}</span>
+        </div>
+      </sc-for>
+      <span style="width: 1px; background: rgba(20,21,23,.15); align-self: stretch;" class="hs"></span>
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 16px; width: 170px;">
+        <span style="width: 128px; height: 128px; border-radius: 50%; background: #131517; color: #D4BC96; display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 19px; line-height: 1.1; padding: 16px;">Chambers &amp; Partners</span>
+        <span style="font-size: 13px; color: #4A4540;">{{t.distTitle}}</span>
+      </div>
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 16px; width: 170px;">
+        <span style="width: 128px; height: 128px; border-radius: 50%; background: #131517; color: #D4BC96; display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 19px; line-height: 1.1; padding: 16px;">LACCA Approved</span>
+        <span style="font-size: 13px; color: #4A4540;">{{t.distTitle}}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT + FOOTER -->
+<section id="n-contact" style="border-bottom: 1px solid rgba(212,188,150,.16);">
+  <div style="max-width: 1320px; margin: 0 auto; padding: 128px 28px 96px; display: flex; flex-wrap: wrap; gap: 64px;">
+    <div style="flex: 1.3 1 520px; min-width: 0;">
+      <span style="font-size: 12px; letter-spacing: 0.32em; text-transform: uppercase; color: #D4BC96;">{{t.nav.contact}}</span>
+      <h2 style="margin: 24px 0 0; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 400; font-size: clamp(42px, 5vw, 72px); line-height: 1;">{{t.contactTitle}}</h2>
+      <p style="margin: 28px 0 0; font-size: 16px; line-height: 1.7; color: #B9B2A8; max-width: 520px;">{{t.contactBody}}</p>
+      <a class="bp" href="https://calendar.app.google/oU4teZWLHRAWEcy67" style="margin-top: 40px; background: #9D2137; color: #FFFFFF; text-decoration: none; font-size: 14px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0 34px; height: 60px; display: inline-flex; align-items: center;">{{t.cta}}</a>
+    </div>
+    <dl style="flex: 1 1 380px; min-width: 0; margin: 0; display: flex; flex-direction: column; justify-content: flex-end;">
+      <div style="padding: 22px 0; border-top: 1px solid rgba(212,188,150,.25);">
+        <dt style="font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #D4BC96;">{{t.addrLabel}}</dt>
+        <dd style="margin: 10px 0 0; font-size: 16px; line-height: 1.55;">{{t.address}}</dd>
+      </div>
+      <div style="padding: 22px 0; border-top: 1px solid rgba(212,188,150,.25);">
+        <dt style="font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #D4BC96;">{{t.phoneLabel}}</dt>
+        <dd style="margin: 10px 0 0; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 28px;"><a href="tel:+50640003322" style="color: #F1ECE4; text-decoration: none;">(506) 4000 3322</a></dd>
+      </div>
+      <div style="padding: 22px 0; border-top: 1px solid rgba(212,188,150,.25); border-bottom: 1px solid rgba(212,188,150,.25);">
+        <dt style="font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #D4BC96;">Email</dt>
+        <dd style="margin: 10px 0 0; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 28px;"><a href="mailto:info@sbs.cr" style="color: #F1ECE4; text-decoration: none;">info@sbs.cr</a></dd>
+      </div>
+    </dl>
+  </div>
+</section>
+<footer style="max-width: 1320px; margin: 0 auto; padding: 56px 28px 40px; display: flex; flex-wrap: wrap; gap: 32px 56px; align-items: flex-start; justify-content: space-between;">
+  <div style="flex: 2 1 420px; display: flex; gap: 20px; align-items: flex-start;">
+    <img src="/_blob/36896a01fbd915e3a3d6238eb296bf8d" alt="" style="width: 48px; height: 48px; display: block; flex: 0 0 auto;">
+    <p style="margin: 0; font-size: 13.5px; line-height: 1.75; color: #8F887E; max-width: 560px;">{{t.footerBody}}</p>
+  </div>
+  <div style="flex: 1 1 240px; display: flex; flex-direction: column; gap: 10px; font-size: 13px; text-align: right; color: #8F887E;">
+    <a href="{{newsHref}}" style="color: #D4BC96;">{{t.nav.news}}</a>
+    <span>{{t.rights}}</span>
+  </div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"lang":{"editor":"enum","options":["fr","es","en"],"default":"fr","section":"Langue"},"$preview":{"width":1440,"height":6000}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { lang: null, ti: 0, mobileOpen: false };
+  }
+  dict() {
+    return {
+      fr: {
+        langLabel: "Langue", navLabel: "Navigation principale", menuLabel: "Ouvrir le menu",
+        nav: { home: "Accueil", firm: "Le Cabinet", invest: "Investir au Costa Rica", expertise: "Expertises", experiences: "Expériences", news: "Actualité", contact: "Contact" },
+        cta: "Prendre rendez-vous",
+        heroEyebrow: "Avocats & Notaires · Costa Rica",
+        heroTitle1: "Votre agent de confiance",
+        heroTitle2: "pour vos affaires au Costa Rica.",
+        heroLead: "Investissement étranger, immobilier, droit corporatif et du travail : nous accompagnons le développement de vos affaires et de vos besoins corporatifs, de la première question à la signature.",
+        heroCta2: "Appeler le cabinet",
+        heroNote: "Consultation en français, espagnol ou anglais",
+        recoLabel: "Reconnu par les ambassades",
+        countriesLine: "France · Suisse · Canada",
+        memberLabel: "Membres de",
+        members: "Chambre de Commerce et d’Industrie France – Costa Rica · Chambre d’Infocommunication",
+        distLabel: "Distinctions d’excellence",
+        firmPhoto: "Photo · Les associés fondateurs",
+        firmEyebrow: "Notre firme",
+        firmTitle: "Un cabinet costaricien au service de l’investisseur international.",
+        firmBody: "est une firme d’avocats au Costa Rica spécialisée dans la gestion de projets d’investissement étranger, les opérations immobilières, le développement juridique des affaires, le conseil corporatif et du travail aux entreprises, le conseil et le litige en droit de la concurrence, les opérations de fusion-acquisition et la régulation des télécommunications.",
+        firmList: ["Investissement étranger", "Opérations immobilières", "Conseil corporatif et du travail", "Concurrence et litiges", "Fusions et acquisitions", "Régulation des télécommunications"],
+        firmMore: "En savoir plus sur le cabinet",
+        servEyebrow: "Domaines de service",
+        servTitle: "Une expertise ciblée, des réponses précises.",
+        servLead: "Quatre pôles d’expertise pour sécuriser chaque étape de votre projet au Costa Rica.",
+        services: [
+          ["Affaires et Investissement Immobilier", "Acquisition, location, fiscalité foncière, promotion et financement de projets immobiliers, successions."],
+          ["Droit Corporatif", "Constitution et gestion de sociétés, conseil corporatif et opérations de fusion-acquisition."],
+          ["Droit du Travail", "Conseil aux entreprises sur leurs relations de travail, contrats et obligations d’employeur."],
+          ["Concurrence & Télécommunications", "Conseil et litige en droit de la concurrence et régulation des marchés de télécommunications."]
+        ],
+        investTitle: "Le guide de l’investisseur.",
+        investLead: "Les repères essentiels pour investir, s’installer et entreprendre au Costa Rica, rédigés par nos avocats.",
+        investCta: "Parler de mon projet",
+        investTopics: ["Climat d’investissement", "Propriété et droits immobiliers", "Commerce – Entreprises & Sociétés", "Droit du travail", "Migration", "Centre d’affaires", "Fiscalité", "Concurrence et marchés régulés", "Accord d’association UE – AC"],
+        testiEyebrow: "Expériences",
+        testiTitle: "Ils nous ont confié leur projet.",
+        prev: "Témoignage précédent", next: "Témoignage suivant",
+        testimonials: [
+          ["Excellente équipe. David Solano est ce qu’on appelle un consciencieux. Il est doté d’une grande conscience professionnelle et d’une implication réelle qui font de lui un partenaire indispensable dans la grande aventure d’une installation au Costa Rica.", "Catherinne Gallardo", "France"],
+          ["Très réactifs et ils maîtrisent parfaitement la langue. Ils ont su anticiper nos attentes et nous proposer les solutions les moins coûteuses et les plus appropriées. Ils méritent pleinement la confiance que nous leur avons accordée.", "François Tary", "Cassis, France"],
+          ["Le soutien du Cabinet a été essentiel pour développer le projet d’investissement dans la zone franche du Costa Rica, qui concerne plus de 120 emplois directs. Je souligne le service agile, ponctuel et efficace, et surtout la relation de confiance et d’engagement des avocats avec notre entreprise.", "Jorge Hernández C.", "General Manager · BM Datos of Costa Rica S.A."],
+          ["Chez CCS, nous sommes très heureux d’avoir les services de l’équipe juridique de SBS. Ce fut une expérience très positive de les voir se préparer durement pour nous défendre dans un litige en télécommunications. Don David Solano et l’équipe traitent les informations de notre cas avec précision.", "Sal Ayala", "CEO · Trigicom, USA – Israël"],
+          ["À Montaña del Mar, nous n’avons aucune hésitation à recommander Kattia Bermúdez pour tous vos besoins juridiques au Costa Rica : extrêmement diligente, travailleuse, honnête et fiable.", "David Knaggs", "CEO · Montaña del Mar, USA"],
+          ["L’investissement à l’étranger nécessite un partenaire de confiance sur place. SBS est le cabinet parfait que je recommande systématiquement à mon réseau d’investisseurs.", "Neil Atkinson", "US Realty Investor"]
+        ],
+        procEyebrow: "Votre premier rendez-vous",
+        procTitle: "Parlons de votre projet, simplement.",
+        steps: [
+          ["Choisissez un créneau", "Réservez en ligne le moment qui vous convient, où que vous soyez."],
+          ["Échangez avec un avocat", "Présentez votre projet ou votre situation, en français, en espagnol ou en anglais."],
+          ["Avancez avec clarté", "Nous définissons ensemble les étapes juridiques et la marche à suivre."]
+        ],
+        bookTag: "Agenda en ligne",
+        bookTitle: "Réservez votre consultation",
+        bookBody: "Sélectionnez directement un créneau dans notre agenda. Vous recevrez la confirmation par email.",
+        bookBtn: "Choisir un créneau",
+        bookAlt: "Vous préférez nous appeler ou nous écrire ?",
+        recoEyebrow: "Reconnaissance",
+        recoTitle: "Avocats et notaires connus des ambassades.",
+        embassies: [["Canada", "Ambassade du Canada"], ["Suisse", "Ambassade de Suisse"], ["France", "Ambassade de France au Costa Rica"]],
+        distTitle: "Distinction d’excellence",
+        contactTitle: "Nous sommes à votre disposition.",
+        contactBody: "Pour plus d’informations sur SBS Abogados, contactez-nous par l’un des moyens suivants et nous vous répondrons rapidement.",
+        addrLabel: "Adresse", phoneLabel: "Téléphone",
+        address: "Terra Campus Corporativo, Torre uno, segundo piso, n° 202, La Unión, Costa Rica.",
+        footerBody: "Solano Bermúdez & Solano est un cabinet d’avocats et de notaires principalement spécialisé dans la direction de projets d’investissement au Costa Rica, l’assistance corporative et le conseil juridique en droit de la concurrence, régulation des marchés de télécommunications et opérations de fusion-acquisition.",
+        rights: "© 2026 SBS Abogados. Tous droits réservés."
+      },
+      es: {
+        langLabel: "Idioma", navLabel: "Navegación principal", menuLabel: "Abrir el menú",
+        nav: { home: "Inicio", firm: "La Firma", invest: "Invertir en Costa Rica", expertise: "Áreas de práctica", experiences: "Experiencias", news: "Actualidad", contact: "Contacto" },
+        cta: "Agendar una cita",
+        heroEyebrow: "Abogados & Notarios · Costa Rica",
+        heroTitle1: "Su agente de confianza",
+        heroTitle2: "para sus negocios en Costa Rica.",
+        heroLead: "Inversión extranjera, bienes raíces, derecho corporativo y laboral: acompañamos el desarrollo de sus negocios y necesidades corporativas, desde la primera consulta hasta la firma.",
+        heroCta2: "Llamar a la firma",
+        heroNote: "Atención en francés, español o inglés",
+        recoLabel: "Reconocidos por las embajadas",
+        countriesLine: "Francia · Suiza · Canadá",
+        memberLabel: "Miembros de",
+        members: "Cámara de Comercio e Industria Franco – Costarricense · Cámara de Infocomunicación",
+        distLabel: "Distinciones de excelencia",
+        firmPhoto: "Foto · Socios fundadores",
+        firmEyebrow: "Nuestra firma",
+        firmTitle: "Una firma costarricense al servicio del inversionista internacional.",
+        firmBody: "es una firma de abogados en Costa Rica especializada en la gestión de proyectos de inversión extranjera, operaciones inmobiliarias, desarrollo jurídico de negocios, asesoría corporativa y laboral a empresas, asesoría y litigio en derecho de la competencia, operaciones de fusión y adquisición y regulación de telecomunicaciones.",
+        firmList: ["Inversión extranjera", "Operaciones inmobiliarias", "Asesoría corporativa y laboral", "Competencia y litigio", "Fusiones y adquisiciones", "Regulación de telecomunicaciones"],
+        firmMore: "Conocer la firma",
+        servEyebrow: "Áreas de servicio",
+        servTitle: "Experiencia enfocada, respuestas precisas.",
+        servLead: "Cuatro áreas de práctica para asegurar cada etapa de su proyecto en Costa Rica.",
+        services: [
+          ["Negocios e Inversión Inmobiliaria", "Adquisición, alquiler, impuestos sobre la propiedad, desarrollo y financiamiento de proyectos inmobiliarios, sucesiones."],
+          ["Derecho Corporativo", "Constitución y gestión de sociedades, asesoría corporativa y operaciones de fusión y adquisición."],
+          ["Derecho Laboral", "Asesoría a empresas en relaciones laborales, contratos y obligaciones patronales."],
+          ["Competencia & Telecomunicaciones", "Asesoría y litigio en derecho de la competencia y regulación de los mercados de telecomunicaciones."]
+        ],
+        investTitle: "La guía del inversionista.",
+        investLead: "Las claves para invertir, establecerse y emprender en Costa Rica, escritas por nuestros abogados.",
+        investCta: "Conversar sobre mi proyecto",
+        investTopics: ["Clima de inversión", "Propiedad y derechos inmobiliarios", "Comercio – Empresas y Sociedades", "Derecho laboral", "Migración", "Centro de negocios", "Fiscalidad", "Competencia y mercados regulados", "Acuerdo de Asociación UE – CA"],
+        testiEyebrow: "Experiencias",
+        testiTitle: "Nos confiaron su proyecto.",
+        prev: "Testimonio anterior", next: "Testimonio siguiente",
+        testimonials: [
+          ["Excelente equipo. David Solano es lo que se llama una persona concienzuda: tiene una gran ética profesional y un compromiso real que lo convierten en un aliado indispensable en la gran aventura de establecerse en Costa Rica.", "Catherinne Gallardo", "Francia"],
+          ["Muy ágiles y dominan perfectamente el idioma. Supieron anticipar nuestras expectativas y proponernos las soluciones más económicas y adecuadas. Merecen plenamente la confianza que les dimos.", "François Tary", "Cassis, Francia"],
+          ["El apoyo de la firma fue esencial para desarrollar el proyecto de inversión en zona franca de Costa Rica, que involucra más de 120 empleos directos. Destaco el servicio ágil, puntual y eficaz, y sobre todo la relación de confianza y compromiso de los abogados con nuestra empresa.", "Jorge Hernández C.", "Gerente General · BM Datos of Costa Rica S.A."],
+          ["En CCS estamos muy contentos con los servicios del equipo legal de SBS. Fue una experiencia muy positiva verlos prepararse a fondo para defendernos en un litigio de telecomunicaciones. Don David Solano y el equipo manejan la información de nuestro caso con precisión.", "Sal Ayala", "CEO · Trigicom, USA – Israel"],
+          ["En Montaña del Mar no dudamos en recomendar a Kattia Bermúdez para cualquier necesidad legal en Costa Rica: extremadamente diligente, trabajadora, honesta y confiable.", "David Knaggs", "CEO · Montaña del Mar, USA"],
+          ["Invertir en el extranjero requiere un socio de confianza en el lugar. SBS es la firma perfecta que recomiendo sistemáticamente a mi red de inversionistas.", "Neil Atkinson", "US Realty Investor"]
+        ],
+        procEyebrow: "Su primera cita",
+        procTitle: "Hablemos de su proyecto, sin complicaciones.",
+        steps: [
+          ["Elija un horario", "Reserve en línea el momento que mejor le convenga, esté donde esté."],
+          ["Converse con un abogado", "Cuéntenos su proyecto o situación, en francés, español o inglés."],
+          ["Avance con claridad", "Definimos juntos los pasos legales y la ruta a seguir."]
+        ],
+        bookTag: "Agenda en línea",
+        bookTitle: "Reserve su consulta",
+        bookBody: "Seleccione directamente un espacio en nuestra agenda. Recibirá la confirmación por correo electrónico.",
+        bookBtn: "Elegir un horario",
+        bookAlt: "¿Prefiere llamarnos o escribirnos?",
+        recoEyebrow: "Reconocimiento",
+        recoTitle: "Abogados y notarios reconocidos por las embajadas.",
+        embassies: [["Canadá", "Embajada de Canadá"], ["Suiza", "Embajada de Suiza"], ["Francia", "Embajada de Francia en Costa Rica"]],
+        distTitle: "Distinción de excelencia",
+        contactTitle: "Estamos a su disposición.",
+        contactBody: "Para más información sobre SBS Abogados, contáctenos por cualquiera de estos medios y le responderemos a la brevedad.",
+        addrLabel: "Dirección", phoneLabel: "Teléfono",
+        address: "Terra Campus Corporativo, Torre uno, segundo piso, No. 202, La Unión, Costa Rica.",
+        footerBody: "Solano Bermúdez & Solano es una firma de abogados y notarios especializada principalmente en la dirección de proyectos de inversión en Costa Rica, asistencia corporativa y asesoría legal en derecho de la competencia, regulación de mercados de telecomunicaciones y operaciones de fusión y adquisición.",
+        rights: "© 2026 SBS Abogados. Todos los derechos reservados."
+      },
+      en: {
+        langLabel: "Language", navLabel: "Main navigation", menuLabel: "Open menu",
+        nav: { home: "Home", firm: "The Firm", invest: "Invest in Costa Rica", expertise: "Practice areas", experiences: "Experiences", news: "News", contact: "Contact" },
+        cta: "Book a consultation",
+        heroEyebrow: "Attorneys & Notaries · Costa Rica",
+        heroTitle1: "Your trusted counsel",
+        heroTitle2: "for doing business in Costa Rica.",
+        heroLead: "Foreign investment, real estate, corporate and employment law: we support the growth of your business and corporate needs, from the first question to the signature.",
+        heroCta2: "Call the firm",
+        heroNote: "Consultations in French, Spanish or English",
+        recoLabel: "Recognized by the embassies of",
+        countriesLine: "France · Switzerland · Canada",
+        memberLabel: "Members of",
+        members: "French – Costa Rican Chamber of Commerce and Industry · Chamber of Infocommunication",
+        distLabel: "Distinctions of excellence",
+        firmPhoto: "Photo · Founding partners",
+        firmEyebrow: "Our firm",
+        firmTitle: "A Costa Rican firm built for the international investor.",
+        firmBody: "is a Costa Rican law firm specialized in managing foreign investment projects, real estate transactions, legal business development, corporate and employment advice to companies, competition law advice and litigation, mergers and acquisitions, and telecommunications regulation.",
+        firmList: ["Foreign investment", "Real estate transactions", "Corporate and employment advice", "Competition and litigation", "Mergers and acquisitions", "Telecommunications regulation"],
+        firmMore: "More about the firm",
+        servEyebrow: "Practice areas",
+        servTitle: "Focused expertise, precise answers.",
+        servLead: "Four practice areas to secure every step of your project in Costa Rica.",
+        services: [
+          ["Business & Real Estate Investment", "Acquisitions, leasing, property tax, development and financing of real estate projects, estates."],
+          ["Corporate Law", "Company formation and management, corporate advice, mergers and acquisitions."],
+          ["Employment Law", "Advice to companies on employment relations, contracts and employer obligations."],
+          ["Competition & Telecommunications", "Advice and litigation in competition law and telecommunications market regulation."]
+        ],
+        investTitle: "The investor’s guide.",
+        investLead: "The essentials for investing, relocating and doing business in Costa Rica, written by our attorneys.",
+        investCta: "Discuss my project",
+        investTopics: ["Investment climate", "Property and real estate rights", "Trade – Companies & Corporations", "Employment law", "Immigration", "Business center", "Taxation", "Competition and regulated markets", "EU – Central America Association Agreement"],
+        testiEyebrow: "Experiences",
+        testiTitle: "They trusted us with their project.",
+        prev: "Previous testimonial", next: "Next testimonial",
+        testimonials: [
+          ["An excellent team. David Solano is what you call conscientious: his strong professional ethic and genuine involvement make him an indispensable partner in the great adventure of settling in Costa Rica.", "Catherinne Gallardo", "France"],
+          ["Very responsive, and they master the language perfectly. They anticipated our expectations and offered the most cost-effective and appropriate solutions. They fully deserve the trust we placed in them.", "François Tary", "Cassis, France"],
+          ["The firm’s support was essential to developing our investment project in Costa Rica’s free trade zone, involving more than 120 direct jobs. I highlight the agile, timely and effective service, and above all the trust and commitment of the attorneys toward our company.", "Jorge Hernández C.", "General Manager · BM Datos of Costa Rica S.A."],
+          ["At CCS we are very happy to have SBS’s legal team. It was a very positive experience to see them prepare thoroughly to defend us in a telecommunications dispute. Don David Solano and the team handle our case information with precision.", "Sal Ayala", "CEO · Trigicom, USA – Israel"],
+          ["At Montaña del Mar we have absolutely no hesitation in recommending Kattia Bermúdez for any legal needs you may have in Costa Rica: extremely diligent, hard-working, honest and reliable.", "David Knaggs", "CEO · Montaña del Mar, USA"],
+          ["Investing abroad requires a trusted partner on the ground. SBS is the perfect firm, and I recommend it consistently to my network of investors.", "Neil Atkinson", "US Realty Investor"]
+        ],
+        procEyebrow: "Your first meeting",
+        procTitle: "Let’s talk about your project.",
+        steps: [
+          ["Pick a time slot", "Book online at the time that suits you, wherever you are."],
+          ["Speak with an attorney", "Walk us through your project or situation, in French, Spanish or English."],
+          ["Move forward with clarity", "Together we define the legal steps and the way forward."]
+        ],
+        bookTag: "Online booking",
+        bookTitle: "Book your consultation",
+        bookBody: "Choose a slot directly in our calendar. You’ll receive a confirmation by email.",
+        bookBtn: "Choose a time",
+        bookAlt: "Prefer to call or write to us?",
+        recoEyebrow: "Recognition",
+        recoTitle: "Attorneys and notaries known to the embassies.",
+        embassies: [["Canada", "Embassy of Canada"], ["Switzerland", "Embassy of Switzerland"], ["France", "Embassy of France in Costa Rica"]],
+        distTitle: "Distinction of excellence",
+        contactTitle: "We are at your disposal.",
+        contactBody: "For more information about SBS Abogados, reach us through any of the following and we will get back to you shortly.",
+        addrLabel: "Address", phoneLabel: "Phone",
+        address: "Terra Campus Corporativo, Tower one, second floor, No. 202, La Unión, Costa Rica.",
+        footerBody: "Solano Bermúdez & Solano is a law and notary firm mainly specialized in leading investment projects in Costa Rica, corporate assistance and legal advice in competition law, telecommunications market regulation and mergers and acquisitions.",
+        rights: "© 2026 SBS Abogados. All rights reserved."
+      }
+    };
+  }
+  renderVals() {
+    const D = this.dict();
+    const lang = this.state.lang || this.props.lang || 'fr';
+    const t = D[lang] || D.fr;
+    const n = (i) => String(i + 1).padStart(2, '0');
+    const L = t.testimonials.length;
+    const ti = this.state.ti % L;
+    const tt = t.testimonials[ti];
+    const langs = ['fr', 'es', 'en'].map((c) => ({
+      code: c.toUpperCase(),
+      pressed: c === lang ? 'true' : 'false',
+      pick: () => this.setState({ lang: c }),
+      style: 'min-width: 40px; height: 40px; padding: 0 6px; cursor: pointer; font: inherit; font-size: 12px; font-weight: 600; letter-spacing: 0.12em; background: transparent; ' + (c === lang ? 'color: #F1ECE4; border: 0; border-bottom: 1px solid #D4BC96;' : 'color: #8F887E; border: 0; border-bottom: 1px solid transparent;')
+    }));
+    return {
+      t,
+      langs,
+      newsHref: 'https://www.sbs.cr/' + lang + '/',
+      mobileOpen: this.state.mobileOpen,
+      toggleMobile: () => this.setState({ mobileOpen: !this.state.mobileOpen }),
+      firmList: t.firmList.map((label) => ({ label })),
+      investTopics: t.investTopics.map((label, i) => ({ label, num: n(i) })),
+      services: t.services.map((s, i) => ({ num: n(i), title: s[0], desc: s[1] })),
+      steps: t.steps.map((s, i) => ({ num: n(i), title: s[0], desc: s[1] })),
+      embassies: t.embassies.map((e) => ({ short: e[0], label: e[1] })),
+      cur: { quote: tt[0], name: tt[1], role: tt[2] },
+      counter: n(ti) + ' — ' + n(L - 1),
+      prevT: () => this.setState({ ti: (ti - 1 + L) % L }),
+      nextT: () => this.setState({ ti: (ti + 1) % L })
+    };
+  }
+}
+</script>
+</body>
+</html>
