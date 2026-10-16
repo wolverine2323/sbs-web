@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
+import { VisualEditing } from "next-sanity/visual-editing";
 import { Cormorant_Garamond, DM_Sans } from "next/font/google";
+import { draftMode } from "next/headers";
 import { notFound } from "next/navigation";
 import { locale as rootLocale } from "next/root-params";
+import { Suspense } from "react";
 import { routing } from "@/i18n/routing";
+import { SanityLive } from "@/sanity/lib/live";
 import "../globals.css";
 
 // Títulos (clase font-serif).
@@ -36,6 +40,18 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+// Sanity Live (actualiza lo publicado) y, en modo borrador, la edición con
+// clic desde la vista previa del Studio.
+async function SanityTools() {
+  const { isEnabled } = await draftMode();
+  return (
+    <>
+      <SanityLive includeDrafts={isEnabled} />
+      {isEnabled && <VisualEditing />}
+    </>
+  );
+}
+
 export default async function LocaleLayout({
   children,
 }: LayoutProps<"/[locale]">) {
@@ -46,6 +62,9 @@ export default async function LocaleLayout({
     <html lang={locale} className={`${cormorant.variable} ${dmSans.variable}`}>
       <body>
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <Suspense>
+          <SanityTools />
+        </Suspense>
       </body>
     </html>
   );

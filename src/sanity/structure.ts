@@ -1,15 +1,13 @@
-import {
-  BookIcon,
-  CaseIcon,
-  CogIcon,
-  CommentIcon,
-  ComposeIcon,
-  DocumentsIcon,
-  DocumentTextIcon,
-  HomeIcon,
-  TagIcon,
-  UsersIcon,
-} from "@sanity/icons";
+import { BookIcon } from "@sanity/icons/Book";
+import { CaseIcon } from "@sanity/icons/Case";
+import { CogIcon } from "@sanity/icons/Cog";
+import { CommentIcon } from "@sanity/icons/Comment";
+import { ComposeIcon } from "@sanity/icons/Compose";
+import { DocumentsIcon } from "@sanity/icons/Documents";
+import { DocumentTextIcon } from "@sanity/icons/DocumentText";
+import { HomeIcon } from "@sanity/icons/Home";
+import { TagIcon } from "@sanity/icons/Tag";
+import { UsersIcon } from "@sanity/icons/Users";
 import type { ComponentType } from "react";
 import type { StructureBuilder, StructureResolver } from "sanity/structure";
 import { apiVersion } from "./env";

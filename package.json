@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typegen": "sanity schema extract --enforce-required-fields --force && sanity typegen generate"
   },
   "dependencies": {
     "@portabletext/react": "^8.0.1",
@@ -22,6 +23,7 @@
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "sanity": "^6.19.0",
+    "server-only": "^0.0.1",
     "styled-components": "^6.6.0"
   },
   "devDependencies": {
