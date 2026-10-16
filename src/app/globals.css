@@ -1,1 +1,39 @@
 @import "tailwindcss";
+
+/* Tokens de diseño "Nocturne — encre & bronze" (ver CLAUDE.md). */
+@theme {
+  /* Solo la paleta de la marca: se quitan los colores por defecto de Tailwind
+     para no mezclar estilos (y porque su "stone" chocaría con el nuestro). */
+  --color-*: initial;
+
+  --color-ink: #131517;
+  --color-ink-raised: #1B1D20;
+  --color-paper: #F6F3EE;
+  --color-cream: #F1ECE4;
+  --color-stone: #B9B2A8;
+  --color-stone-dim: #8F887E;
+  --color-bronze-light: #D4BC96;
+  --color-bronze: #9B7D58;
+  --color-bronze-text: #8A6E48;
+  --color-burgundy: #9D2137;
+  --color-burgundy-hover: #B0283F;
+  --color-burgundy-deep: #3E1A21;
+  --color-burgundy-mid: #652A35;
+  /* text-on-paper de CLAUDE.md: títulos / cuerpo sobre paper. */
+  --color-on-paper: #141517;
+  --color-on-paper-body: #4A4540;
+  /* Texto de los botones burgundy en la referencia. */
+  --color-white: #FFFFFF;
+}
+
+/* Variables que crea next/font en el layout. */
+@theme inline {
+  --font-serif: var(--font-cormorant), Georgia, serif;
+  --font-sans: var(--font-dm-sans), system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-ink font-sans text-cream antialiased;
+  }
+}
