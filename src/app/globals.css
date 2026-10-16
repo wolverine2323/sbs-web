@@ -36,4 +36,10 @@
   body {
     @apply bg-ink font-sans text-cream antialiased;
   }
+
+  /* Foco visible para teclado; sobre paper los componentes usan on-paper. */
+  :focus-visible {
+    outline: 2px solid var(--color-bronze-light);
+    outline-offset: 3px;
+  }
 }

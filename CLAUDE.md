@@ -42,7 +42,7 @@ Reproducir ese diseño fielmente; no inventar otro estilo.
 - Filetes de 1px en bronce con opacidad (`rgba(212,188,150,.16–.45)`), sin sombras pesadas.
 - Iconos: SVG de trazo fino (1.5px). Nunca emojis.
 - Accesibilidad: contraste mínimo 4.5:1, objetivos táctiles ≥ 44px, `<button>`/`<a>` reales, `aria-label` en botones de icono, `lang` correcto por idioma.
-- Responsive: todo debe funcionar a 375px de ancho (menú hamburguesa bajo 1100px).
+- Responsive: todo debe funcionar a 375px de ancho (menú hamburguesa bajo 1280px; a 1100px, el corte de la referencia, la navegación no cabe en una línea).
 
 ## Datos fijos de la firma
 - Teléfono: **(506) 4000 3322** → `tel:+50640003322`
