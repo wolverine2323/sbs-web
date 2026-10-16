@@ -27,7 +27,7 @@ Reproducir ese diseño fielmente; no inventar otro estilo.
 | `stone-dim` | `#8F887E` | Notas y pie sobre `ink` |
 | `bronze-light` | `#D4BC96` | Etiquetas, filetes y números sobre fondo oscuro |
 | `bronze` | `#9B7D58` | Filetes sobre `paper` |
-| `bronze-text` | `#8A6E48` | Números/etiquetas pequeñas sobre `paper` |
+| `bronze-text` | `#856A45` | Números/etiquetas pequeñas sobre `paper` (antes #8A6E48; oscurecido para llegar a 4.5:1) |
 | `burgundy` | `#9D2137` | **Solo** botones de acción y acentos de marca |
 | `burgundy-hover` | `#B0283F` | Hover de botones sobre `ink` |
 | `burgundy-deep` | `#3E1A21` | Sección de testimonios |

@@ -14,7 +14,7 @@
   --color-stone-dim: #8F887E;
   --color-bronze-light: #D4BC96;
   --color-bronze: #9B7D58;
-  --color-bronze-text: #8A6E48;
+  --color-bronze-text: #856A45; /* #8A6E48 en la referencia: 4.31:1 sobre paper */
   --color-burgundy: #9D2137;
   --color-burgundy-hover: #B0283F;
   --color-burgundy-deep: #3E1A21;
