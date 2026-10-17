@@ -59,7 +59,9 @@ Crea una página interna /[locale]/_kit (solo en desarrollo) que muestre todos l
 
 ---
 
-## Fase 3 — Esquemas de Sanity y panel de edición
+## Fase 3 — Esquemas de Sanity y panel de edición ✅
+
+- [x] **Completada el 17/10/2026** — Studio en `/studio` con los esquemas traducibles, vista previa de borradores y despliegue de prueba en Vercel. José Luis publicó un artículo desde el Studio y se vio en `/fr/actualite/article-de-test`.
 
 **Prompt:**
 ```
@@ -89,7 +91,7 @@ Conecta Next.js a Sanity con GROQ y revalidación por webhook para que lo public
 
 **Estado (16/10/2026):** código terminado y probado sin tokens (esquemas validados, build y lint limpios, Studio muestra el login, Sanity Live conecta, webhook firmado probado). Para cerrar la fase, en una sesión nueva con los tokens ya configurados:
 - [x] ~~Crear un artículo de prueba por la API~~ → sustituido por la prueba real de José Luis desde el Studio (abajo).
-- [ ] Confirmar que la pestaña «Vista previa» del Studio muestra el artículo (draft mode con `SANITY_API_READ_TOKEN`).
+- [x] Confirmar que la pestaña «Vista previa» del Studio muestra el artículo (draft mode con `SANITY_API_READ_TOKEN`). Verificado el 17/10/2026 en local y en Vercel: el borrador solo se ve dentro de la vista previa, un código falso da 401 y el token ya no se envía al navegador.
 - [x] Despliegue de prueba en Vercel (17/10/2026): equipo **SBS Abogados** (Pro, separado de Creo), proyecto `sbs-web` conectado al repo. La rama de trabajo se publica en https://sbs-web-git-claude-brave-knuth-zr7iuh-sbs-abogados.vercel.app (solo miembros del equipo, con Vercel Authentication).
 - [x] 👤 En Sanity → API → CORS origins, añadir esa dirección con *Allow credentials*.
 - [x] 👤 En Vercel → sbs-web → Settings → Environment Variables, añadir `SANITY_API_READ_TOKEN` (Production y Preview) para la vista previa de borradores.
@@ -103,7 +105,7 @@ Conecta Next.js a Sanity con GROQ y revalidación por webhook para que lo public
 
 ---
 
-## Fase 4 — Portada
+## Fase 4 — Portada ✅
 
 **Prompt:**
 ```
@@ -113,6 +115,13 @@ Crea un script de seed que cargue en Sanity los textos FR/ES/EN que están en el
 El carrusel de testimonios debe ser accesible (botones con aria-label, sin autoplay).
 Todos los CTA de cita usan siteSettings.bookingUrl.
 ```
+- [x] **Completada el 17/10/2026** — Portada con las 8 secciones de la referencia, todo leído de Sanity. `npm run build` y `npm run lint` limpios; probado a 375px y 1440px en los 3 idiomas (sin desbordes, objetivos ≥ 44px, consola limpia) y en Vercel.
+  - `npm run seed` carga los textos FR/ES/EN de `dict()` (63 documentos: configuración, portadas, servicios, temas de la guía y testimonios, con las traducciones vinculadas). No sobrescribe nada salvo con `--force`.
+  - Los 5 botones de cita usan `siteSettings.bookingUrl`. Carrusel de testimonios sin autoplay, con botones con `aria-label`.
+  - Header, Footer y WhatsApp salen de `siteSettings` en todas las páginas (WhatsApp oculto hasta que se cargue el número).
+  - Lo publicado en el Studio aparece al recargar si alguien tiene el sitio abierto (Sanity Live) y, si no hay nadie, como mucho 1 minuto después (la primera visita pasado ese minuto renueva la página y las siguientes ya ven el cambio; probado también en Vercel). El webhook de la Fase 9 lo hará instantáneo.
+  - Provisional hasta la Fase 5: el menú lleva a las secciones de la portada, «Actualité» al blog actual de sbs.cr, los servicios a Contacto y los temas de la guía a su sección.
+
 **Listo cuando:** la portada en los 3 idiomas se ve igual a la referencia y cambiar un texto en el Studio lo cambia en el sitio.
 
 ---
