@@ -14,7 +14,7 @@ export const languageField = defineField({
 });
 
 // "Propriété & droits immobiliers" → "propriete-droits-immobiliers"
-function slugify(input: string) {
+export function slugify(input: string) {
   return input
     .normalize("NFD")
     .replace(/[̀-ͯ]/g, "")

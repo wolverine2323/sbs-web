@@ -1,0 +1,257 @@
+/**
+ * Carga en Sanity el contenido de la portada a partir del dict() de
+ * design/nocturne-reference.html (textos FR/ES/EN).
+ *
+ *   npm run seed              crea lo que falta; no toca lo que ya existe
+ *   npm run seed -- --dry-run muestra qué haría, sin escribir nada
+ *   npm run seed -- --force   sobrescribe los documentos (¡pierde cambios del Studio!)
+ *
+ * Necesita SANITY_API_WRITE_TOKEN (token «Editor»).
+ */
+import { readFileSync } from "node:fs";
+import { getCliClient } from "sanity/cli";
+import { apiVersion } from "../src/sanity/env";
+import { languages } from "../src/sanity/languages";
+import { slugify } from "../src/sanity/schemaTypes/fields";
+
+type Lang = (typeof languages)[number]["id"];
+type Doc = { _id: string; _type: string; [key: string]: unknown };
+
+const args = process.argv.slice(2);
+const dryRun = args.includes("--dry-run");
+const force = args.includes("--force");
+
+// Datos de la firma que no están en el dict() (ver CLAUDE.md).
+const PHONE = "(506) 4000 3322";
+const EMAIL = "info@sbs.cr";
+const BOOKING_URL = "https://calendar.app.google/oU4teZWLHRAWEcy67";
+const DISTINCTIONS_LINE = "Chambers & Partners · LACCA";
+const DISTINCTIONS = ["Chambers & Partners", "LACCA Approved"];
+
+// --- Leer el dict() de la referencia -----------------------------------------
+
+function readReferenceDict(): Record<Lang, Record<string, any>> {
+  const html = readFileSync("design/nocturne-reference.html", "utf8");
+  const start = html.indexOf("return {", html.indexOf("dict() {"));
+  const end = html.lastIndexOf("};", html.indexOf("renderVals()"));
+  if (start < 0 || end < start) throw new Error("No encuentro dict() en la referencia");
+  // Es un literal de objeto de nuestro propio archivo de diseño.
+  return new Function(`return ${html.slice(start + "return ".length, end + 1)}`)();
+}
+
+// --- Construir los documentos -------------------------------------------------
+
+const ids = {
+  service: (lang: Lang, n: number) => `service-${lang}-${n}`,
+  guide: (lang: Lang, n: number) => `investGuide-${lang}-${n}`,
+  home: (lang: Lang) => `homePage-${lang}`,
+};
+
+const ref = (id: string, key?: string) => ({
+  _type: "reference",
+  _ref: id,
+  ...(key && { _key: key }),
+});
+
+const keyed = <T extends object>(items: T[]) =>
+  items.map((item, i) => ({ _key: `k${i + 1}`, ...item }));
+
+const localized = (type: "localeString" | "localeText", pick: (lang: Lang) => string) => ({
+  _type: type,
+  ...Object.fromEntries(languages.map(({ id }) => [id, pick(id)])),
+});
+
+// Documento translation.metadata como lo crea @sanity/document-internationalization.
+// Sin puntos en el _id: los ids con punto no son públicos.
+function translations(id: string, schemaType: string, docId: (lang: Lang) => string): Doc {
+  return {
+    _id: id,
+    _type: "translation.metadata",
+    schemaTypes: [schemaType],
+    translations: languages.map(({ id: lang }) => ({
+      _key: lang,
+      _type: "internationalizedArrayReferenceValue",
+      language: lang,
+      value: ref(docId(lang)),
+    })),
+  };
+}
+
+function buildDocuments(dict: Record<Lang, Record<string, any>>): Doc[] {
+  const docs: Doc[] = [];
+  const t = (lang: Lang) => dict[lang];
+
+  docs.push({
+    _id: "siteSettings",
+    _type: "siteSettings",
+    phone: PHONE,
+    email: EMAIL,
+    address: localized("localeText", (lang) => t(lang).address),
+    bookingUrl: BOOKING_URL,
+    footerBody: localized("localeText", (lang) => t(lang).footerBody),
+    footerRights: localized("localeString", (lang) => t(lang).rights),
+  });
+
+  // Servicios (4 por idioma) y temas de la guía (9 por idioma).
+  const serviceCount = t("fr").services.length;
+  const guideCount = t("fr").investTopics.length;
+  for (const { id: lang } of languages) {
+    t(lang).services.forEach(([title, summary]: [string, string], i: number) =>
+      docs.push({
+        _id: ids.service(lang, i + 1),
+        _type: "service",
+        language: lang,
+        title,
+        slug: { _type: "slug", current: slugify(title) },
+        summary,
+        order: i + 1,
+      }),
+    );
+    t(lang).investTopics.forEach((title: string, i: number) =>
+      docs.push({
+        _id: ids.guide(lang, i + 1),
+        _type: "investGuide",
+        language: lang,
+        title,
+        slug: { _type: "slug", current: slugify(title) },
+        order: i + 1,
+      }),
+    );
+  }
+  for (let n = 1; n <= serviceCount; n++) {
+    docs.push(translations(`translations-service-${n}`, "service", (lang) => ids.service(lang, n)));
+  }
+  for (let n = 1; n <= guideCount; n++) {
+    docs.push(translations(`translations-investGuide-${n}`, "investGuide", (lang) => ids.guide(lang, n)));
+  }
+
+  // Testimonios: uno por persona, con la cita en los tres idiomas.
+  t("fr").testimonials.forEach(([, author]: string[], i: number) =>
+    docs.push({
+      _id: `testimonial-${i + 1}`,
+      _type: "testimonial",
+      quote: localized("localeText", (lang) => t(lang).testimonials[i][0]),
+      author,
+      role: localized("localeString", (lang) => t(lang).testimonials[i][2]),
+      order: i + 1,
+      published: true,
+    }),
+  );
+
+  // Portada, una por idioma.
+  for (const { id: lang } of languages) {
+    const d = t(lang);
+    docs.push({
+      _id: ids.home(lang),
+      _type: "homePage",
+      language: lang,
+      hero: {
+        eyebrow: d.heroEyebrow,
+        title1: d.heroTitle1,
+        title2: d.heroTitle2,
+        lead: d.heroLead,
+        callLabel: d.heroCta2,
+        note: d.heroNote,
+        recognitionLabel: d.recoLabel,
+        countries: d.countriesLine,
+        distinctionsLabel: d.distLabel,
+        distinctions: DISTINCTIONS_LINE,
+        membershipsLabel: d.memberLabel,
+        memberships: d.members,
+      },
+      firm: {
+        eyebrow: d.firmEyebrow,
+        title: d.firmTitle,
+        body: d.firmBody,
+        highlights: d.firmList,
+        moreLabel: d.firmMore,
+        photoLabel: d.firmPhoto,
+      },
+      services: {
+        eyebrow: d.servEyebrow,
+        title: d.servTitle,
+        lead: d.servLead,
+        items: Array.from({ length: serviceCount }, (_, i) =>
+          ref(ids.service(lang, i + 1), `s${i + 1}`),
+        ),
+      },
+      guide: {
+        eyebrow: d.nav.invest,
+        title: d.investTitle,
+        lead: d.investLead,
+        ctaLabel: d.investCta,
+        topics: Array.from({ length: guideCount }, (_, i) => ref(ids.guide(lang, i + 1), `g${i + 1}`)),
+      },
+      testimonials: { eyebrow: d.testiEyebrow, title: d.testiTitle },
+      steps: {
+        eyebrow: d.procEyebrow,
+        title: d.procTitle,
+        items: keyed(
+          d.steps.map(([title, description]: string[]) => ({ _type: "step", title, description })),
+        ),
+      },
+      booking: {
+        tag: d.bookTag,
+        title: d.bookTitle,
+        body: d.bookBody,
+        buttonLabel: d.bookBtn,
+        alternative: d.bookAlt,
+      },
+      recognition: {
+        eyebrow: d.recoEyebrow,
+        title: d.recoTitle,
+        embassies: keyed(
+          d.embassies.map(([name, caption]: string[]) => ({ _type: "seal", name, caption })),
+        ),
+        distinctions: keyed(
+          DISTINCTIONS.map((name) => ({ _type: "seal", name, caption: d.distTitle })),
+        ),
+      },
+      contact: { eyebrow: d.nav.contact, title: d.contactTitle, body: d.contactBody },
+    });
+  }
+  docs.push(translations("translations-homePage", "homePage", ids.home));
+
+  return docs;
+}
+
+// --- Escribir en Sanity -------------------------------------------------------
+
+async function main() {
+  const docs = buildDocuments(readReferenceDict());
+  const count = (type: string) => docs.filter((doc) => doc._type === type).length;
+  console.log(
+    `Documentos preparados: ${docs.length} (` +
+      ["siteSettings", "homePage", "service", "investGuide", "testimonial", "translation.metadata"]
+        .map((type) => `${type}: ${count(type)}`)
+        .join(", ") +
+      ")",
+  );
+
+  const token = process.env.SANITY_API_WRITE_TOKEN;
+  if (!token) throw new Error("Falta SANITY_API_WRITE_TOKEN (token «Editor»)");
+  const client = getCliClient({ apiVersion }).withConfig({ token, useCdn: false });
+
+  const existing = new Set(
+    await client.fetch<string[]>(`*[_id in $ids]._id`, { ids: docs.map((doc) => doc._id) }),
+  );
+  const toWrite = force ? docs : docs.filter((doc) => !existing.has(doc._id));
+  console.log(
+    `Ya existen: ${existing.size}. ${force ? "Se sobrescriben todos (--force)" : "Se crean"}: ${toWrite.length}.`,
+  );
+  if (!toWrite.length) return;
+
+  // Una transacción: o se escribe todo, o nada (las referencias fuertes lo exigen).
+  const transaction = client.transaction();
+  for (const doc of toWrite) {
+    if (force) transaction.createOrReplace(doc);
+    else transaction.createIfNotExists(doc);
+  }
+  const result = await transaction.commit({ dryRun, visibility: "sync" });
+  console.log(dryRun ? `Prueba en seco correcta: ${result.results.length} documentos (no se guardó nada).` : `Guardados: ${result.results.length} documentos.`);
+}
+
+main().catch((error) => {
+  console.error(error instanceof Error ? error.message : error);
+  process.exit(1);
+});
