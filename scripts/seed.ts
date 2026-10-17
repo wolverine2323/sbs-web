@@ -30,7 +30,30 @@ const DISTINCTIONS = ["Chambers & Partners", "LACCA Approved"];
 
 // --- Leer el dict() de la referencia -----------------------------------------
 
-function readReferenceDict(): Record<Lang, Record<string, any>> {
+// Campos del dict() que usa este script.
+type Pair = [string, string];
+type TextKey =
+  | "heroEyebrow" | "heroTitle1" | "heroTitle2" | "heroLead" | "heroCta2" | "heroNote"
+  | "recoLabel" | "countriesLine" | "distLabel" | "memberLabel" | "members"
+  | "firmEyebrow" | "firmTitle" | "firmBody" | "firmMore" | "firmPhoto"
+  | "servEyebrow" | "servTitle" | "servLead"
+  | "investTitle" | "investLead" | "investCta"
+  | "testiEyebrow" | "testiTitle"
+  | "procEyebrow" | "procTitle"
+  | "bookTag" | "bookTitle" | "bookBody" | "bookBtn" | "bookAlt"
+  | "recoEyebrow" | "recoTitle" | "distTitle"
+  | "contactTitle" | "contactBody" | "address" | "footerBody" | "rights";
+type ReferenceTexts = Record<TextKey, string> & {
+  nav: { invest: string; contact: string };
+  firmList: string[];
+  investTopics: string[];
+  services: Pair[];
+  steps: Pair[];
+  embassies: Pair[];
+  testimonials: [quote: string, author: string, role: string][];
+};
+
+function readReferenceDict(): Record<Lang, ReferenceTexts> {
   const html = readFileSync("design/nocturne-reference.html", "utf8");
   const start = html.indexOf("return {", html.indexOf("dict() {"));
   const end = html.lastIndexOf("};", html.indexOf("renderVals()"));
@@ -77,7 +100,7 @@ function translations(id: string, schemaType: string, docId: (lang: Lang) => str
   };
 }
 
-function buildDocuments(dict: Record<Lang, Record<string, any>>): Doc[] {
+function buildDocuments(dict: Record<Lang, ReferenceTexts>): Doc[] {
   const docs: Doc[] = [];
   const t = (lang: Lang) => dict[lang];
 
@@ -96,7 +119,7 @@ function buildDocuments(dict: Record<Lang, Record<string, any>>): Doc[] {
   const serviceCount = t("fr").services.length;
   const guideCount = t("fr").investTopics.length;
   for (const { id: lang } of languages) {
-    t(lang).services.forEach(([title, summary]: [string, string], i: number) =>
+    t(lang).services.forEach(([title, summary], i) =>
       docs.push({
         _id: ids.service(lang, i + 1),
         _type: "service",
@@ -107,7 +130,7 @@ function buildDocuments(dict: Record<Lang, Record<string, any>>): Doc[] {
         order: i + 1,
       }),
     );
-    t(lang).investTopics.forEach((title: string, i: number) =>
+    t(lang).investTopics.forEach((title, i) =>
       docs.push({
         _id: ids.guide(lang, i + 1),
         _type: "investGuide",
@@ -126,7 +149,7 @@ function buildDocuments(dict: Record<Lang, Record<string, any>>): Doc[] {
   }
 
   // Testimonios: uno por persona, con la cita en los tres idiomas.
-  t("fr").testimonials.forEach(([, author]: string[], i: number) =>
+  t("fr").testimonials.forEach(([, author], i) =>
     docs.push({
       _id: `testimonial-${i + 1}`,
       _type: "testimonial",
@@ -187,7 +210,7 @@ function buildDocuments(dict: Record<Lang, Record<string, any>>): Doc[] {
         eyebrow: d.procEyebrow,
         title: d.procTitle,
         items: keyed(
-          d.steps.map(([title, description]: string[]) => ({ _type: "step", title, description })),
+          d.steps.map(([title, description]) => ({ _type: "step", title, description })),
         ),
       },
       booking: {
@@ -201,7 +224,7 @@ function buildDocuments(dict: Record<Lang, Record<string, any>>): Doc[] {
         eyebrow: d.recoEyebrow,
         title: d.recoTitle,
         embassies: keyed(
-          d.embassies.map(([name, caption]: string[]) => ({ _type: "seal", name, caption })),
+          d.embassies.map(([name, caption]) => ({ _type: "seal", name, caption })),
         ),
         distinctions: keyed(
           DISTINCTIONS.map((name) => ({ _type: "seal", name, caption: d.distTitle })),
