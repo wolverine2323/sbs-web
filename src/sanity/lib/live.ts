@@ -10,16 +10,18 @@ import {
 } from "next-sanity/live";
 import { client } from "./client";
 
-// Token Viewer: permite leer borradores en la vista previa del Studio.
+// Token Viewer: permite al servidor leer borradores en la vista previa del Studio.
 const token = process.env.SANITY_API_READ_TOKEN || false;
 
 // sanityFetch guarda cada consulta en la caché de Next.js; <SanityLive /> la
 // renueva en cuanto se publica un cambio (y el webhook /api/revalidate cubre
 // el caso en que nadie tiene el sitio abierto).
+// browserToken: false → el token nunca llega al navegador. Dentro de la
+// pestaña «Vista previa» del Studio los borradores se actualizan igual.
 export const { sanityFetch, SanityLive } = defineLive({
   client,
   serverToken: token,
-  browserToken: token,
+  browserToken: false,
   strict: true,
 });
 
