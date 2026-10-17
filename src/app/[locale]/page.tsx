@@ -1,42 +1,83 @@
-import { useTranslations } from "next-intl";
+import { draftMode } from "next/headers";
+import { notFound } from "next/navigation";
+import { locale as rootLocale } from "next/root-params";
+import { Suspense } from "react";
+import { BookingSection } from "@/components/home/BookingSection";
+import { ContactSection } from "@/components/home/ContactSection";
+import { FirmSection } from "@/components/home/FirmSection";
+import { GuideSection } from "@/components/home/GuideSection";
+import { HeroSection } from "@/components/home/HeroSection";
+import { RecognitionSection } from "@/components/home/RecognitionSection";
+import { ServicesSection } from "@/components/home/ServicesSection";
+import { TestimonialsSection } from "@/components/home/TestimonialsSection";
+import {
+  cachedSanity,
+  getDynamicFetchOptions,
+  type DynamicFetchOptions,
+} from "@/sanity/lib/live";
+import { HOME_PAGE_QUERY, SITE_SETTINGS_QUERY, TESTIMONIALS_QUERY } from "@/sanity/lib/queries";
 
-// Página provisional para comprobar fuentes y colores.
-// La portada real se construye en la Fase 4.
-export default function HomePage() {
-  const t = useTranslations("HomePage");
+// Portada: reproduce design/nocturne-reference.html con el contenido de Sanity.
+
+// Tipos que aparecen en la portada: el webhook /api/revalidate las renueva.
+const HOME_TAGS = ["homePage", "service", "investGuide", "translation.metadata"];
+
+export default async function HomePage() {
+  const { isEnabled } = await draftMode();
+  if (isEnabled) {
+    return (
+      <Suspense>
+        <DraftHome />
+      </Suspense>
+    );
+  }
+  return <Home perspective="published" stega={false} />;
+}
+
+// Vista previa desde el Studio: borradores y edición con clic.
+async function DraftHome() {
+  return <Home {...await getDynamicFetchOptions()} />;
+}
+
+async function Home(fetchOptions: DynamicFetchOptions) {
+  const language = await rootLocale();
+  const [{ data: home }, { data: testimonials }, { data: settings }] = await Promise.all([
+    cachedSanity({ query: HOME_PAGE_QUERY, params: { language }, tags: HOME_TAGS, ...fetchOptions }),
+    cachedSanity({ query: TESTIMONIALS_QUERY, params: { language }, tags: ["testimonial"], ...fetchOptions }),
+    // Los datos de contacto se usan en enlaces: siempre publicados y sin marcas de edición.
+    cachedSanity({
+      query: SITE_SETTINGS_QUERY,
+      params: { language },
+      tags: ["siteSettings"],
+      perspective: "published",
+      stega: false,
+    }),
+  ]);
+  if (!home || !settings) notFound();
+
+  const contact = {
+    bookingUrl: settings.bookingUrl,
+    phone: settings.phone,
+    email: settings.email,
+  };
 
   return (
     <main>
-      <section className="border-b border-bronze-light/16 bg-ink">
-        <div className="mx-auto flex max-w-[1080px] flex-col items-center px-7 pt-[136px] pb-28 text-center">
-          <p className="text-xs tracking-[0.36em] text-bronze-light uppercase">
-            {t("heroEyebrow")}
-          </p>
-          <span
-            aria-hidden="true"
-            className="mt-7 mb-8 h-14 w-px bg-linear-to-b from-bronze-light to-bronze-light/0"
-          />
-          <h1 className="font-serif text-[clamp(50px,7vw,104px)] leading-[0.98] font-normal tracking-[-0.015em]">
-            {t("heroTitle1")}
-            <br />
-            <em className="text-bronze-light italic">{t("heroTitle2")}</em>
-          </h1>
-          <p className="mt-10 max-w-[640px] text-lg leading-[1.7] text-stone">
-            {t("heroLead")}
-          </p>
-        </div>
-      </section>
-      <section className="bg-paper text-on-paper">
-        <div className="mx-auto max-w-[1320px] px-7 py-[136px]">
-          <p className="text-xs tracking-[0.32em] text-burgundy uppercase">
-            {t("firmEyebrow")}
-          </p>
-          <h2 className="mt-6 max-w-[760px] font-serif text-[clamp(38px,4.2vw,62px)] leading-[1.04] font-normal">
-            {t("firmTitle")}
-          </h2>
-          <div aria-hidden="true" className="my-10 h-px w-16 bg-bronze" />
-        </div>
-      </section>
+      {home.hero && <HeroSection hero={home.hero} contact={contact} />}
+      {home.firm && <FirmSection firm={home.firm} />}
+      {home.services && <ServicesSection services={home.services} />}
+      {home.guide && <GuideSection guide={home.guide} bookingUrl={contact.bookingUrl} />}
+      {home.testimonials && (
+        <TestimonialsSection block={home.testimonials} testimonials={testimonials} />
+      )}
+      <BookingSection steps={home.steps} booking={home.booking} contact={contact} />
+      {home.recognition && <RecognitionSection recognition={home.recognition} />}
+      {home.contact && (
+        <ContactSection
+          block={home.contact}
+          contact={{ ...contact, address: settings.address ?? "" }}
+        />
+      )}
     </main>
   );
 }
