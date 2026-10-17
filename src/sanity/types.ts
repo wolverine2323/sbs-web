@@ -604,12 +604,118 @@ export type POST_QUERY_RESULT = {
   > | null;
 } | null;
 
+// Source: src/sanity/lib/queries.ts
+// Variable: HOME_PAGE_QUERY
+// Query: *[_type == "homePage" && language == $language][0]{    hero,    firm,    services{      eyebrow,      title,      lead,      "items": items[]->{ _id, title, summary, "slug": slug.current }    },    guide{      eyebrow,      title,      lead,      ctaLabel,      "topics": topics[]->{ _id, title, "slug": slug.current }    },    testimonials,    steps,    booking,    recognition,    contact,    seo  }
+export type HOME_PAGE_QUERY_RESULT = {
+  hero: {
+    eyebrow?: string;
+    title1: string;
+    title2?: string;
+    lead?: string;
+    callLabel?: string;
+    note?: string;
+    recognitionLabel?: string;
+    countries?: string;
+    distinctionsLabel?: string;
+    distinctions?: string;
+    membershipsLabel?: string;
+    memberships?: string;
+  } | null;
+  firm: {
+    eyebrow?: string;
+    title?: string;
+    body?: string;
+    highlights?: Array<string>;
+    moreLabel?: string;
+    photo?: AccessibleImage;
+    photoLabel?: string;
+  } | null;
+  services: {
+    eyebrow: string | null;
+    title: string | null;
+    lead: string | null;
+    items: Array<{
+      _id: string;
+      title: string;
+      summary: string;
+      slug: string;
+    }> | null;
+  } | null;
+  guide: {
+    eyebrow: string | null;
+    title: string | null;
+    lead: string | null;
+    ctaLabel: string | null;
+    topics: Array<{
+      _id: string;
+      title: string;
+      slug: string;
+    }> | null;
+  } | null;
+  testimonials: {
+    eyebrow?: string;
+    title?: string;
+  } | null;
+  steps: {
+    eyebrow?: string;
+    title?: string;
+    items?: Array<{
+      title?: string;
+      description?: string;
+      _type: "step";
+      _key: string;
+    }>;
+  } | null;
+  booking: {
+    tag?: string;
+    title?: string;
+    body?: string;
+    buttonLabel?: string;
+    alternative?: string;
+  } | null;
+  recognition: {
+    eyebrow?: string;
+    title?: string;
+    embassies?: Array<{
+      name?: string;
+      caption?: string;
+      _type: "seal";
+      _key: string;
+    }>;
+    distinctions?: Array<{
+      name?: string;
+      caption?: string;
+      _type: "seal";
+      _key: string;
+    }>;
+  } | null;
+  contact: {
+    eyebrow?: string;
+    title?: string;
+    body?: string;
+  } | null;
+  seo: Seo | null;
+} | null;
+
+// Source: src/sanity/lib/queries.ts
+// Variable: TESTIMONIALS_QUERY
+// Query: *[_type == "testimonial" && published != false] | order(order asc){    _id,    author,    "quote": select($language == "es" => quote.es, $language == "en" => quote.en, quote.fr),    "role": select($language == "es" => role.es, $language == "en" => role.en, role.fr)  }
+export type TESTIMONIALS_QUERY_RESULT = Array<{
+  _id: string;
+  author: string;
+  quote: string | null;
+  role: string | null;
+}>;
+
 // Query TypeMap
 declare global {
   interface SanityQueries {
     '\n  *[_type == "siteSettings" && _id == "siteSettings"][0]{\n    phone,\n    email,\n    "address": select($language == "es" => address.es, $language == "en" => address.en, address.fr),\n    whatsapp,\n    bookingUrl,\n    gaId,\n    social[]{ platform, url },\n    "footerBody": select($language == "es" => footerBody.es, $language == "en" => footerBody.en, footerBody.fr),\n    "footerRights": select($language == "es" => footerRights.es, $language == "en" => footerRights.en, footerRights.fr),\n    ogImage\n  }\n': SITE_SETTINGS_QUERY_RESULT;
     '\n  *[_type == "post" && language == $language && defined(slug.current)].slug.current\n': POST_SLUGS_QUERY_RESULT;
     '\n  *[_type == "post" && language == $language && slug.current == $slug][0]{\n    _id,\n    title,\n    "slug": slug.current,\n    publishedAt,\n    excerpt,\n    image,\n    body,\n    "author": author->{ name, role },\n    "category": category->title,\n    seo,\n    "translations": *[_type == "translation.metadata" && references(^._id)][0]\n      .translations[].value->{ language, "slug": slug.current }\n  }\n': POST_QUERY_RESULT;
+    '\n  *[_type == "homePage" && language == $language][0]{\n    hero,\n    firm,\n    services{\n      eyebrow,\n      title,\n      lead,\n      "items": items[]->{ _id, title, summary, "slug": slug.current }\n    },\n    guide{\n      eyebrow,\n      title,\n      lead,\n      ctaLabel,\n      "topics": topics[]->{ _id, title, "slug": slug.current }\n    },\n    testimonials,\n    steps,\n    booking,\n    recognition,\n    contact,\n    seo\n  }\n': HOME_PAGE_QUERY_RESULT;
+    '\n  *[_type == "testimonial" && published != false] | order(order asc){\n    _id,\n    author,\n    "quote": select($language == "es" => quote.es, $language == "en" => quote.en, quote.fr),\n    "role": select($language == "es" => role.es, $language == "en" => role.en, role.fr)\n  }\n': TESTIMONIALS_QUERY_RESULT;
   }
 }
 // Lets @sanity/client releases that predate the global registry read it too
