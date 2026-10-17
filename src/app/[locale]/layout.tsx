@@ -7,8 +7,12 @@ import { draftMode } from "next/headers";
 import { notFound } from "next/navigation";
 import { locale as rootLocale } from "next/root-params";
 import { Suspense } from "react";
+import { Footer } from "@/components/Footer";
+import { Header, type NavItem } from "@/components/Header";
+import { WhatsAppFloat } from "@/components/WhatsAppFloat";
 import { routing } from "@/i18n/routing";
-import { SanityLive } from "@/sanity/lib/live";
+import { cachedSanity, SanityLive } from "@/sanity/lib/live";
+import { SITE_SETTINGS_QUERY } from "@/sanity/lib/queries";
 import "../globals.css";
 
 // Títulos (clase font-serif).
@@ -52,16 +56,53 @@ async function SanityTools() {
   );
 }
 
+// Hasta la Fase 5 el menú lleva a las secciones de la portada y «Actualité»
+// al blog actual de sbs.cr, como en la referencia.
+async function getNavItems(locale: string): Promise<NavItem[]> {
+  const t = await getTranslations("Navigation");
+  const section = (hash: string) => ({ pathname: "/", hash });
+  return [
+    { label: t("firm"), href: section("firm") },
+    { label: t("expertise"), href: section("expertise") },
+    { label: t("invest"), href: section("invest") },
+    { label: t("experiences"), href: section("experiences") },
+    { label: t("news"), href: `https://www.sbs.cr/${locale}/`, mobileOnly: true },
+    { label: t("contact"), href: section("contact"), mobileOnly: true },
+  ];
+}
+
 export default async function LocaleLayout({
   children,
 }: LayoutProps<"/[locale]">) {
   const locale = await rootLocale();
   if (!hasLocale(routing.locales, locale)) notFound();
 
+  const [navItems, { data: settings }] = await Promise.all([
+    getNavItems(locale),
+    cachedSanity({
+      query: SITE_SETTINGS_QUERY,
+      params: { language: locale },
+      tags: ["siteSettings"],
+      perspective: "published",
+      stega: false,
+    }),
+  ]);
+
   return (
     <html lang={locale} className={`${cormorant.variable} ${dmSans.variable}`}>
       <body>
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <NextIntlClientProvider>
+          <Header items={navItems} bookingUrl={settings?.bookingUrl} />
+          {children}
+          {settings && (
+            <Footer
+              body={settings.footerBody ?? ""}
+              rights={settings.footerRights ?? ""}
+              newsHref={`https://www.sbs.cr/${locale}/`}
+            />
+          )}
+          <WhatsAppFloat number={settings?.whatsapp ?? undefined} />
+        </NextIntlClientProvider>
         <Suspense>
           <SanityTools />
         </Suspense>

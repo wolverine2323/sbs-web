@@ -17,7 +17,8 @@ export type NavItem = {
 
 type Props = {
   items: NavItem[];
-  bookingUrl: string;
+  // siteSettings.bookingUrl; sin él no se muestra el botón de cita.
+  bookingUrl?: string;
 };
 
 // Header fijo: navegación a la izquierda, logo centrado, idioma + cita a la
@@ -91,15 +92,17 @@ export function Header({ items, bookingUrl }: Props) {
 
         <div className="flex items-center justify-end gap-[18px]">
           <LocaleSwitcher className="hidden lg:flex" />
-          <ButtonPrimary
-            href={bookingUrl}
-            size="sm"
-            track="book_click"
-            className="whitespace-nowrap max-md:px-3.5 max-md:text-xs"
-          >
-            <span className="md:hidden">{tc("ctaShort")}</span>
-            <span className="max-md:hidden">{tc("cta")}</span>
-          </ButtonPrimary>
+          {bookingUrl && (
+            <ButtonPrimary
+              href={bookingUrl}
+              size="sm"
+              track="book_click"
+              className="whitespace-nowrap max-md:px-3.5 max-md:text-xs"
+            >
+              <span className="md:hidden">{tc("ctaShort")}</span>
+              <span className="max-md:hidden">{tc("cta")}</span>
+            </ButtonPrimary>
+          )}
         </div>
       </div>
 

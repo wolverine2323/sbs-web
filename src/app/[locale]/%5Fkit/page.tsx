@@ -7,8 +7,6 @@ import { BookingCard } from "@/components/BookingCard";
 import { ButtonOutline } from "@/components/ButtonOutline";
 import { ButtonPrimary } from "@/components/ButtonPrimary";
 import { ContactList } from "@/components/ContactList";
-import { Footer } from "@/components/Footer";
-import { Header, type NavItem } from "@/components/Header";
 import { Heading } from "@/components/Heading";
 import { ImagePlaceholder } from "@/components/ImagePlaceholder";
 import { SealBadge } from "@/components/SealBadge";
@@ -55,22 +53,11 @@ export default async function KitPage() {
 
   const c = kitContent[locale];
   const tNav = await getTranslations("Navigation");
-  const tHome = await getTranslations("HomePage");
   const tCommon = await getTranslations("Common");
 
-  const navItems: NavItem[] = [
-    { label: tNav("firm"), href: kitHref("firm") },
-    { label: tNav("expertise"), href: kitHref("expertise") },
-    { label: tNav("invest"), href: kitHref("booking") },
-    { label: tNav("experiences"), href: kitHref("experiences") },
-    { label: tNav("news"), href: kitHref("footer"), mobileOnly: true },
-    { label: tNav("contact"), href: kitHref("contact"), mobileOnly: true },
-  ];
 
   return (
     <>
-      <Header items={navItems} bookingUrl={kitSettings.bookingUrl} />
-
       <main>
         {/* Hero: tipografía y botones sobre ink */}
         <section id="hero" className="scroll-mt-[92px] border-b border-bronze-light/16">
@@ -78,16 +65,16 @@ export default async function KitPage() {
             <KitLabel name="SectionEyebrow · Heading · ButtonPrimary · ButtonOutline" />
           </div>
           <div className="mx-auto flex max-w-[1080px] flex-col items-center px-7 pt-14 pb-28 text-center">
-            <SectionEyebrow variant="hero">{tHome("heroEyebrow")}</SectionEyebrow>
+            <SectionEyebrow variant="hero">{c.hero.eyebrow}</SectionEyebrow>
             <span
               aria-hidden="true"
               className="mt-7 mb-8 h-14 w-px bg-linear-to-b from-bronze-light to-bronze-light/0"
             />
-            <Heading as="h1" size="display" accent={tHome("heroTitle2")}>
-              {tHome("heroTitle1")}
+            <Heading as="h1" size="display" accent={c.hero.title2}>
+              {c.hero.title1}
             </Heading>
             <p className="mt-10 max-w-[640px] text-lg leading-[1.7] text-stone">
-              {tHome("heroLead")}
+              {c.hero.lead}
             </p>
             <div className="mt-12 flex flex-wrap justify-center gap-3.5">
               <ButtonPrimary href={kitSettings.bookingUrl} withArrow track="book_click">
@@ -107,8 +94,8 @@ export default async function KitPage() {
             <KitLabel name="SectionEyebrow · Heading · Buttons (tone=light) · ImagePlaceholder" light />
             <div className="flex flex-wrap items-center gap-20">
               <div className="min-w-0 flex-[1.2_1_560px]">
-                <SectionEyebrow tone="light">{tHome("firmEyebrow")}</SectionEyebrow>
-                <Heading className="mt-6">{tHome("firmTitle")}</Heading>
+                <SectionEyebrow tone="light">{c.firm.eyebrow}</SectionEyebrow>
+                <Heading className="mt-6">{c.firm.title}</Heading>
                 <div aria-hidden="true" className="my-10 h-px w-16 bg-bronze" />
                 <div className="flex flex-wrap gap-3.5">
                   <ButtonPrimary href={kitSettings.bookingUrl} size="md" tone="light" track="book_click">
@@ -240,10 +227,7 @@ export default async function KitPage() {
         </section>
       </main>
 
-      <div id="footer" className="mx-auto max-w-[1320px] scroll-mt-[92px] px-7 pt-14">
-        <KitLabel name="Footer · WhatsAppFloat (↘)" />
-      </div>
-      <Footer body={c.footerBody} rights={c.rights} newsHref={kitHref("footer")} />
+      {/* Header y Footer los pone el layout con los datos reales de Sanity. */}
       <WhatsAppFloat number={kitSettings.whatsapp} />
     </>
   );

@@ -14,6 +14,8 @@ export const kitSettings = {
 };
 
 type KitContent = {
+  hero: Record<"eyebrow" | "title1" | "title2" | "lead", string>;
+  firm: Record<"eyebrow" | "title", string>;
   heroCta2: string;
   heroNote: string;
   firmPhoto: string;
@@ -48,6 +50,16 @@ type KitContent = {
 
 export const kitContent: Record<Locale, KitContent> = {
   fr: {
+    hero: {
+      eyebrow: "Avocats & Notaires · Costa Rica",
+      title1: "Votre agent de confiance",
+      title2: "pour vos affaires au Costa Rica.",
+      lead: "Investissement étranger, immobilier, droit corporatif et du travail : nous accompagnons le développement de vos affaires et de vos besoins corporatifs, de la première question à la signature.",
+    },
+    firm: {
+      eyebrow: "Notre firme",
+      title: "Un cabinet costaricien au service de l’investisseur international.",
+    },
     heroCta2: "Appeler le cabinet",
     heroNote: "Consultation en français, espagnol ou anglais",
     firmPhoto: "Photo · Les associés fondateurs",
@@ -99,6 +111,16 @@ export const kitContent: Record<Locale, KitContent> = {
     rights: "© 2026 SBS Abogados. Tous droits réservés.",
   },
   es: {
+    hero: {
+      eyebrow: "Abogados & Notarios · Costa Rica",
+      title1: "Su agente de confianza",
+      title2: "para sus negocios en Costa Rica.",
+      lead: "Inversión extranjera, bienes raíces, derecho corporativo y laboral: acompañamos el desarrollo de sus negocios y necesidades corporativas, desde la primera consulta hasta la firma.",
+    },
+    firm: {
+      eyebrow: "Nuestra firma",
+      title: "Una firma costarricense al servicio del inversionista internacional.",
+    },
     heroCta2: "Llamar a la firma",
     heroNote: "Atención en francés, español o inglés",
     firmPhoto: "Foto · Socios fundadores",
@@ -150,6 +172,16 @@ export const kitContent: Record<Locale, KitContent> = {
     rights: "© 2026 SBS Abogados. Todos los derechos reservados.",
   },
   en: {
+    hero: {
+      eyebrow: "Attorneys & Notaries · Costa Rica",
+      title1: "Your trusted counsel",
+      title2: "for doing business in Costa Rica.",
+      lead: "Foreign investment, real estate, corporate and employment law: we support the growth of your business and corporate needs, from the first question to the signature.",
+    },
+    firm: {
+      eyebrow: "Our firm",
+      title: "A Costa Rican firm built for the international investor.",
+    },
     heroCta2: "Call the firm",
     heroNote: "Consultations in French, Spanish or English",
     firmPhoto: "Photo · Founding partners",

@@ -41,13 +41,5 @@
   "WhatsApp": {
     "label": "Message us on WhatsApp",
     "message": "Hello, I would like to book a consultation with SBS Abogados."
-  },
-  "HomePage": {
-    "heroEyebrow": "Attorneys & Notaries · Costa Rica",
-    "heroTitle1": "Your trusted counsel",
-    "heroTitle2": "for doing business in Costa Rica.",
-    "heroLead": "Foreign investment, real estate, corporate and employment law: we support the growth of your business and corporate needs, from the first question to the signature.",
-    "firmEyebrow": "Our firm",
-    "firmTitle": "A Costa Rican firm built for the international investor."
   }
 }
