@@ -88,12 +88,12 @@ Conecta Next.js a Sanity con GROQ y revalidación por webhook para que lo public
 - Página mínima `/[locale]/actualite/[slug]` para probar; diseño y rutas traducidas en la Fase 5.
 
 **Estado (16/10/2026):** código terminado y probado sin tokens (esquemas validados, build y lint limpios, Studio muestra el login, Sanity Live conecta, webhook firmado probado). Para cerrar la fase, en una sesión nueva con los tokens ya configurados:
-- [ ] Crear con `SANITY_API_WRITE_TOKEN` un artículo de prueba por la API y verlo en `/fr/actualite/…`.
-- [ ] Probar `/api/draft-mode/enable` con `SANITY_API_READ_TOKEN`.
+- [x] ~~Crear un artículo de prueba por la API~~ → sustituido por la prueba real de José Luis desde el Studio (abajo).
+- [ ] Confirmar que la pestaña «Vista previa» del Studio muestra el artículo (draft mode con `SANITY_API_READ_TOKEN`).
 - [x] Despliegue de prueba en Vercel (17/10/2026): equipo **SBS Abogados** (Pro, separado de Creo), proyecto `sbs-web` conectado al repo. La rama de trabajo se publica en https://sbs-web-git-claude-brave-knuth-zr7iuh-sbs-abogados.vercel.app (solo miembros del equipo, con Vercel Authentication).
-- [ ] 👤 En Sanity → API → CORS origins, añadir esa dirección con *Allow credentials*.
-- [ ] 👤 En Vercel → sbs-web → Settings → Environment Variables, añadir `SANITY_API_READ_TOKEN` (Production y Preview) para la vista previa de borradores.
-- [ ] 👤 José Luis entra en `/studio` de esa dirección, crea un artículo y lo ve publicado en `/fr/actualite/…`.
+- [x] 👤 En Sanity → API → CORS origins, añadir esa dirección con *Allow credentials*.
+- [x] 👤 En Vercel → sbs-web → Settings → Environment Variables, añadir `SANITY_API_READ_TOKEN` (Production y Preview) para la vista previa de borradores.
+- [x] 👤 José Luis entra en `/studio` de esa dirección, crea un artículo y lo ve publicado en `/fr/actualite/…` (17/10/2026: «Article de test» → `/fr/actualite/article-de-test`, verificado).
 - Nota para este servidor en la nube: los comandos de Node que llaman a Sanity necesitan `NODE_USE_ENV_PROXY=1`, y Chromium `--proxy-server` + `--proxy-bypass-list=localhost`.
 
 **👤 Después:** en sanity.io/manage → *Members*, invita al cliente. Rol sugerido para el cliente: **Editor**, y para ti: **Administrator**.
