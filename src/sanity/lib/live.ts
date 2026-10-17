@@ -1,5 +1,6 @@
 import "server-only";
 
+import { cacheLife } from "next/cache";
 import { cookies, draftMode } from "next/headers";
 import {
   defineLive,
@@ -25,9 +26,13 @@ export const { sanityFetch, SanityLive } = defineLive({
   strict: true,
 });
 
-// Único límite 'use cache' para las consultas a Sanity.
+// Único límite 'use cache' para las consultas a Sanity. Además de Sanity Live
+// y el webhook, la caché se renueva como mucho cada 60 s, para que lo que se
+// publique sin nadie en el sitio también aparezca (gana el plazo más corto
+// frente al de un año que fija sanityFetch).
 export const cachedSanity: StrictDefinedFetchType = async (options) => {
   "use cache";
+  cacheLife({ stale: 300, revalidate: 60, expire: 31_536_000 });
   return sanityFetch(options);
 };
 
