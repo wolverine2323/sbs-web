@@ -68,7 +68,7 @@ function Email({ email, className }: { email: string | null; className?: string 
 // Tarjeta de abogado colaborador (sobre paper): foto, nombre, cargo, idiomas y email.
 export function TeamCard({ member }: { member: Member }) {
   return (
-    <article id={memberAnchor(member.name)} className="scroll-mt-[120px]">
+    <article id={memberAnchor(member.name)} data-section="team" className="scroll-mt-[120px]">
       <Photo member={member} sizes="(min-width: 1100px) 300px, (min-width: 640px) 45vw, 100vw" />
       <h2 className="mt-6 font-serif text-[28px] leading-[1.15] text-on-paper">{member.name}</h2>
       {member.role && (
@@ -88,6 +88,7 @@ export function FounderProfile({ member }: { member: Member }) {
   return (
     <article
       id={memberAnchor(member.name)}
+      data-section="team"
       className="grid scroll-mt-[120px] gap-x-20 gap-y-10 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]"
     >
       <Photo member={member} sizes="(min-width: 768px) 40vw, 100vw" className="md:self-start" />

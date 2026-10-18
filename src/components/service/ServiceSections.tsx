@@ -58,7 +58,7 @@ export function AudienceSection({ audience, tone, bookingUrl }: AudienceProps) {
   const steps = audience.steps ?? [];
 
   return (
-    <section id={audienceAnchor(audience)} className={cn("scroll-mt-[92px]", c.section)}>
+    <section id={audienceAnchor(audience)} data-section="audience" className={cn("scroll-mt-[92px]", c.section)}>
       <div className="mx-auto grid max-w-[1320px] gap-x-20 gap-y-14 px-7 py-28 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
         <div className="lg:sticky lg:top-[124px] lg:self-start">
           {audience.eyebrow && <SectionEyebrow tone={tone}>{audience.eyebrow}</SectionEyebrow>}

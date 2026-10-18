@@ -43,7 +43,7 @@ async function Contact(fetchOptions: DynamicFetchOptions) {
         <HeroActions bookingUrl={settings.bookingUrl} phone={settings.phone} />
       </PageHero>
 
-      <section className="bg-paper text-on-paper">
+      <section data-section="contact" className="bg-paper text-on-paper">
         <div className="mx-auto max-w-[1320px] px-7 py-28">
           {page.body && (
             <div className="mb-16 max-w-[760px] [&>*:first-child]:mt-0">

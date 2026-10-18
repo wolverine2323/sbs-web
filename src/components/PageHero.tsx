@@ -16,7 +16,7 @@ type Props = {
 // izquierda del hero de la portada, con el mismo filete bronce vertical.
 export function PageHero({ breadcrumbs, eyebrow, title, lead, children }: Props) {
   return (
-    <section className="relative overflow-hidden border-b border-bronze-light/16">
+    <section data-section="hero" className="relative overflow-hidden border-b border-bronze-light/16">
       {/* Monograma de fondo, decorativo */}
       <Image
         src="/monogram-temp.png"

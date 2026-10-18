@@ -26,7 +26,7 @@ export function HeroSection({ hero, contact }: Props) {
   const t = useTranslations("Common");
 
   return (
-    <section className="relative overflow-hidden border-b border-bronze-light/16">
+    <section data-section="hero" className="relative overflow-hidden border-b border-bronze-light/16">
       {/* Monograma de fondo, decorativo */}
       <Image
         src="/monogram-temp.png"
