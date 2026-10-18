@@ -14,7 +14,8 @@
     "migrate:import": "sanity exec scripts/migration/import.ts --",
     "migrate:redirects": "sanity exec scripts/migration/redirects.ts",
     "migrate:check-redirects": "sanity exec scripts/migration/check-redirects.ts --",
-    "privacy": "sanity exec scripts/privacy-policy.ts --"
+    "privacy": "sanity exec scripts/privacy-policy.ts --",
+    "logos": "sanity exec scripts/recognition-logos.ts --"
   },
   "dependencies": {
     "@portabletext/react": "^8.0.1",
