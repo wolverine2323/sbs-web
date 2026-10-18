@@ -175,7 +175,7 @@ export const siteSettings = defineType({
       type: "string",
       group: "links",
       description:
-        "Google Ads → Objetivos → Conversiones → la acción de la cita → Configuración de etiquetas: es lo que va después de la barra en send_to «AW-…/etiqueta». Cada clic en «Agendar una cita» cuenta como conversión.",
+        "Déjalo vacío si la conversión «Reservar cita» de Google Ads se basa en el evento book_click de Google Analytics (lo recomendado); con las dos, cada cita contaría doble. Solo para una acción de Google Ads creada con código: lo que va después de la barra en send_to «AW-…/etiqueta».",
     }),
     defineField({
       name: "privacyPage",
