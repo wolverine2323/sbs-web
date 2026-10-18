@@ -8,7 +8,10 @@
     "start": "next start",
     "lint": "eslint",
     "typegen": "sanity schema extract --enforce-required-fields --force && sanity typegen generate",
-    "seed": "sanity exec scripts/seed.ts --"
+    "seed": "sanity exec scripts/seed.ts --",
+    "migrate:crawl": "sanity exec scripts/migration/crawl.ts",
+    "migrate:inventory": "sanity exec scripts/migration/inventory.ts",
+    "migrate:import": "sanity exec scripts/migration/import.ts --"
   },
   "dependencies": {
     "@portabletext/react": "^8.0.1",
@@ -28,12 +31,16 @@
     "styled-components": "^6.6.0"
   },
   "devDependencies": {
+    "@portabletext/html": "^2.0.1",
+    "@portabletext/schema": "^3.0.1",
     "@tailwindcss/turbopack": "^4",
+    "@types/jsdom": "^28.0.3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.4.2",
+    "jsdom": "^29.1.1",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
