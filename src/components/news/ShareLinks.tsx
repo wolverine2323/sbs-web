@@ -4,7 +4,7 @@ import { CopyLinkButton } from "./CopyLinkButton";
 type Props = { url: string; title: string };
 
 const pill =
-  "inline-flex min-h-11 items-center border border-on-paper/25 px-4 text-[12px] font-semibold tracking-[0.12em] text-on-paper uppercase transition-colors hover:border-on-paper focus-visible:outline-on-paper";
+  "inline-flex min-h-11 min-w-11 items-center justify-center border border-on-paper/25 px-4 text-[12px] font-semibold tracking-[0.12em] text-on-paper uppercase transition-colors hover:border-on-paper focus-visible:outline-on-paper";
 
 // Compartir un artículo: enlaces directos a cada red (sin scripts de terceros).
 // Los nombres de las redes son marcas: no se traducen.

@@ -27,8 +27,9 @@ export function PostMeta({ post, className }: { post: Pick<PostSummary, "publish
 export function PostCard({ post }: { post: PostSummary }) {
   return (
     <article className="group relative flex h-full flex-col border-t border-on-paper/14 pt-6">
-      {post.image?.asset && (
-        <div className="relative mb-6 aspect-[3/2] overflow-hidden bg-on-paper/5">
+      {/* Sin imagen, el monograma: todas las tarjetas de una fila quedan alineadas. */}
+      <div className="relative mb-6 aspect-[3/2] overflow-hidden bg-on-paper/5">
+        {post.image?.asset ? (
           <Image
             src={urlFor(post.image).width(900).height(600).url()}
             alt={post.image.alt ?? ""}
@@ -36,8 +37,16 @@ export function PostCard({ post }: { post: PostSummary }) {
             sizes="(min-width: 1100px) 400px, (min-width: 640px) 45vw, 100vw"
             className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
           />
-        </div>
-      )}
+        ) : (
+          <Image
+            src="/monogram-temp.png"
+            alt=""
+            width={64}
+            height={64}
+            className="absolute inset-0 m-auto size-16 object-contain opacity-25 grayscale"
+          />
+        )}
+      </div>
       {post.category && (
         <p className="text-[11px] tracking-[0.3em] text-burgundy uppercase">{post.category.title}</p>
       )}

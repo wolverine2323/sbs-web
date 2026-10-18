@@ -20,7 +20,7 @@ export function Breadcrumbs({ items, current }: { items?: Crumb[]; current: stri
           <li key={crumb.label} className="flex items-center gap-x-3">
             <Link
               href={crumb.href}
-              className="inline-flex min-h-11 items-center transition-colors hover:text-cream"
+              className="inline-flex min-h-11 min-w-11 items-center transition-colors hover:text-cream"
             >
               {crumb.label}
             </Link>

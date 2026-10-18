@@ -38,9 +38,13 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations("Metadata");
+  const [t, tCommon] = await Promise.all([
+    getTranslations("Metadata"),
+    getTranslations("Common"),
+  ]);
   return {
-    title: t("title"),
+    // Las páginas internas: «Le Cabinet · SBS Abogados».
+    title: { default: t("title"), template: `%s · ${tCommon("brand")}` },
     description: t("description"),
   };
 }

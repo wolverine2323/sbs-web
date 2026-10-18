@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { ButtonOutline } from "@/components/ButtonOutline";
 import { ButtonPrimary } from "@/components/ButtonPrimary";
@@ -6,6 +7,11 @@ import { SectionEyebrow } from "@/components/SectionEyebrow";
 import { currentLocale } from "@/i18n/locale";
 import { getPathname, Link } from "@/i18n/navigation";
 import { getSiteSettings } from "@/sanity/lib/settings";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("NotFound");
+  return { title: t("eyebrow") };
+}
 
 // Página 404 en el idioma de la dirección pedida.
 export default async function NotFound() {
@@ -43,7 +49,7 @@ export default async function NotFound() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="inline-flex min-h-11 items-center text-[13px] tracking-[0.1em] text-bronze-light uppercase underline-offset-4 hover:text-cream hover:underline"
+                  className="inline-flex min-h-11 min-w-11 items-center justify-center text-[13px] tracking-[0.1em] text-bronze-light uppercase underline-offset-4 hover:text-cream hover:underline"
                 >
                   {link.label}
                 </Link>
