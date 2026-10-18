@@ -6,7 +6,8 @@
   "Common": {
     "brand": "SBS Abogados",
     "cta": "Book a consultation",
-    "ctaShort": "Book now"
+    "ctaShort": "Book now",
+    "call": "Call the firm"
   },
   "Navigation": {
     "label": "Main navigation",
@@ -36,10 +37,73 @@
   "Contact": {
     "address": "Address",
     "phone": "Phone",
-    "email": "Email"
+    "email": "Email",
+    "map": "Getting here",
+    "showMap": "Show the map",
+    "mapNotice": "The map is provided by Google Maps, which may store cookies on your device.",
+    "openMaps": "Open in Google Maps"
   },
   "WhatsApp": {
     "label": "Message us on WhatsApp",
     "message": "Hello, I would like to book a consultation with SBS Abogados."
+  },
+  "Breadcrumbs": {
+    "label": "Breadcrumb"
+  },
+  "Firm": {
+    "navLabel": "The firm",
+    "overview": "Overview",
+    "founders": "Founding partners",
+    "associates": "Associate attorneys",
+    "teamEmpty": "Team profiles will be published soon.",
+    "discover": "Discover"
+  },
+  "Team": {
+    "languages": "Languages",
+    "languageNames": {
+      "fr": "French",
+      "es": "Spanish",
+      "en": "English",
+      "de": "German",
+      "it": "Italian",
+      "pt": "Portuguese"
+    }
+  },
+  "Service": {
+    "label": "Practice area",
+    "howWeHelp": "How we help",
+    "otherServices": "Other practice areas",
+    "testimonial": "Testimonial"
+  },
+  "Guide": {
+    "onThisPage": "On this page",
+    "inThisTopic": "In this topic",
+    "topicsEmpty": "Guide articles will be published soon."
+  },
+  "News": {
+    "readingTime": "{minutes} min read",
+    "by": "By {name}",
+    "share": "Share",
+    "shareOn": "Share on {network}",
+    "shareByEmail": "Send by email",
+    "copyLink": "Copy link",
+    "copied": "Link copied",
+    "related": "Read next",
+    "categories": "Categories",
+    "allCategories": "All",
+    "pagination": "Pagination",
+    "previous": "Previous page",
+    "next": "Next page",
+    "page": "Page {page}",
+    "pageTitle": "{title} — page {page}",
+    "empty": "No articles yet.",
+    "author": "Author"
+  },
+  "NotFound": {
+    "eyebrow": "Error 404",
+    "title": "This page doesn’t exist.",
+    "body": "It may have been moved or deleted. These pages may help:",
+    "home": "Back to home",
+    "linksLabel": "Useful pages"
   }
 }

@@ -1,6 +1,5 @@
 import { draftMode } from "next/headers";
 import { notFound } from "next/navigation";
-import { locale as rootLocale } from "next/root-params";
 import { Suspense } from "react";
 import { BookingSection } from "@/components/home/BookingSection";
 import { ContactSection } from "@/components/home/ContactSection";
@@ -15,6 +14,7 @@ import {
   getDynamicFetchOptions,
   type DynamicFetchOptions,
 } from "@/sanity/lib/live";
+import { currentLocale } from "@/i18n/locale";
 import { HOME_PAGE_QUERY, SITE_SETTINGS_QUERY, TESTIMONIALS_QUERY } from "@/sanity/lib/queries";
 
 // Portada: reproduce design/nocturne-reference.html con el contenido de Sanity.
@@ -40,7 +40,7 @@ async function DraftHome() {
 }
 
 async function Home(fetchOptions: DynamicFetchOptions) {
-  const language = await rootLocale();
+  const language = await currentLocale();
   const [{ data: home }, { data: testimonials }, { data: settings }] = await Promise.all([
     cachedSanity({ query: HOME_PAGE_QUERY, params: { language }, tags: HOME_TAGS, ...fetchOptions }),
     cachedSanity({ query: TESTIMONIALS_QUERY, params: { language }, tags: ["testimonial"], ...fetchOptions }),

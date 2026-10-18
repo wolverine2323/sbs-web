@@ -5,6 +5,7 @@ import type { Tone } from "./tone";
 // Tamaños de los títulos de la referencia.
 const sizes = {
   display: "text-[clamp(50px,7vw,104px)] leading-[0.98] tracking-[-0.015em] font-normal", // hero
+  page: "text-[clamp(42px,5.4vw,78px)] leading-[1.02] tracking-[-0.01em] font-normal", // páginas internas
   contact: "text-[clamp(42px,5vw,72px)] leading-none font-normal",
   section: "text-[clamp(38px,4.2vw,62px)] leading-[1.04] font-normal",
   feature: "text-[clamp(32px,3.4vw,50px)] leading-[1.1] font-normal", // reconocimientos

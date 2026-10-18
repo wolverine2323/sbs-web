@@ -3,6 +3,7 @@ import {
   type ReferenceFilterResolverContext,
   type SlugValidationContext,
 } from "sanity";
+import { slugify } from "../../lib/slugify";
 import { apiVersion } from "../env";
 
 // Campo que usa @sanity/document-internationalization; lo rellena el plugin.
@@ -12,17 +13,6 @@ export const languageField = defineField({
   readOnly: true,
   hidden: true,
 });
-
-// "Propriété & droits immobiliers" → "propriete-droits-immobiliers"
-export function slugify(input: string) {
-  return input
-    .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 96);
-}
 
 // El mismo slug puede repetirse en otro idioma (p. ej. "contact"), pero no
 // en dos documentos del mismo tipo e idioma.

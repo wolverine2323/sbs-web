@@ -6,7 +6,8 @@
   "Common": {
     "brand": "SBS Abogados",
     "cta": "Prendre rendez-vous",
-    "ctaShort": "Rendez-vous"
+    "ctaShort": "Rendez-vous",
+    "call": "Appeler le cabinet"
   },
   "Navigation": {
     "label": "Navigation principale",
@@ -36,10 +37,73 @@
   "Contact": {
     "address": "Adresse",
     "phone": "Téléphone",
-    "email": "Email"
+    "email": "Email",
+    "map": "Plan d’accès",
+    "showMap": "Afficher la carte",
+    "mapNotice": "La carte est fournie par Google Maps, qui peut déposer des cookies sur votre appareil.",
+    "openMaps": "Ouvrir dans Google Maps"
   },
   "WhatsApp": {
     "label": "Écrivez-nous sur WhatsApp",
     "message": "Bonjour, je souhaite prendre rendez-vous avec SBS Abogados."
+  },
+  "Breadcrumbs": {
+    "label": "Fil d’Ariane"
+  },
+  "Firm": {
+    "navLabel": "Le cabinet",
+    "overview": "Présentation",
+    "founders": "Associés fondateurs",
+    "associates": "Avocats collaborateurs",
+    "teamEmpty": "Les profils de l’équipe seront publiés prochainement.",
+    "discover": "Découvrir"
+  },
+  "Team": {
+    "languages": "Langues",
+    "languageNames": {
+      "fr": "Français",
+      "es": "Espagnol",
+      "en": "Anglais",
+      "de": "Allemand",
+      "it": "Italien",
+      "pt": "Portugais"
+    }
+  },
+  "Service": {
+    "label": "Expertise",
+    "howWeHelp": "Comment nous vous aidons",
+    "otherServices": "Nos autres expertises",
+    "testimonial": "Témoignage"
+  },
+  "Guide": {
+    "onThisPage": "Sur cette page",
+    "inThisTopic": "Dans ce thème",
+    "topicsEmpty": "Les articles du guide seront publiés prochainement."
+  },
+  "News": {
+    "readingTime": "{minutes} min de lecture",
+    "by": "Par {name}",
+    "share": "Partager",
+    "shareOn": "Partager sur {network}",
+    "shareByEmail": "Envoyer par email",
+    "copyLink": "Copier le lien",
+    "copied": "Lien copié",
+    "related": "À lire aussi",
+    "categories": "Catégories",
+    "allCategories": "Tous",
+    "pagination": "Pagination",
+    "previous": "Page précédente",
+    "next": "Page suivante",
+    "page": "Page {page}",
+    "pageTitle": "{title} — page {page}",
+    "empty": "Aucun article pour le moment.",
+    "author": "Auteur"
+  },
+  "NotFound": {
+    "eyebrow": "Erreur 404",
+    "title": "Cette page n’existe pas.",
+    "body": "Elle a peut-être été déplacée ou supprimée. Voici quelques pages utiles :",
+    "home": "Retour à l’accueil",
+    "linksLabel": "Pages utiles"
   }
 }

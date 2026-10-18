@@ -13,7 +13,7 @@ import { readFileSync } from "node:fs";
 import { getCliClient } from "sanity/cli";
 import { apiVersion } from "../src/sanity/env";
 import { languages } from "../src/sanity/languages";
-import { slugify } from "../src/sanity/schemaTypes/fields";
+import { slugify } from "../src/lib/slugify";
 
 type Lang = (typeof languages)[number]["id"];
 type Doc = { _id: string; _type: string; [key: string]: unknown };
