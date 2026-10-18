@@ -151,6 +151,7 @@ export default async function LocaleLayout({
               body={settings.footerBody ?? ""}
               rights={settings.footerRights ?? ""}
               links={footerLinks}
+              social={settings.social ?? []}
             />
           )}
           <WhatsAppFloat number={settings?.whatsapp ?? undefined} />

@@ -22,6 +22,10 @@
     "news": "Actualité",
     "contact": "Contact"
   },
+  "Footer": {
+    "social": "Nos réseaux",
+    "socialLink": "SBS Abogados sur {network} (nouvel onglet)"
+  },
   "LocaleSwitcher": {
     "label": "Langue",
     "fr": "Français",
