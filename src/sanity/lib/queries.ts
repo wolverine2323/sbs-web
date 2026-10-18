@@ -24,6 +24,14 @@ export const SITE_SETTINGS_QUERY = defineQuery(`
       select(featuredService->language == $language => featuredService->{ "label": coalesce(shortTitle, title), "slug": slug.current })
     ),
     gaId,
+    adsId,
+    adsConversionLabel,
+    // Política de privacidad en el idioma pedido (solo si está publicada).
+    "privacyPage": coalesce(
+      *[_type == "translation.metadata" && references(^.privacyPage._ref)][0]
+        .translations[language == $language][0].value->{ title, "slug": slug.current },
+      select(privacyPage->language == $language => privacyPage->{ title, "slug": slug.current })
+    ),
     social[]{ platform, url },
     "footerBody": ${localized("footerBody")},
     "footerRights": ${localized("footerRights")},

@@ -156,9 +156,38 @@ export const siteSettings = defineType({
       title: "ID de Google Analytics 4",
       type: "string",
       group: "links",
-      description: "Formato G-XXXXXXXXXX.",
+      description: "Formato G-XXXXXXXXXX. Solo se carga si el visitante acepta las cookies de medición.",
       validation: (rule) =>
         rule.regex(/^G-[A-Z0-9]+$/, { name: "ID de GA4" }).error("Debe empezar por G-"),
+    }),
+    defineField({
+      name: "adsId",
+      title: "ID de Google Ads",
+      type: "string",
+      group: "links",
+      description: "Formato AW-XXXXXXXXXX. Solo se carga si el visitante acepta las cookies de publicidad.",
+      validation: (rule) =>
+        rule.regex(/^AW-\d+$/, { name: "ID de Google Ads" }).error("Debe empezar por AW- seguido de números"),
+    }),
+    defineField({
+      name: "adsConversionLabel",
+      title: "Etiqueta de conversión «cita»",
+      type: "string",
+      group: "links",
+      description:
+        "Google Ads → Objetivos → Conversiones → la acción de la cita → Configuración de etiquetas: es lo que va después de la barra en send_to «AW-…/etiqueta». Cada clic en «Agendar una cita» cuenta como conversión.",
+    }),
+    defineField({
+      name: "privacyPage",
+      title: "Política de privacidad",
+      type: "reference",
+      group: "links",
+      to: [{ type: "page" }],
+      // Débil: puede apuntar a la política aún en borrador; el enlace del pie
+      // y del banner aparece cuando se publica.
+      weak: true,
+      options: { filter: 'language == "fr"' },
+      description: "Página general enlazada en el pie y en el banner de cookies. Se elige la versión francesa; cada idioma muestra su traducción.",
     }),
     defineField({
       name: "social",

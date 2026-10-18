@@ -89,6 +89,13 @@ export type ServiceReference = {
   [internalGroqTypeReferenceTo]?: "service";
 };
 
+export type PageReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "page";
+};
+
 export type SiteSettings = {
   _id: string;
   _type: "siteSettings";
@@ -118,6 +125,9 @@ export type SiteSettings = {
   bookingUrl: string;
   featuredService?: ServiceReference;
   gaId?: string;
+  adsId?: string;
+  adsConversionLabel?: string;
+  privacyPage?: PageReference;
   social?: Array<{
     platform: "linkedin" | "facebook" | "instagram" | "x" | "youtube";
     url: string;
@@ -193,13 +203,6 @@ export type CaseStudyReference = {
   _type: "reference";
   _weak?: boolean;
   [internalGroqTypeReferenceTo]?: "caseStudy";
-};
-
-export type PageReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "page";
 };
 
 export type PostReference = {
@@ -632,6 +635,7 @@ export type AllSanitySchemaTypes =
   | BlockContent
   | AccessibleImage
   | ServiceReference
+  | PageReference
   | SiteSettings
   | SanityImageCrop
   | SanityImageHotspot
@@ -641,7 +645,6 @@ export type AllSanitySchemaTypes =
   | SectionPageReference
   | InvestGuideReference
   | CaseStudyReference
-  | PageReference
   | PostReference
   | CategoryReference
   | TeamMemberReference
@@ -669,7 +672,7 @@ export type AllSanitySchemaTypes =
 
 // Source: src/sanity/lib/queries.ts
 // Variable: SITE_SETTINGS_QUERY
-// Query: *[_type == "siteSettings" && _id == "siteSettings"][0]{    phone,    email,    "address": select($language == "es" => address.es, $language == "en" => address.en, address.fr),    whatsapp,    bookingUrl,    mapsUrl,    mapsEmbedUrl,    openingHours[]{ days, opens, closes },    postalAddress,    // Servicio del menú y del pie, en el idioma pedido (la referencia apunta    // a la versión francesa).    "featuredService": coalesce(      *[_type == "translation.metadata" && references(^.featuredService._ref)][0]        .translations[language == $language][0].value->{ "label": coalesce(shortTitle, title), "slug": slug.current },      select(featuredService->language == $language => featuredService->{ "label": coalesce(shortTitle, title), "slug": slug.current })    ),    gaId,    social[]{ platform, url },    "footerBody": select($language == "es" => footerBody.es, $language == "en" => footerBody.en, footerBody.fr),    "footerRights": select($language == "es" => footerRights.es, $language == "en" => footerRights.en, footerRights.fr),    ogImage  }
+// Query: *[_type == "siteSettings" && _id == "siteSettings"][0]{    phone,    email,    "address": select($language == "es" => address.es, $language == "en" => address.en, address.fr),    whatsapp,    bookingUrl,    mapsUrl,    mapsEmbedUrl,    openingHours[]{ days, opens, closes },    postalAddress,    // Servicio del menú y del pie, en el idioma pedido (la referencia apunta    // a la versión francesa).    "featuredService": coalesce(      *[_type == "translation.metadata" && references(^.featuredService._ref)][0]        .translations[language == $language][0].value->{ "label": coalesce(shortTitle, title), "slug": slug.current },      select(featuredService->language == $language => featuredService->{ "label": coalesce(shortTitle, title), "slug": slug.current })    ),    gaId,    adsId,    adsConversionLabel,    // Política de privacidad en el idioma pedido (solo si está publicada).    "privacyPage": coalesce(      *[_type == "translation.metadata" && references(^.privacyPage._ref)][0]        .translations[language == $language][0].value->{ title, "slug": slug.current },      select(privacyPage->language == $language => privacyPage->{ title, "slug": slug.current })    ),    social[]{ platform, url },    "footerBody": select($language == "es" => footerBody.es, $language == "en" => footerBody.en, footerBody.fr),    "footerRights": select($language == "es" => footerRights.es, $language == "en" => footerRights.en, footerRights.fr),    ogImage  }
 export type SITE_SETTINGS_QUERY_RESULT = {
   phone: string;
   email: string;
@@ -709,6 +712,22 @@ export type SITE_SETTINGS_QUERY_RESULT = {
       }
     | null;
   gaId: string | null;
+  adsId: string | null;
+  adsConversionLabel: string | null;
+  privacyPage:
+    | {
+        title: null;
+        slug: null;
+      }
+    | {
+        title: string;
+        slug: null;
+      }
+    | {
+        title: string;
+        slug: string;
+      }
+    | null;
   social: Array<{
     platform: "facebook" | "instagram" | "linkedin" | "x" | "youtube";
     url: string;
@@ -1378,7 +1397,7 @@ export type SITEMAP_QUERY_RESULT = {
 // Query TypeMap
 declare global {
   interface SanityQueries {
-    '\n  *[_type == "siteSettings" && _id == "siteSettings"][0]{\n    phone,\n    email,\n    "address": select($language == "es" => address.es, $language == "en" => address.en, address.fr),\n    whatsapp,\n    bookingUrl,\n    mapsUrl,\n    mapsEmbedUrl,\n    openingHours[]{ days, opens, closes },\n    postalAddress,\n    // Servicio del men\xFA y del pie, en el idioma pedido (la referencia apunta\n    // a la versi\xF3n francesa).\n    "featuredService": coalesce(\n      *[_type == "translation.metadata" && references(^.featuredService._ref)][0]\n        .translations[language == $language][0].value->{ "label": coalesce(shortTitle, title), "slug": slug.current },\n      select(featuredService->language == $language => featuredService->{ "label": coalesce(shortTitle, title), "slug": slug.current })\n    ),\n    gaId,\n    social[]{ platform, url },\n    "footerBody": select($language == "es" => footerBody.es, $language == "en" => footerBody.en, footerBody.fr),\n    "footerRights": select($language == "es" => footerRights.es, $language == "en" => footerRights.en, footerRights.fr),\n    ogImage\n  }\n': SITE_SETTINGS_QUERY_RESULT;
+    '\n  *[_type == "siteSettings" && _id == "siteSettings"][0]{\n    phone,\n    email,\n    "address": select($language == "es" => address.es, $language == "en" => address.en, address.fr),\n    whatsapp,\n    bookingUrl,\n    mapsUrl,\n    mapsEmbedUrl,\n    openingHours[]{ days, opens, closes },\n    postalAddress,\n    // Servicio del men\xFA y del pie, en el idioma pedido (la referencia apunta\n    // a la versi\xF3n francesa).\n    "featuredService": coalesce(\n      *[_type == "translation.metadata" && references(^.featuredService._ref)][0]\n        .translations[language == $language][0].value->{ "label": coalesce(shortTitle, title), "slug": slug.current },\n      select(featuredService->language == $language => featuredService->{ "label": coalesce(shortTitle, title), "slug": slug.current })\n    ),\n    gaId,\n    adsId,\n    adsConversionLabel,\n    // Pol\xEDtica de privacidad en el idioma pedido (solo si est\xE1 publicada).\n    "privacyPage": coalesce(\n      *[_type == "translation.metadata" && references(^.privacyPage._ref)][0]\n        .translations[language == $language][0].value->{ title, "slug": slug.current },\n      select(privacyPage->language == $language => privacyPage->{ title, "slug": slug.current })\n    ),\n    social[]{ platform, url },\n    "footerBody": select($language == "es" => footerBody.es, $language == "en" => footerBody.en, footerBody.fr),\n    "footerRights": select($language == "es" => footerRights.es, $language == "en" => footerRights.en, footerRights.fr),\n    ogImage\n  }\n': SITE_SETTINGS_QUERY_RESULT;
     '\n  *[_type == "homePage" && language == $language][0]{\n    hero,\n    firm,\n    services{\n      eyebrow,\n      title,\n      lead,\n      "items": items[]->{ _id, title, summary, "slug": slug.current }\n    },\n    guide{\n      eyebrow,\n      title,\n      lead,\n      ctaLabel,\n      "topics": topics[]->{ _id, title, "slug": slug.current }\n    },\n    testimonials,\n    steps,\n    booking,\n    recognition,\n    contact,\n    seo\n  }\n': HOME_PAGE_QUERY_RESULT;
     '\n  *[_type == "sectionPage" && language == $language && section == $section][0]{\n    eyebrow,\n    title,\n    lead,\n    image,\n    body,\n    "featuredService": featuredService->{ title, summary, "slug": slug.current },\n    seo\n  }\n': SECTION_PAGE_QUERY_RESULT;
     '\n  *[_type == "homePage" && language == $language][0]{ steps, booking }\n': CLOSING_CTA_QUERY_RESULT;

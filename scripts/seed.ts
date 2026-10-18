@@ -62,6 +62,10 @@ const POSTAL_ADDRESS = {
 const SOCIAL = [
   { _key: "instagram", _type: "socialLink", platform: "instagram", url: "https://www.instagram.com/sbs_abogados" },
 ];
+// Medición (José Luis, 18/10/2026): la propiedad GA4 del sitio actual y la
+// cuenta de Google Ads.
+const GA_ID = "G-2G5864TQ67";
+const ADS_ID = "AW-16654623512";
 const MAPS_URL =
   "https://www.google.com/maps/search/?api=1&query=Terra+Campus+Corporativo%2C+La+Uni%C3%B3n%2C+Costa+Rica";
 const MAPS_EMBED_URL =
@@ -206,6 +210,8 @@ function buildDocuments(dict: Record<Lang, ReferenceTexts>): Doc[] {
     openingHours: OPENING_HOURS,
     postalAddress: POSTAL_ADDRESS,
     social: SOCIAL,
+    gaId: GA_ID,
+    adsId: ADS_ID,
     featuredService: ref(ids.service("fr", LENDING)),
     footerBody: localized("localeText", (lang) => t(lang).footerBody),
     footerRights: localized("localeString", (lang) => t(lang).rights),
@@ -415,6 +421,8 @@ const newFields: { id: string; fields: Record<string, unknown> }[] = [
       openingHours: OPENING_HOURS,
       postalAddress: POSTAL_ADDRESS,
       social: SOCIAL,
+      gaId: GA_ID,
+      adsId: ADS_ID,
     },
   },
   ...languages.map(({ id: lang }) => ({
