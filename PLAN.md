@@ -126,7 +126,7 @@ Todos los CTA de cita usan siteSettings.bookingUrl.
 
 ---
 
-## Fase 5 — Páginas internas
+## Fase 5 — Páginas internas ✅
 
 Primero el diseño, después el código. Pide las plantillas en el mismo estilo y apruébalas.
 
@@ -161,6 +161,11 @@ Muéstrame primero la estructura de rutas propuesta.
 - Nuevo tipo «Página de sección» (textos de cada índice, Le Cabinet y Contact); servicio con «Cómo le ayudamos» y testimonio relacionado; mapa de Google en los ajustes.
 - Sin página individual por abogado (fundadores con biografía completa, colaboradores en tarjetas). Mapa que se carga al pulsar (cookies de Google). Guía de 2 niveles como máximo. 9 artículos por página.
 
+- [x] **Completada el 18/10/2026** — Le Cabinet (+ fundadores y colaboradores), Expertises (índice y servicio), guía (índice, tema y subtema con índice lateral y migas de pan), Expériences, Actualité (lista paginada, categorías y artículo con autor, tiempo de lectura, compartir y relacionados), Contact (datos, mapa al pulsar y CTA), páginas generales y 404, en los 3 idiomas y todo desde Sanity. Todas terminan con el CTA de cita (pasos y reserva de la portada). `npm run build` y `npm run lint` limpios; probado a 375px y 1440px (sin desbordes, objetivos ≥ 44px, consola limpia), con el contenido actual y con contenido de ejemplo temporal (borrado después), y en Vercel.
+  - Selector de idioma: 24/24 enlaces correctos en 12 tipos de página; al pulsarlo se llega a la traducción exacta. Si aún no hay traducción vinculada, al índice de la sección.
+  - Sanity: «Páginas de sección» (24 documentos cargados con `npm run seed`), servicio con «Cómo le ayudamos» y testimonio, resumen en la guía, enlaces de Google Maps en los ajustes. La pestaña «Vista previa» del Studio abre cada documento en su dirección traducida.
+  - El contenido real (equipo y fotos, textos de servicios y de la guía, artículos) llega en la Fase 6.
+
 **Listo cuando:** todas las rutas funcionan en los 3 idiomas y el selector de idioma lleva a la página equivalente (no a la portada).
 
 ---
@@ -183,6 +188,8 @@ No publiques nada todavía: déjalo como borrador para que lo revise.
 
 ## Fase 7 — SEO y redirecciones (crítico para no perder Google)
 
+**Pendiente de la Fase 5:** hreflang por página desde los metadatos (la cabecera `Link` de next-intl está desactivada porque con slugs traducidos sería incorrecta) y revisar que la primera visita a una dirección inexistente responde 200 con `noindex` (Next.js con Cache Components; las siguientes ya dan 404).
+
 **Prompt:**
 ```
 1. Usa migration/inventory.csv para generar redirecciones 301 de cada URL vieja de Joomla a su URL nueva (en next.config o middleware). Incluye variantes con y sin barra final.
@@ -198,6 +205,8 @@ Entrégame un reporte de las redirecciones y de los puntajes.
 ---
 
 ## Fase 8 — Conversión, medición y cumplimiento
+
+**Pendiente de la Fase 5:** el mapa de Google de Contact ya solo se carga al pulsar; enlazarlo con el consentimiento de cookies. La política de privacidad usará la plantilla de páginas generales (`/fr/(slug)`).
 
 **Prompt:**
 ```
