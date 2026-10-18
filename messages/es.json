@@ -84,6 +84,14 @@
     "inThisTopic": "En este tema",
     "topicsEmpty": "Los artículos de la guía se publicarán próximamente."
   },
+  "Experiences": {
+    "casesLabel": "Nuestras referencias",
+    "casesTitle": "Asuntos que hemos llevado",
+    "testimonialsLabel": "Testimonios",
+    "testimonialsTitle": "Lo que dicen nuestros clientes",
+    "caseLabel": "Experiencia",
+    "others": "Otras experiencias"
+  },
   "News": {
     "readingTime": "{minutes} min de lectura",
     "by": "Por {name}",

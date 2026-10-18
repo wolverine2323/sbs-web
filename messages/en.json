@@ -84,6 +84,14 @@
     "inThisTopic": "In this topic",
     "topicsEmpty": "Guide articles will be published soon."
   },
+  "Experiences": {
+    "casesLabel": "Our track record",
+    "casesTitle": "Matters we have handled",
+    "testimonialsLabel": "Testimonials",
+    "testimonialsTitle": "What our clients say",
+    "caseLabel": "Experience",
+    "others": "More experiences"
+  },
   "News": {
     "readingTime": "{minutes} min read",
     "by": "By {name}",
