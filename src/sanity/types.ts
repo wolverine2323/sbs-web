@@ -174,6 +174,13 @@ export type InvestGuideReference = {
   [internalGroqTypeReferenceTo]?: "investGuide";
 };
 
+export type CaseStudyReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "caseStudy";
+};
+
 export type PageReference = {
   _ref: string;
   _type: "reference";
@@ -209,6 +216,7 @@ export type InternationalizedArrayReferenceValue = {
     | SectionPageReference
     | ServiceReference
     | InvestGuideReference
+    | CaseStudyReference
     | PageReference
     | PostReference
     | CategoryReference
@@ -278,6 +286,22 @@ export type Page = {
   title: string;
   slug: Slug;
   body?: BlockContent;
+  seo?: Seo;
+};
+
+export type CaseStudy = {
+  _id: string;
+  _type: "caseStudy";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  language?: string;
+  title: string;
+  slug: Slug;
+  summary?: string;
+  image?: AccessibleImage;
+  body?: BlockContent;
+  order?: number;
   seo?: Seo;
 };
 
@@ -602,6 +626,7 @@ export type AllSanitySchemaTypes =
   | HomePageReference
   | SectionPageReference
   | InvestGuideReference
+  | CaseStudyReference
   | PageReference
   | PostReference
   | CategoryReference
@@ -612,6 +637,7 @@ export type AllSanitySchemaTypes =
   | Slug
   | TeamMember
   | Page
+  | CaseStudy
   | InvestGuide
   | SectionPage
   | TestimonialReference
@@ -1124,6 +1150,53 @@ export type PAGE_QUERY_RESULT = {
 } | null;
 
 // Source: src/sanity/lib/queries.ts
+// Variable: CASE_STUDIES_QUERY
+// Query: *[_type == "caseStudy" && language == $language && defined(slug.current)]    | order(order asc, title asc){ _id, title, "slug": slug.current, summary, image }
+export type CASE_STUDIES_QUERY_RESULT = Array<{
+  _id: string;
+  title: string;
+  slug: string;
+  summary: string | null;
+  image: AccessibleImage | null;
+}>;
+
+// Source: src/sanity/lib/queries.ts
+// Variable: CASE_STUDY_SLUGS_QUERY
+// Query: *[_type == "caseStudy" && language == $language && defined(slug.current)].slug.current
+export type CASE_STUDY_SLUGS_QUERY_RESULT = Array<string>;
+
+// Source: src/sanity/lib/queries.ts
+// Variable: CASE_STUDY_QUERY
+// Query: *[_type == "caseStudy" && language == $language && slug.current == $slug][0]{    _id, title, "slug": slug.current, summary, image,    body,    seo,    "others": *[_type == "caseStudy" && language == $language && _id != ^._id && defined(slug.current)]      | order(order asc, title asc)[0...3]{ _id, title, "slug": slug.current, summary, image },    "translations": *[_type == "translation.metadata" && references(^._id)][0].translations[].value->{ language, "slug": slug.current }  }
+export type CASE_STUDY_QUERY_RESULT = {
+  _id: string;
+  title: string;
+  slug: string;
+  summary: string | null;
+  image: AccessibleImage | null;
+  body: BlockContent | null;
+  seo: Seo | null;
+  others: Array<{
+    _id: string;
+    title: string;
+    slug: string;
+    summary: string | null;
+    image: AccessibleImage | null;
+  }>;
+  translations: Array<
+    | {
+        language: string | null;
+        slug: null;
+      }
+    | {
+        language: string | null;
+        slug: string;
+      }
+    | null
+  > | null;
+} | null;
+
+// Source: src/sanity/lib/queries.ts
 // Variable: TESTIMONIALS_QUERY
 // Query: *[_type == "testimonial" && published != false] | order(order asc){    _id,    author,    "quote": select($language == "es" => quote.es, $language == "en" => quote.en, quote.fr),    "role": select($language == "es" => role.es, $language == "en" => role.en, role.fr)  }
 export type TESTIMONIALS_QUERY_RESULT = Array<{
@@ -1155,6 +1228,9 @@ declare global {
     '\n  *[_type == "post" && language == $language && slug.current == $slug][0]{\n    \n  _id,\n  title,\n  "slug": slug.current,\n  publishedAt,\n  excerpt,\n  image,\n  "category": category->{ title, "slug": slug.current },\n  "words": length(string::split(pt::text(body), " "))\n,\n    body,\n    "author": author->{ name, role, kind, photo },\n    seo,\n    "related": *[_type == "post" && language == $language && _id != ^._id && defined(slug.current)]\n      | order(select(category._ref == ^.category._ref => 1, 0) desc, publishedAt desc)[0...3]{ \n  _id,\n  title,\n  "slug": slug.current,\n  publishedAt,\n  excerpt,\n  image,\n  "category": category->{ title, "slug": slug.current },\n  "words": length(string::split(pt::text(body), " "))\n },\n    "translations": *[_type == "translation.metadata" && references(^._id)][0].translations[].value->{ language, "slug": slug.current }\n  }\n': POST_QUERY_RESULT;
     '\n  *[_type == "page" && language == $language && defined(slug.current)].slug.current\n': PAGE_SLUGS_QUERY_RESULT;
     '\n  *[_type == "page" && language == $language && slug.current == $slug][0]{\n    _id,\n    title,\n    body,\n    seo,\n    "translations": *[_type == "translation.metadata" && references(^._id)][0].translations[].value->{ language, "slug": slug.current }\n  }\n': PAGE_QUERY_RESULT;
+    '\n  *[_type == "caseStudy" && language == $language && defined(slug.current)]\n    | order(order asc, title asc){ _id, title, "slug": slug.current, summary, image }\n': CASE_STUDIES_QUERY_RESULT;
+    '\n  *[_type == "caseStudy" && language == $language && defined(slug.current)].slug.current\n': CASE_STUDY_SLUGS_QUERY_RESULT;
+    '\n  *[_type == "caseStudy" && language == $language && slug.current == $slug][0]{\n    _id, title, "slug": slug.current, summary, image,\n    body,\n    seo,\n    "others": *[_type == "caseStudy" && language == $language && _id != ^._id && defined(slug.current)]\n      | order(order asc, title asc)[0...3]{ _id, title, "slug": slug.current, summary, image },\n    "translations": *[_type == "translation.metadata" && references(^._id)][0].translations[].value->{ language, "slug": slug.current }\n  }\n': CASE_STUDY_QUERY_RESULT;
     '\n  *[_type == "testimonial" && published != false] | order(order asc){\n    _id,\n    author,\n    "quote": select($language == "es" => quote.es, $language == "en" => quote.en, quote.fr),\n    "role": select($language == "es" => role.es, $language == "en" => role.en, role.fr)\n  }\n': TESTIMONIALS_QUERY_RESULT;
   }
 }

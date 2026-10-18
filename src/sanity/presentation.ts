@@ -52,6 +52,11 @@ export const resolve: PresentationPluginOptions["resolve"] = {
         }),
       },
       {
+        route: pattern(locale, "/experiences/[slug]"),
+        filter: `_type == "caseStudy" && language == $language && slug.current == $slug`,
+        params: ({ params }: { params: Record<string, string> }) => ({ language: locale, slug: params.slug }),
+      },
+      {
         route: pattern(locale, "/actualite/categorie/[category]"),
         filter: `_type == "category" && language == $language && slug.current == $category`,
         params: ({ params }: { params: Record<string, string> }) => ({ language: locale, category: params.category }),
@@ -104,6 +109,16 @@ export const resolve: PresentationPluginOptions["resolve"] = {
           : at(doc.language, doc.title || "Tema", "/investir-au-costa-rica/[topic]", { topic: doc.slug });
         return list([...article, ...at(doc.language, "Guía del inversor", "/investir-au-costa-rica")]);
       },
+    }),
+    caseStudy: defineLocations({
+      select: { title: "title", slug: "slug.current", language: "language" },
+      resolve: (doc) =>
+        doc?.slug
+          ? list([
+              ...at(doc.language, doc.title || "Experiencia", "/experiences/[slug]", { slug: doc.slug }),
+              ...at(doc.language, "Expériences", "/experiences"),
+            ])
+          : null,
     }),
     post: defineLocations({
       select: { title: "title", slug: "slug.current", language: "language" },

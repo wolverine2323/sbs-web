@@ -1,3 +1,4 @@
+import { caseStudy } from "./documents/caseStudy";
 import { category } from "./documents/category";
 import { homePage } from "./documents/homePage";
 import { investGuide } from "./documents/investGuide";
@@ -20,6 +21,7 @@ export const schemaTypes = [
   sectionPage,
   service,
   investGuide,
+  caseStudy,
   page,
   post,
   category,
@@ -39,6 +41,7 @@ export const translatedTypes = [
   "sectionPage",
   "service",
   "investGuide",
+  "caseStudy",
   "page",
   "post",
   "category",

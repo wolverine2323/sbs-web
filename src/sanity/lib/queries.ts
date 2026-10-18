@@ -256,6 +256,30 @@ export const PAGE_QUERY = defineQuery(`
   }
 `);
 
+// --- Expériences (casos) -------------------------------------------------------
+
+const CASE_CARD = `_id, title, "slug": slug.current, summary, image`;
+
+export const CASE_STUDIES_QUERY = defineQuery(`
+  *[_type == "caseStudy" && language == $language && defined(slug.current)]
+    | order(order asc, title asc){ ${CASE_CARD} }
+`);
+
+export const CASE_STUDY_SLUGS_QUERY = defineQuery(`
+  *[_type == "caseStudy" && language == $language && defined(slug.current)].slug.current
+`);
+
+export const CASE_STUDY_QUERY = defineQuery(`
+  *[_type == "caseStudy" && language == $language && slug.current == $slug][0]{
+    ${CASE_CARD},
+    body,
+    seo,
+    "others": *[_type == "caseStudy" && language == $language && _id != ^._id && defined(slug.current)]
+      | order(order asc, title asc)[0...3]{ ${CASE_CARD} },
+    "translations": ${TRANSLATIONS}{ language, "slug": slug.current }
+  }
+`);
+
 // --- Testimonios --------------------------------------------------------------
 
 export const TESTIMONIALS_QUERY = defineQuery(`

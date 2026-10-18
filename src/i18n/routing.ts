@@ -47,6 +47,11 @@ export const routing = defineRouting({
       en: "/invest-in-costa-rica/[topic]/[subtopic]",
     },
     "/experiences": { fr: "/experiences", es: "/experiencias", en: "/experiences" },
+    "/experiences/[slug]": {
+      fr: "/experiences/[slug]",
+      es: "/experiencias/[slug]",
+      en: "/experiences/[slug]",
+    },
     "/actualite": { fr: "/actualite", es: "/actualidad", en: "/news" },
     "/actualite/page/[page]": {
       fr: "/actualite/page/[page]",
@@ -84,6 +89,7 @@ export const sectionIndex: Partial<Record<Pathname, Pathname>> = {
   "/investir-au-costa-rica/[topic]/[subtopic]": "/investir-au-costa-rica",
   "/actualite/categorie/[category]": "/actualite",
   "/actualite/categorie/[category]/page/[page]": "/actualite",
+  "/experiences/[slug]": "/experiences",
   "/actualite/[slug]": "/actualite",
   "/[slug]": "/",
 };
