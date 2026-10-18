@@ -9,9 +9,12 @@ import { locale as rootLocale } from "next/root-params";
 import { Suspense } from "react";
 import { Footer, type FooterLink } from "@/components/Footer";
 import { Header, type NavItem } from "@/components/Header";
+import { JsonLd } from "@/components/JsonLd";
 import { AlternatesProvider } from "@/components/LocaleAlternates";
 import { WhatsAppFloat } from "@/components/WhatsAppFloat";
 import { routing } from "@/i18n/routing";
+import { siteUrl } from "@/lib/site";
+import { legalService } from "@/lib/structured-data";
 import { cachedSanity, SanityLive } from "@/sanity/lib/live";
 import { SITE_SETTINGS_QUERY } from "@/sanity/lib/queries";
 import "../globals.css";
@@ -44,6 +47,8 @@ export async function generateMetadata(): Promise<Metadata> {
   ]);
   return {
     // Las páginas internas: «Le Cabinet · SBS Abogados».
+    // Base de las direcciones absolutas (canónica, Open Graph): www.sbs.cr.
+    metadataBase: new URL(siteUrl),
     title: { default: t("title"), template: `%s · ${tCommon("brand")}` },
     description: t("description"),
   };
@@ -113,14 +118,29 @@ export default async function LocaleLayout({
     perspective: "published",
     stega: false,
   });
-  const [navItems, footerLinks] = await Promise.all([
+  const [navItems, footerLinks, tMeta, tCommon] = await Promise.all([
     getNavItems(settings?.featuredService),
     getFooterLinks(settings?.featuredService),
+    getTranslations("Metadata"),
+    getTranslations("Common"),
   ]);
 
   return (
     <html lang={locale} className={`${cormorant.variable} ${dmSans.variable}`}>
       <body>
+        {/* La firma para Google: nombre, dirección, teléfono, horario e idiomas. */}
+        {settings && (
+          <JsonLd
+            data={legalService({
+              settings,
+              name: tCommon("brand"),
+              legalName: tCommon("legalName"),
+              description: tMeta("description"),
+              url: `/${locale}`,
+              languages: routing.locales,
+            })}
+          />
+        )}
         <NextIntlClientProvider>
           <AlternatesProvider>
             <Header items={navItems} bookingUrl={settings?.bookingUrl} />

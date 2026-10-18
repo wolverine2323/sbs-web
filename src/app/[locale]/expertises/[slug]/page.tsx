@@ -19,6 +19,7 @@ import { TestimonialQuote } from "@/components/TestimonialQuote";
 import { toneClasses, type Tone } from "@/components/tone";
 import { currentLocale } from "@/i18n/locale";
 import { alternatesFor } from "@/lib/alternates";
+import { pageMetadata, pathsWithSelf } from "@/lib/metadata";
 import { imageDimensions, urlFor } from "@/sanity/lib/image";
 import { cachedSanity, type DynamicFetchOptions } from "@/sanity/lib/live";
 import { PLACEHOLDER, withPlaceholder } from "@/sanity/lib/params";
@@ -59,13 +60,24 @@ async function getService(slug: string, fetchOptions: DynamicFetchOptions) {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const service = await getService((await params).slug, { perspective: "published", stega: false });
+  const { slug } = await params;
+  const service = await getService(slug, { perspective: "published", stega: false });
   if (!service) return {};
-  return {
-    title: service.seo?.title || service.title,
-    description: service.seo?.description || service.summary,
-  };
+  const locale = await currentLocale();
+  return pageMetadata({
+    locale,
+    paths: pathsWithSelf(locale, serviceAlternates(service.translations), serviceHref(slug)),
+    title: service.title,
+    description: service.summary,
+    image: service.image,
+    seo: service.seo,
+  });
 }
+
+const serviceHref = (slug: string) => ({ pathname: "/expertises/[slug]", params: { slug } }) as const;
+
+const serviceAlternates = (translations: NonNullable<SERVICE_QUERY_RESULT>["translations"]) =>
+  alternatesFor(translations, ({ slug }) => (slug ? serviceHref(slug) : null));
 
 // Los bloques que el servicio tiene rellenos alternan fondo (ink ↔ paper) a
 // partir del hero; el testimonio (burgundy-deep) cuenta como oscuro.
@@ -99,9 +111,7 @@ async function Service({ slug, ...fetchOptions }: { slug: string } & DynamicFetc
   const helpPoints = service.helpPoints ?? [];
   const audiences = service.audiences ?? [];
   const faq = service.faq ?? [];
-  const alternates = alternatesFor(service.translations, ({ slug }) =>
-    slug ? { pathname: "/expertises/[slug]", params: { slug } } : null,
-  );
+  const alternates = serviceAlternates(service.translations);
 
   const tones = sectionTones(service);
 

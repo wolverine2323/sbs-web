@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ClosingCta } from "@/components/ClosingCta";
 import { Heading } from "@/components/Heading";
+import { JsonLd } from "@/components/JsonLd";
 import { PageAlternates } from "@/components/LocaleAlternates";
 import { newsHref } from "@/components/news/newsHref";
 import { PostCard, PostMeta } from "@/components/news/PostCard";
@@ -17,12 +18,15 @@ import { memberAnchor } from "@/components/team/TeamMember";
 import { currentLocale } from "@/i18n/locale";
 import { getPathname, Link } from "@/i18n/navigation";
 import { alternatesFor } from "@/lib/alternates";
+import { pageMetadata, pathsWithSelf } from "@/lib/metadata";
 import { siteUrl } from "@/lib/site";
+import { article } from "@/lib/structured-data";
 import { imageDimensions, urlFor } from "@/sanity/lib/image";
 import { cachedSanity, type DynamicFetchOptions } from "@/sanity/lib/live";
 import { PLACEHOLDER, withPlaceholder } from "@/sanity/lib/params";
 import { WithFetchOptions } from "@/sanity/lib/preview";
 import { POST_QUERY, POST_SLUGS_QUERY } from "@/sanity/lib/queries";
+import type { POST_QUERY_RESULT } from "@/sanity/types";
 
 // Artículo de Actualité: autor, tiempo de lectura, compartir, artículos
 // relacionados y CTA final.
@@ -54,13 +58,25 @@ async function getPost(slug: string, fetchOptions: DynamicFetchOptions) {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const post = await getPost((await params).slug, { perspective: "published", stega: false });
+  const { slug } = await params;
+  const post = await getPost(slug, { perspective: "published", stega: false });
   if (!post) return {};
-  return {
-    title: post.seo?.title || post.title,
-    description: post.seo?.description || post.excerpt || undefined,
-  };
+  const locale = await currentLocale();
+  return pageMetadata({
+    locale,
+    paths: pathsWithSelf(locale, postAlternates(post.translations), postHref(slug)),
+    title: post.title,
+    description: post.excerpt,
+    image: post.image,
+    seo: post.seo,
+    article: { publishedTime: post.publishedAt },
+  });
 }
+
+const postHref = (slug: string) => ({ pathname: "/actualite/[slug]", params: { slug } }) as const;
+
+const postAlternates = (translations: NonNullable<POST_QUERY_RESULT>["translations"]) =>
+  alternatesFor(translations, ({ slug }) => (slug ? postHref(slug) : null));
 
 export default async function PostPage({ params }: Props) {
   const { slug } = await params;
@@ -86,14 +102,21 @@ async function Post({ slug, ...fetchOptions }: { slug: string } & DynamicFetchOp
     hash: memberAnchor(author.name),
   };
   const url = siteUrl + getPathname({ locale, href: { pathname: "/actualite/[slug]", params: { slug } } });
-  const alternates = alternatesFor(post.translations, (translation) =>
-    translation.slug
-      ? { pathname: "/actualite/[slug]", params: { slug: translation.slug } }
-      : null,
-  );
+  const alternates = postAlternates(post.translations);
+  const structured = article({
+    type: "BlogPosting",
+    headline: post.title,
+    description: post.excerpt,
+    url,
+    image: post.image?.asset ? urlFor(post.image).width(1200).height(630).fit("crop").url() : null,
+    language: locale,
+    datePublished: post.publishedAt,
+    author: author && authorHref && { name: author.name, url: getPathname({ locale, href: authorHref }) },
+  });
 
   return (
     <main>
+      <JsonLd data={structured} />
       <PageAlternates alternates={alternates} />
       <PageHero
         breadcrumbs={

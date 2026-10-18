@@ -7,6 +7,8 @@ import { PageHero } from "@/components/PageHero";
 import { RichText } from "@/components/RichText";
 import { currentLocale } from "@/i18n/locale";
 import { alternatesFor } from "@/lib/alternates";
+import { pageMetadata, pathsWithSelf } from "@/lib/metadata";
+import { plainExcerpt } from "@/lib/portable-text";
 import { cachedSanity, type DynamicFetchOptions } from "@/sanity/lib/live";
 import { PLACEHOLDER, withPlaceholder } from "@/sanity/lib/params";
 import { WithFetchOptions } from "@/sanity/lib/preview";
@@ -41,9 +43,20 @@ async function getPage(slug: string, fetchOptions: DynamicFetchOptions) {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const page = await getPage((await params).slug, { perspective: "published", stega: false });
+  const { slug } = await params;
+  const page = await getPage(slug, { perspective: "published", stega: false });
   if (!page) return {};
-  return { title: page.seo?.title || page.title, description: page.seo?.description || undefined };
+  const locale = await currentLocale();
+  const translations = alternatesFor(page.translations, (translation) =>
+    translation.slug ? { pathname: "/[slug]", params: { slug: translation.slug } } : null,
+  );
+  return pageMetadata({
+    locale,
+    paths: pathsWithSelf(locale, translations, { pathname: "/[slug]", params: { slug } }),
+    title: page.title,
+    description: plainExcerpt(page.body),
+    seo: page.seo,
+  });
 }
 
 export default async function GenericPage({ params }: Props) {

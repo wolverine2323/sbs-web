@@ -2,6 +2,8 @@ import "server-only";
 
 import type { Metadata } from "next";
 import { currentLocale } from "@/i18n/locale";
+import { sectionRoutes } from "@/i18n/paths";
+import { pageMetadata, pathsFor } from "@/lib/metadata";
 import { cachedSanity, type DynamicFetchOptions } from "./live";
 import { SECTION_PAGE_QUERY } from "./queries";
 
@@ -29,12 +31,16 @@ export async function getSectionPage(section: Section, fetchOptions: DynamicFetc
   return data;
 }
 
-// Título y descripción para Google (SEO de la página, o título e introducción).
+// Metadatos de la página (SEO de la página, o título, introducción e imagen).
 export async function sectionMetadata(section: Section): Promise<Metadata> {
   const page = await getSectionPage(section, published);
   if (!page) return {};
-  return {
-    title: page.seo?.title || page.title,
-    description: page.seo?.description || page.lead || undefined,
-  };
+  return pageMetadata({
+    locale: await currentLocale(),
+    paths: pathsFor(sectionRoutes[section]),
+    title: page.title,
+    description: page.lead,
+    image: page.image,
+    seo: page.seo,
+  });
 }

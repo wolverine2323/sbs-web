@@ -98,6 +98,20 @@ export type SiteSettings = {
   phone: string;
   email: string;
   address?: LocaleText;
+  openingHours?: Array<{
+    days: Array<string>;
+    opens: string;
+    closes: string;
+    _type: "openingHoursItem";
+    _key: string;
+  }>;
+  postalAddress?: {
+    street?: string;
+    locality?: string;
+    region?: string;
+    postalCode?: string;
+    country?: string;
+  };
   mapsUrl?: string;
   mapsEmbedUrl?: string;
   whatsapp?: string;
@@ -655,7 +669,7 @@ export type AllSanitySchemaTypes =
 
 // Source: src/sanity/lib/queries.ts
 // Variable: SITE_SETTINGS_QUERY
-// Query: *[_type == "siteSettings" && _id == "siteSettings"][0]{    phone,    email,    "address": select($language == "es" => address.es, $language == "en" => address.en, address.fr),    whatsapp,    bookingUrl,    mapsUrl,    mapsEmbedUrl,    // Servicio del menú y del pie, en el idioma pedido (la referencia apunta    // a la versión francesa).    "featuredService": coalesce(      *[_type == "translation.metadata" && references(^.featuredService._ref)][0]        .translations[language == $language][0].value->{ "label": coalesce(shortTitle, title), "slug": slug.current },      select(featuredService->language == $language => featuredService->{ "label": coalesce(shortTitle, title), "slug": slug.current })    ),    gaId,    social[]{ platform, url },    "footerBody": select($language == "es" => footerBody.es, $language == "en" => footerBody.en, footerBody.fr),    "footerRights": select($language == "es" => footerRights.es, $language == "en" => footerRights.en, footerRights.fr),    ogImage  }
+// Query: *[_type == "siteSettings" && _id == "siteSettings"][0]{    phone,    email,    "address": select($language == "es" => address.es, $language == "en" => address.en, address.fr),    whatsapp,    bookingUrl,    mapsUrl,    mapsEmbedUrl,    openingHours[]{ days, opens, closes },    postalAddress,    // Servicio del menú y del pie, en el idioma pedido (la referencia apunta    // a la versión francesa).    "featuredService": coalesce(      *[_type == "translation.metadata" && references(^.featuredService._ref)][0]        .translations[language == $language][0].value->{ "label": coalesce(shortTitle, title), "slug": slug.current },      select(featuredService->language == $language => featuredService->{ "label": coalesce(shortTitle, title), "slug": slug.current })    ),    gaId,    social[]{ platform, url },    "footerBody": select($language == "es" => footerBody.es, $language == "en" => footerBody.en, footerBody.fr),    "footerRights": select($language == "es" => footerRights.es, $language == "en" => footerRights.en, footerRights.fr),    ogImage  }
 export type SITE_SETTINGS_QUERY_RESULT = {
   phone: string;
   email: string;
@@ -664,6 +678,18 @@ export type SITE_SETTINGS_QUERY_RESULT = {
   bookingUrl: string;
   mapsUrl: string | null;
   mapsEmbedUrl: string | null;
+  openingHours: Array<{
+    days: Array<string>;
+    opens: string;
+    closes: string;
+  }> | null;
+  postalAddress: {
+    street?: string;
+    locality?: string;
+    region?: string;
+    postalCode?: string;
+    country?: string;
+  } | null;
   featuredService:
     | {
         label: null;
@@ -975,9 +1001,10 @@ export type GUIDE_SUBTOPIC_PARAMS_QUERY_RESULT = Array<{
 
 // Source: src/sanity/lib/queries.ts
 // Variable: GUIDE_ARTICLE_QUERY
-// Query: *[_type == "investGuide" && language == $language && slug.current == $slug &&    select($topic == "" => !defined(parent), parent->slug.current == $topic)][0]{    _id,    title,    summary,    body,    seo,    "parent": parent->{ _id, title, "slug": slug.current },    "children": *[_type == "investGuide" && parent._ref == ^._id && defined(slug.current)]      | order(order asc, title asc){ _id, title, summary, "slug": slug.current },    "siblings": *[_type == "investGuide" && defined(^.parent._ref) && parent._ref == ^.parent._ref && defined(slug.current)]      | order(order asc, title asc){ _id, title, "slug": slug.current },    "translations": *[_type == "translation.metadata" && references(^._id)][0].translations[].value->{ language, "slug": slug.current, "parentSlug": parent->slug.current }  }
+// Query: *[_type == "investGuide" && language == $language && slug.current == $slug &&    select($topic == "" => !defined(parent), parent->slug.current == $topic)][0]{    _id,    _updatedAt,    title,    summary,    body,    seo,    "parent": parent->{ _id, title, "slug": slug.current },    "children": *[_type == "investGuide" && parent._ref == ^._id && defined(slug.current)]      | order(order asc, title asc){ _id, title, summary, "slug": slug.current },    "siblings": *[_type == "investGuide" && defined(^.parent._ref) && parent._ref == ^.parent._ref && defined(slug.current)]      | order(order asc, title asc){ _id, title, "slug": slug.current },    "translations": *[_type == "translation.metadata" && references(^._id)][0].translations[].value->{      language,      "slug": slug.current,      "parentSlug": parent->slug.current,      "hasBody": count(body) > 0    }  }
 export type GUIDE_ARTICLE_QUERY_RESULT = {
   _id: string;
+  _updatedAt: string;
   title: string;
   summary: string | null;
   body: BlockContent | null;
@@ -1003,16 +1030,31 @@ export type GUIDE_ARTICLE_QUERY_RESULT = {
         language: string | null;
         slug: null;
         parentSlug: null;
+        hasBody: null;
       }
     | {
         language: string | null;
         slug: string;
         parentSlug: null;
+        hasBody: null;
+      }
+    | {
+        language: string | null;
+        slug: null;
+        parentSlug: null;
+        hasBody: boolean | null;
+      }
+    | {
+        language: string | null;
+        slug: string;
+        parentSlug: null;
+        hasBody: boolean | null;
       }
     | {
         language: string | null;
         slug: string;
         parentSlug: string | null;
+        hasBody: boolean | null;
       }
     | null
   > | null;
@@ -1206,10 +1248,137 @@ export type TESTIMONIALS_QUERY_RESULT = Array<{
   role: string | null;
 }>;
 
+// Source: src/sanity/lib/queries.ts
+// Variable: SITEMAP_QUERY
+// Query: {  "home": *[_type == "homePage"]{ language, _updatedAt },  "sections": *[_type == "sectionPage"]{ section, language, _updatedAt },  "services": *[_type == "service" && defined(slug.current)]{    language, "slug": slug.current, _updatedAt,    "translations": *[_type == "translation.metadata" && references(^._id)][0].translations[].value->{ language, "slug": slug.current }  },  "guides": *[_type == "investGuide" && defined(slug.current) && count(body) > 0]{    language, "slug": slug.current, "parentSlug": parent->slug.current, _updatedAt,    "translations": *[_type == "translation.metadata" && references(^._id)][0].translations[].value->[count(body) > 0]{ language, "slug": slug.current, "parentSlug": parent->slug.current }  },  "cases": *[_type == "caseStudy" && defined(slug.current)]{    language, "slug": slug.current, _updatedAt,    "translations": *[_type == "translation.metadata" && references(^._id)][0].translations[].value->{ language, "slug": slug.current }  },  "posts": *[_type == "post" && defined(slug.current)]{    language, "slug": slug.current, _updatedAt,    "translations": *[_type == "translation.metadata" && references(^._id)][0].translations[].value->{ language, "slug": slug.current }  },  "categories": *[_type == "category" && defined(slug.current) && count(*[_type == "post" && references(^._id)]) > 0]{    language, "slug": slug.current, _updatedAt,    "translations": *[_type == "translation.metadata" && references(^._id)][0].translations[].value->{ language, "slug": slug.current }  },  "pages": *[_type == "page" && defined(slug.current)]{    language, "slug": slug.current, _updatedAt,    "translations": *[_type == "translation.metadata" && references(^._id)][0].translations[].value->{ language, "slug": slug.current }  }}
+export type SITEMAP_QUERY_RESULT = {
+  home: Array<{
+    language: string | null;
+    _updatedAt: string;
+  }>;
+  sections: Array<{
+    section:
+      | "associates"
+      | "contact"
+      | "experiences"
+      | "expertise"
+      | "firm"
+      | "founders"
+      | "invest"
+      | "news";
+    language: string | null;
+    _updatedAt: string;
+  }>;
+  services: Array<{
+    language: string | null;
+    slug: string;
+    _updatedAt: string;
+    translations: Array<
+      | {
+          language: string | null;
+          slug: null;
+        }
+      | {
+          language: string | null;
+          slug: string;
+        }
+      | null
+    > | null;
+  }>;
+  guides: Array<{
+    language: string | null;
+    slug: string;
+    parentSlug: string | null;
+    _updatedAt: string;
+    translations: Array<
+      | {
+          language: string | null;
+          slug: null;
+          parentSlug: null;
+        }
+      | {
+          language: string | null;
+          slug: string;
+          parentSlug: null;
+        }
+      | {
+          language: string | null;
+          slug: string;
+          parentSlug: string | null;
+        }
+      | null
+    > | null;
+  }>;
+  cases: Array<{
+    language: string | null;
+    slug: string;
+    _updatedAt: string;
+    translations: Array<
+      | {
+          language: string | null;
+          slug: null;
+        }
+      | {
+          language: string | null;
+          slug: string;
+        }
+      | null
+    > | null;
+  }>;
+  posts: Array<{
+    language: string | null;
+    slug: string;
+    _updatedAt: string;
+    translations: Array<
+      | {
+          language: string | null;
+          slug: null;
+        }
+      | {
+          language: string | null;
+          slug: string;
+        }
+      | null
+    > | null;
+  }>;
+  categories: Array<{
+    language: string | null;
+    slug: string;
+    _updatedAt: string;
+    translations: Array<
+      | {
+          language: string | null;
+          slug: null;
+        }
+      | {
+          language: string | null;
+          slug: string;
+        }
+      | null
+    > | null;
+  }>;
+  pages: Array<{
+    language: string | null;
+    slug: string;
+    _updatedAt: string;
+    translations: Array<
+      | {
+          language: string | null;
+          slug: null;
+        }
+      | {
+          language: string | null;
+          slug: string;
+        }
+      | null
+    > | null;
+  }>;
+};
+
 // Query TypeMap
 declare global {
   interface SanityQueries {
-    '\n  *[_type == "siteSettings" && _id == "siteSettings"][0]{\n    phone,\n    email,\n    "address": select($language == "es" => address.es, $language == "en" => address.en, address.fr),\n    whatsapp,\n    bookingUrl,\n    mapsUrl,\n    mapsEmbedUrl,\n    // Servicio del men\xFA y del pie, en el idioma pedido (la referencia apunta\n    // a la versi\xF3n francesa).\n    "featuredService": coalesce(\n      *[_type == "translation.metadata" && references(^.featuredService._ref)][0]\n        .translations[language == $language][0].value->{ "label": coalesce(shortTitle, title), "slug": slug.current },\n      select(featuredService->language == $language => featuredService->{ "label": coalesce(shortTitle, title), "slug": slug.current })\n    ),\n    gaId,\n    social[]{ platform, url },\n    "footerBody": select($language == "es" => footerBody.es, $language == "en" => footerBody.en, footerBody.fr),\n    "footerRights": select($language == "es" => footerRights.es, $language == "en" => footerRights.en, footerRights.fr),\n    ogImage\n  }\n': SITE_SETTINGS_QUERY_RESULT;
+    '\n  *[_type == "siteSettings" && _id == "siteSettings"][0]{\n    phone,\n    email,\n    "address": select($language == "es" => address.es, $language == "en" => address.en, address.fr),\n    whatsapp,\n    bookingUrl,\n    mapsUrl,\n    mapsEmbedUrl,\n    openingHours[]{ days, opens, closes },\n    postalAddress,\n    // Servicio del men\xFA y del pie, en el idioma pedido (la referencia apunta\n    // a la versi\xF3n francesa).\n    "featuredService": coalesce(\n      *[_type == "translation.metadata" && references(^.featuredService._ref)][0]\n        .translations[language == $language][0].value->{ "label": coalesce(shortTitle, title), "slug": slug.current },\n      select(featuredService->language == $language => featuredService->{ "label": coalesce(shortTitle, title), "slug": slug.current })\n    ),\n    gaId,\n    social[]{ platform, url },\n    "footerBody": select($language == "es" => footerBody.es, $language == "en" => footerBody.en, footerBody.fr),\n    "footerRights": select($language == "es" => footerRights.es, $language == "en" => footerRights.en, footerRights.fr),\n    ogImage\n  }\n': SITE_SETTINGS_QUERY_RESULT;
     '\n  *[_type == "homePage" && language == $language][0]{\n    hero,\n    firm,\n    services{\n      eyebrow,\n      title,\n      lead,\n      "items": items[]->{ _id, title, summary, "slug": slug.current }\n    },\n    guide{\n      eyebrow,\n      title,\n      lead,\n      ctaLabel,\n      "topics": topics[]->{ _id, title, "slug": slug.current }\n    },\n    testimonials,\n    steps,\n    booking,\n    recognition,\n    contact,\n    seo\n  }\n': HOME_PAGE_QUERY_RESULT;
     '\n  *[_type == "sectionPage" && language == $language && section == $section][0]{\n    eyebrow,\n    title,\n    lead,\n    image,\n    body,\n    "featuredService": featuredService->{ title, summary, "slug": slug.current },\n    seo\n  }\n': SECTION_PAGE_QUERY_RESULT;
     '\n  *[_type == "homePage" && language == $language][0]{ steps, booking }\n': CLOSING_CTA_QUERY_RESULT;
@@ -1221,7 +1390,7 @@ declare global {
     '\n  *[_type == "investGuide" && language == $language && !defined(parent) && defined(slug.current)]\n    | order(order asc, title asc){\n      _id,\n      title,\n      summary,\n      "slug": slug.current,\n      "children": *[_type == "investGuide" && parent._ref == ^._id && defined(slug.current)]\n        | order(order asc, title asc){ _id, title, "slug": slug.current }\n    }\n': GUIDE_INDEX_QUERY_RESULT;
     '\n  *[_type == "investGuide" && language == $language && !defined(parent) && defined(slug.current)]\n    .slug.current\n': GUIDE_TOPIC_SLUGS_QUERY_RESULT;
     '\n  *[_type == "investGuide" && language == $language && defined(slug.current) && defined(parent->slug.current)]{\n    "topic": parent->slug.current,\n    "subtopic": slug.current\n  }\n': GUIDE_SUBTOPIC_PARAMS_QUERY_RESULT;
-    '\n  *[_type == "investGuide" && language == $language && slug.current == $slug &&\n    select($topic == "" => !defined(parent), parent->slug.current == $topic)][0]{\n    _id,\n    title,\n    summary,\n    body,\n    seo,\n    "parent": parent->{ _id, title, "slug": slug.current },\n    "children": *[_type == "investGuide" && parent._ref == ^._id && defined(slug.current)]\n      | order(order asc, title asc){ _id, title, summary, "slug": slug.current },\n    "siblings": *[_type == "investGuide" && defined(^.parent._ref) && parent._ref == ^.parent._ref && defined(slug.current)]\n      | order(order asc, title asc){ _id, title, "slug": slug.current },\n    "translations": *[_type == "translation.metadata" && references(^._id)][0].translations[].value->{ language, "slug": slug.current, "parentSlug": parent->slug.current }\n  }\n': GUIDE_ARTICLE_QUERY_RESULT;
+    '\n  *[_type == "investGuide" && language == $language && slug.current == $slug &&\n    select($topic == "" => !defined(parent), parent->slug.current == $topic)][0]{\n    _id,\n    _updatedAt,\n    title,\n    summary,\n    body,\n    seo,\n    "parent": parent->{ _id, title, "slug": slug.current },\n    "children": *[_type == "investGuide" && parent._ref == ^._id && defined(slug.current)]\n      | order(order asc, title asc){ _id, title, summary, "slug": slug.current },\n    "siblings": *[_type == "investGuide" && defined(^.parent._ref) && parent._ref == ^.parent._ref && defined(slug.current)]\n      | order(order asc, title asc){ _id, title, "slug": slug.current },\n    "translations": *[_type == "translation.metadata" && references(^._id)][0].translations[].value->{\n      language,\n      "slug": slug.current,\n      "parentSlug": parent->slug.current,\n      "hasBody": count(body) > 0\n    }\n  }\n': GUIDE_ARTICLE_QUERY_RESULT;
     '{\n  "posts": *[_type == "post" && language == $language && defined(slug.current) &&\n    ($category == "" || category->slug.current == $category)]\n    | order(publishedAt desc)[$start...$end]{ \n  _id,\n  title,\n  "slug": slug.current,\n  publishedAt,\n  excerpt,\n  image,\n  "category": category->{ title, "slug": slug.current },\n  "words": length(string::split(pt::text(body), " "))\n },\n  "total": count(*[_type == "post" && language == $language && defined(slug.current) &&\n    ($category == "" || category->slug.current == $category)]),\n  "categories": *[_type == "category" && language == $language && defined(slug.current) &&\n    count(*[_type == "post" && references(^._id)]) > 0]\n    | order(title asc){ _id, title, "slug": slug.current },\n  "category": *[_type == "category" && language == $language && slug.current == $category][0]{\n    _id,\n    title,\n    "translations": *[_type == "translation.metadata" && references(^._id)][0].translations[].value->{ language, "slug": slug.current }\n  }\n}': POSTS_PAGE_QUERY_RESULT;
     '{\n  "total": count(*[_type == "post" && language == $language && defined(slug.current)]),\n  "categories": *[_type == "category" && language == $language && defined(slug.current)]{\n    "slug": slug.current,\n    "total": count(*[_type == "post" && references(^._id) && defined(slug.current)])\n  }\n}': POST_COUNTS_QUERY_RESULT;
     '\n  *[_type == "post" && language == $language && defined(slug.current)].slug.current\n': POST_SLUGS_QUERY_RESULT;
@@ -1232,6 +1401,7 @@ declare global {
     '\n  *[_type == "caseStudy" && language == $language && defined(slug.current)].slug.current\n': CASE_STUDY_SLUGS_QUERY_RESULT;
     '\n  *[_type == "caseStudy" && language == $language && slug.current == $slug][0]{\n    _id, title, "slug": slug.current, summary, image,\n    body,\n    seo,\n    "others": *[_type == "caseStudy" && language == $language && _id != ^._id && defined(slug.current)]\n      | order(order asc, title asc)[0...3]{ _id, title, "slug": slug.current, summary, image },\n    "translations": *[_type == "translation.metadata" && references(^._id)][0].translations[].value->{ language, "slug": slug.current }\n  }\n': CASE_STUDY_QUERY_RESULT;
     '\n  *[_type == "testimonial" && published != false] | order(order asc){\n    _id,\n    author,\n    "quote": select($language == "es" => quote.es, $language == "en" => quote.en, quote.fr),\n    "role": select($language == "es" => role.es, $language == "en" => role.en, role.fr)\n  }\n': TESTIMONIALS_QUERY_RESULT;
+    '{\n  "home": *[_type == "homePage"]{ language, _updatedAt },\n  "sections": *[_type == "sectionPage"]{ section, language, _updatedAt },\n  "services": *[_type == "service" && defined(slug.current)]{\n    language, "slug": slug.current, _updatedAt,\n    "translations": *[_type == "translation.metadata" && references(^._id)][0].translations[].value->{ language, "slug": slug.current }\n  },\n  "guides": *[_type == "investGuide" && defined(slug.current) && count(body) > 0]{\n    language, "slug": slug.current, "parentSlug": parent->slug.current, _updatedAt,\n    "translations": *[_type == "translation.metadata" && references(^._id)][0].translations[].value->[count(body) > 0]{ language, "slug": slug.current, "parentSlug": parent->slug.current }\n  },\n  "cases": *[_type == "caseStudy" && defined(slug.current)]{\n    language, "slug": slug.current, _updatedAt,\n    "translations": *[_type == "translation.metadata" && references(^._id)][0].translations[].value->{ language, "slug": slug.current }\n  },\n  "posts": *[_type == "post" && defined(slug.current)]{\n    language, "slug": slug.current, _updatedAt,\n    "translations": *[_type == "translation.metadata" && references(^._id)][0].translations[].value->{ language, "slug": slug.current }\n  },\n  "categories": *[_type == "category" && defined(slug.current) && count(*[_type == "post" && references(^._id)]) > 0]{\n    language, "slug": slug.current, _updatedAt,\n    "translations": *[_type == "translation.metadata" && references(^._id)][0].translations[].value->{ language, "slug": slug.current }\n  },\n  "pages": *[_type == "page" && defined(slug.current)]{\n    language, "slug": slug.current, _updatedAt,\n    "translations": *[_type == "translation.metadata" && references(^._id)][0].translations[].value->{ language, "slug": slug.current }\n  }\n}': SITEMAP_QUERY_RESULT;
   }
 }
 // Lets @sanity/client releases that predate the global registry read it too

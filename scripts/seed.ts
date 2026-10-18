@@ -41,6 +41,23 @@ const FIVE: Record<Lang, [from: string, to: string]> = {
   en: ["Four", "Five"],
 };
 const servicesLead = (lang: Lang, lead: string) => lead.replace(...FIVE[lang]);
+// Horario de atención (José Luis, 18/10/2026) y dirección por partes, para
+// los datos estructurados.
+const OPENING_HOURS = [
+  {
+    _key: "weekdays",
+    _type: "openingHoursItem",
+    days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+    opens: "08:00",
+    closes: "17:00",
+  },
+];
+const POSTAL_ADDRESS = {
+  street: "Terra Campus Corporativo, Torre uno, segundo piso, No. 202",
+  locality: "La Unión",
+  region: "Cartago",
+  country: "CR",
+};
 const MAPS_URL =
   "https://www.google.com/maps/search/?api=1&query=Terra+Campus+Corporativo%2C+La+Uni%C3%B3n%2C+Costa+Rica";
 const MAPS_EMBED_URL =
@@ -182,6 +199,8 @@ function buildDocuments(dict: Record<Lang, ReferenceTexts>): Doc[] {
     bookingUrl: BOOKING_URL,
     mapsUrl: MAPS_URL,
     mapsEmbedUrl: MAPS_EMBED_URL,
+    openingHours: OPENING_HOURS,
+    postalAddress: POSTAL_ADDRESS,
     featuredService: ref(ids.service("fr", LENDING)),
     footerBody: localized("localeText", (lang) => t(lang).footerBody),
     footerRights: localized("localeString", (lang) => t(lang).rights),
@@ -388,6 +407,8 @@ const newFields: { id: string; fields: Record<string, unknown> }[] = [
       mapsUrl: MAPS_URL,
       mapsEmbedUrl: MAPS_EMBED_URL,
       featuredService: ref(ids.service("fr", LENDING)),
+      openingHours: OPENING_HOURS,
+      postalAddress: POSTAL_ADDRESS,
     },
   },
   ...languages.map(({ id: lang }) => ({

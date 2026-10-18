@@ -12,12 +12,14 @@ import { PageHero } from "@/components/PageHero";
 import { RichText } from "@/components/RichText";
 import { currentLocale } from "@/i18n/locale";
 import { alternatesFor } from "@/lib/alternates";
+import { pageMetadata, pathsWithSelf } from "@/lib/metadata";
 import { imageDimensions, urlFor } from "@/sanity/lib/image";
 import { cachedSanity, type DynamicFetchOptions } from "@/sanity/lib/live";
 import { PLACEHOLDER, withPlaceholder } from "@/sanity/lib/params";
 import { WithFetchOptions } from "@/sanity/lib/preview";
 import { CASE_STUDY_QUERY, CASE_STUDY_SLUGS_QUERY } from "@/sanity/lib/queries";
 import { getSiteSettings } from "@/sanity/lib/settings";
+import type { CASE_STUDY_QUERY_RESULT } from "@/sanity/types";
 
 // Un caso de Expériences: foto y relato, otros casos y CTA final.
 
@@ -48,13 +50,24 @@ async function getCase(slug: string, fetchOptions: DynamicFetchOptions) {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const item = await getCase((await params).slug, { perspective: "published", stega: false });
+  const { slug } = await params;
+  const item = await getCase(slug, { perspective: "published", stega: false });
   if (!item) return {};
-  return {
-    title: item.seo?.title || item.title,
-    description: item.seo?.description || item.summary || undefined,
-  };
+  const locale = await currentLocale();
+  return pageMetadata({
+    locale,
+    paths: pathsWithSelf(locale, caseAlternates(item.translations), caseHref(slug)),
+    title: item.title,
+    description: item.summary,
+    image: item.image,
+    seo: item.seo,
+  });
 }
+
+const caseHref = (slug: string) => ({ pathname: "/experiences/[slug]", params: { slug } }) as const;
+
+const caseAlternates = (translations: NonNullable<CASE_STUDY_QUERY_RESULT>["translations"]) =>
+  alternatesFor(translations, ({ slug }) => (slug ? caseHref(slug) : null));
 
 export default async function CaseStudyPage({ params }: Props) {
   const { slug } = await params;
@@ -71,9 +84,7 @@ async function CaseStudy({ slug, ...fetchOptions }: { slug: string } & DynamicFe
   if (!item || !settings) notFound();
 
   const image = imageDimensions(item.image?.asset?._ref);
-  const alternates = alternatesFor(item.translations, (translation) =>
-    translation.slug ? { pathname: "/experiences/[slug]", params: { slug: translation.slug } } : null,
-  );
+  const alternates = caseAlternates(item.translations);
 
   return (
     <main>

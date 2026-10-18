@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { draftMode } from "next/headers";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
@@ -15,12 +17,35 @@ import {
   type DynamicFetchOptions,
 } from "@/sanity/lib/live";
 import { currentLocale } from "@/i18n/locale";
+import { pageMetadata, pathsFor } from "@/lib/metadata";
 import { HOME_PAGE_QUERY, SITE_SETTINGS_QUERY, TESTIMONIALS_QUERY } from "@/sanity/lib/queries";
 
 // Portada: reproduce design/nocturne-reference.html con el contenido de Sanity.
 
 // Tipos que aparecen en la portada: el webhook /api/revalidate las renueva.
 const HOME_TAGS = ["homePage", "service", "investGuide", "translation.metadata"];
+
+export async function generateMetadata(): Promise<Metadata> {
+  const language = await currentLocale();
+  const [{ data: home }, t] = await Promise.all([
+    cachedSanity({
+      query: HOME_PAGE_QUERY,
+      params: { language },
+      tags: HOME_TAGS,
+      perspective: "published",
+      stega: false,
+    }),
+    getTranslations("Metadata"),
+  ]);
+  return pageMetadata({
+    locale: language,
+    paths: pathsFor("/"),
+    title: t("title"),
+    absoluteTitle: true,
+    description: t("description"),
+    seo: home?.seo,
+  });
+}
 
 export default async function HomePage() {
   const { isEnabled } = await draftMode();

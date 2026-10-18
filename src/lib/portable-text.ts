@@ -28,3 +28,14 @@ export function tableOfContents(body?: TextBlock[] | null) {
 export function readingMinutes(words?: number | null) {
   return Math.max(1, Math.round((words ?? 0) / 200));
 }
+
+// Descripción para Google cuando la página no tiene resumen: el primer
+// párrafo, cortado en una frase o en una palabra (≈ 160 caracteres).
+export function plainExcerpt(body?: TextBlock[] | null, max = 160) {
+  const first = (body ?? []).find((block) => block._type === "block" && block.style === "normal" && blockText(block).trim());
+  const text = first ? blockText(first).replace(/\s+/g, " ").trim() : "";
+  if (text.length <= max) return text || undefined;
+  const cut = text.slice(0, max);
+  const sentence = cut.lastIndexOf(". ");
+  return sentence >= 60 ? cut.slice(0, sentence + 1) : `${cut.slice(0, cut.lastIndexOf(" "))}…`;
+}

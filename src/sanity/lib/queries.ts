@@ -14,6 +14,8 @@ export const SITE_SETTINGS_QUERY = defineQuery(`
     bookingUrl,
     mapsUrl,
     mapsEmbedUrl,
+    openingHours[]{ days, opens, closes },
+    postalAddress,
     // Servicio del menú y del pie, en el idioma pedido (la referencia apunta
     // a la versión francesa).
     "featuredService": coalesce(
@@ -173,6 +175,7 @@ export const GUIDE_ARTICLE_QUERY = defineQuery(`
   *[_type == "investGuide" && language == $language && slug.current == $slug &&
     select($topic == "" => !defined(parent), parent->slug.current == $topic)][0]{
     _id,
+    _updatedAt,
     title,
     summary,
     body,
@@ -182,7 +185,12 @@ export const GUIDE_ARTICLE_QUERY = defineQuery(`
       | order(order asc, title asc){ _id, title, summary, "slug": slug.current },
     "siblings": *[_type == "investGuide" && defined(^.parent._ref) && parent._ref == ^.parent._ref && defined(slug.current)]
       | order(order asc, title asc){ _id, title, "slug": slug.current },
-    "translations": ${TRANSLATIONS}{ language, "slug": slug.current, "parentSlug": parent->slug.current }
+    "translations": ${TRANSLATIONS}{
+      language,
+      "slug": slug.current,
+      "parentSlug": parent->slug.current,
+      "hasBody": count(body) > 0
+    }
   }
 `);
 
@@ -290,3 +298,35 @@ export const TESTIMONIALS_QUERY = defineQuery(`
     "role": ${localized("role")}
   }
 `);
+
+// --- sitemap.xml --------------------------------------------------------------
+
+// Todo lo publicado que se ofrece a Google, con sus traducciones.
+export const SITEMAP_QUERY = defineQuery(`{
+  "home": *[_type == "homePage"]{ language, _updatedAt },
+  "sections": *[_type == "sectionPage"]{ section, language, _updatedAt },
+  "services": *[_type == "service" && defined(slug.current)]{
+    language, "slug": slug.current, _updatedAt,
+    "translations": ${TRANSLATIONS}{ language, "slug": slug.current }
+  },
+  "guides": *[_type == "investGuide" && defined(slug.current) && count(body) > 0]{
+    language, "slug": slug.current, "parentSlug": parent->slug.current, _updatedAt,
+    "translations": ${TRANSLATIONS}[count(body) > 0]{ language, "slug": slug.current, "parentSlug": parent->slug.current }
+  },
+  "cases": *[_type == "caseStudy" && defined(slug.current)]{
+    language, "slug": slug.current, _updatedAt,
+    "translations": ${TRANSLATIONS}{ language, "slug": slug.current }
+  },
+  "posts": *[_type == "post" && defined(slug.current)]{
+    language, "slug": slug.current, _updatedAt,
+    "translations": ${TRANSLATIONS}{ language, "slug": slug.current }
+  },
+  "categories": *[_type == "category" && defined(slug.current) && count(*[_type == "post" && references(^._id)]) > 0]{
+    language, "slug": slug.current, _updatedAt,
+    "translations": ${TRANSLATIONS}{ language, "slug": slug.current }
+  },
+  "pages": *[_type == "page" && defined(slug.current)]{
+    language, "slug": slug.current, _updatedAt,
+    "translations": ${TRANSLATIONS}{ language, "slug": slug.current }
+  }
+}`);

@@ -3,10 +3,11 @@ import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { currentLocale } from "@/i18n/locale";
 import { alternatesFor } from "@/lib/alternates";
+import { pageMetadata, pathsFor, pathsWithSelf } from "@/lib/metadata";
 import { cachedSanity, type DynamicFetchOptions } from "@/sanity/lib/live";
 import { WithFetchOptions } from "@/sanity/lib/preview";
 import { POSTS_PAGE_QUERY } from "@/sanity/lib/queries";
-import { getSectionPage, sectionMetadata } from "@/sanity/lib/sections";
+import { getSectionPage } from "@/sanity/lib/sections";
 import { Breadcrumbs, type Crumb } from "../Breadcrumbs";
 import { ClosingCta } from "../ClosingCta";
 import { PageAlternates } from "../LocaleAlternates";
@@ -42,18 +43,31 @@ export function parsePage(value: string) {
 }
 
 export async function newsMetadata(params: Params): Promise<Metadata> {
-  if (!Number.isInteger(params.page)) return {};
-  const [base, data, t] = await Promise.all([
-    sectionMetadata("news"),
-    params.category ? getPosts(params, { perspective: "published", stega: false }) : null,
+  const { page, category } = params;
+  if (!Number.isInteger(page)) return {};
+  const published = { perspective: "published", stega: false } as const;
+  const [locale, section, data, t] = await Promise.all([
+    currentLocale(),
+    getSectionPage("news", published),
+    category ? getPosts(params, published) : null,
     getTranslations("News"),
   ]);
-  const title = data?.category?.title ?? (base.title as string | undefined);
-  if (!title) return base;
-  return {
-    ...base,
-    title: params.page > 1 ? t("pageTitle", { title, page: params.page }) : title,
-  };
+  const title = data?.category?.title ?? section?.title;
+  if (!title) return {};
+  const self = newsHref(page, category);
+  // La página 1 existe en los tres idiomas; una categoría, donde esté
+  // traducida; las páginas 2, 3… solo se enlazan a sí mismas.
+  const translations =
+    page > 1 ? {}
+    : category ? alternatesFor(data?.category?.translations, ({ slug }) => (slug ? newsHref(1, slug) : null))
+    : pathsFor(self);
+  return pageMetadata({
+    locale,
+    paths: pathsWithSelf(locale, translations, self),
+    title: page > 1 ? t("pageTitle", { title, page }) : title,
+    description: section?.lead,
+    seo: page === 1 && !category ? section?.seo : null,
+  });
 }
 
 // Lista de Actualité: todos los artículos o los de una categoría, paginada.

@@ -2,16 +2,20 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { currentLocale } from "@/i18n/locale";
-import { Link } from "@/i18n/navigation";
+import { getPathname, Link } from "@/i18n/navigation";
 import { alternatesFor } from "@/lib/alternates";
+import { pageMetadata, pathsWithSelf } from "@/lib/metadata";
+import { article as articleData } from "@/lib/structured-data";
 import { tableOfContents } from "@/lib/portable-text";
 import { cachedSanity, type DynamicFetchOptions } from "@/sanity/lib/live";
 import { WithFetchOptions } from "@/sanity/lib/preview";
 import { GUIDE_ARTICLE_QUERY } from "@/sanity/lib/queries";
 import { getSiteSettings } from "@/sanity/lib/settings";
+import type { GUIDE_ARTICLE_QUERY_RESULT } from "@/sanity/types";
 import { Breadcrumbs, type Crumb } from "../Breadcrumbs";
 import { ClosingCta } from "../ClosingCta";
 import { HeroActions } from "../HeroActions";
+import { JsonLd } from "../JsonLd";
 import { ArrowRightIcon } from "../icons";
 import { PageAlternates } from "../LocaleAlternates";
 import { PageHero } from "../PageHero";
@@ -41,16 +45,35 @@ async function getArticle({ topic, subtopic }: Params, fetchOptions: DynamicFetc
 export async function guideMetadata(params: Params): Promise<Metadata> {
   const article = await getArticle(params, { perspective: "published", stega: false });
   if (!article) return {};
-  return {
-    title: article.seo?.title || article.title,
-    description: article.seo?.description || article.summary || undefined,
-  };
+  const locale = await currentLocale();
+  const self = params.subtopic ? subtopicHref(params.topic, params.subtopic) : topicHref(params.topic);
+  return pageMetadata({
+    locale,
+    // Solo las traducciones con texto: las vacías llevan noindex.
+    paths: pathsWithSelf(
+      locale,
+      guideAlternates(article.translations?.filter((translation) => translation?.hasBody) ?? null),
+      self,
+    ),
+    title: article.title,
+    description: article.summary,
+    seo: article.seo,
+    // Un tema aún sin texto (p. ej. sin traducir) no se ofrece a Google.
+    noindex: !article.body?.length,
+    article: {},
+  });
 }
 
 const topicHref = (topic: string) =>
   ({ pathname: "/investir-au-costa-rica/[topic]", params: { topic } }) as const;
 const subtopicHref = (topic: string, subtopic: string) =>
   ({ pathname: "/investir-au-costa-rica/[topic]/[subtopic]", params: { topic, subtopic } }) as const;
+
+const guideAlternates = (translations: NonNullable<GUIDE_ARTICLE_QUERY_RESULT>["translations"]) =>
+  alternatesFor(translations, ({ slug, parentSlug }) => {
+    if (!slug) return null;
+    return parentSlug ? subtopicHref(parentSlug, slug) : topicHref(slug);
+  });
 
 // Artículo de la guía: migas de pan, índice lateral y subtemas.
 export function GuideArticle(params: Params) {
@@ -60,9 +83,10 @@ export function GuideArticle(params: Params) {
 }
 
 async function Article({ params, ...fetchOptions }: { params: Params } & DynamicFetchOptions) {
+  const locale = await currentLocale();
   const [article, settings, t, tNav] = await Promise.all([
     getArticle(params, fetchOptions),
-    getSiteSettings(await currentLocale()),
+    getSiteSettings(locale),
     getTranslations("Guide"),
     getTranslations("Navigation"),
   ]);
@@ -92,13 +116,22 @@ async function Article({ params, ...fetchOptions }: { params: Params } & Dynamic
         })),
       ];
 
-  const alternates = alternatesFor(article.translations, ({ slug, parentSlug }) => {
-    if (!slug) return null;
-    return parentSlug ? subtopicHref(parentSlug, slug) : topicHref(slug);
-  });
+  const alternates = guideAlternates(article.translations);
+  const self = params.subtopic ? subtopicHref(params.topic, params.subtopic) : topicHref(params.topic);
 
   return (
     <main>
+      {!!article.body?.length && (
+        <JsonLd
+          data={articleData({
+            headline: article.title,
+            description: article.summary,
+            url: getPathname({ locale, href: self }),
+            language: locale,
+            dateModified: article._updatedAt,
+          })}
+        />
+      )}
       <PageAlternates alternates={alternates} />
       <PageHero
         breadcrumbs={<Breadcrumbs items={crumbs} current={article.title} />}
