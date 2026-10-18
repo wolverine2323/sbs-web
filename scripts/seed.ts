@@ -1,6 +1,7 @@
 /**
  * Carga en Sanity el contenido de la portada a partir del dict() de
- * design/nocturne-reference.html (textos FR/ES/EN).
+ * design/nocturne-reference.html (textos FR/ES/EN), y los textos de las
+ * páginas de sección (Le Cabinet, índices, Contact).
  *
  *   npm run seed              crea lo que falta; no toca lo que ya existe
  *   npm run seed -- --dry-run muestra qué haría, sin escribir nada
@@ -27,6 +28,60 @@ const EMAIL = "info@sbs.cr";
 const BOOKING_URL = "https://calendar.app.google/oU4teZWLHRAWEcy67";
 const DISTINCTIONS_LINE = "Chambers & Partners · LACCA";
 const DISTINCTIONS = ["Chambers & Partners", "LACCA Approved"];
+const MAPS_URL =
+  "https://www.google.com/maps/search/?api=1&query=Terra+Campus+Corporativo%2C+La+Uni%C3%B3n%2C+Costa+Rica";
+const MAPS_EMBED_URL =
+  "https://www.google.com/maps?q=Terra+Campus+Corporativo%2C+La+Uni%C3%B3n%2C+Costa+Rica&output=embed";
+
+// Textos de las páginas de sección que no están en la referencia.
+// Provisionales: el contenido real llega con la migración (Fase 6).
+const SECTION_TEXTS: Record<Lang, Record<"founders" | "associates" | "experiences" | "news", { title?: string; lead: string }>> = {
+  fr: {
+    founders: {
+      title: "Les associés fondateurs",
+      lead: "Les avocats et notaires qui ont fondé SBS Abogados et dirigent le cabinet.",
+    },
+    associates: {
+      title: "Les avocats collaborateurs",
+      lead: "L’équipe d’avocats qui accompagne nos clients au quotidien, en français, en espagnol et en anglais.",
+    },
+    experiences: { lead: "Ce que nos clients disent de leur expérience avec SBS Abogados." },
+    news: {
+      title: "Actualité juridique au Costa Rica",
+      lead: "Analyses et nouvelles de nos avocats sur le droit, l’investissement et la vie des affaires au Costa Rica.",
+    },
+  },
+  es: {
+    founders: {
+      title: "Los socios fundadores",
+      lead: "Los abogados y notarios que fundaron SBS Abogados y dirigen la firma.",
+    },
+    associates: {
+      title: "Los abogados colaboradores",
+      lead: "El equipo de abogados que acompaña a nuestros clientes día a día, en francés, español e inglés.",
+    },
+    experiences: { lead: "Lo que nuestros clientes dicen de su experiencia con SBS Abogados." },
+    news: {
+      title: "Actualidad jurídica en Costa Rica",
+      lead: "Análisis y novedades de nuestros abogados sobre el derecho, la inversión y los negocios en Costa Rica.",
+    },
+  },
+  en: {
+    founders: {
+      title: "The founding partners",
+      lead: "The attorneys and notaries who founded SBS Abogados and lead the firm.",
+    },
+    associates: {
+      title: "Our associate attorneys",
+      lead: "The team of attorneys who support our clients every day, in French, Spanish and English.",
+    },
+    experiences: { lead: "What our clients say about working with SBS Abogados." },
+    news: {
+      title: "Legal news from Costa Rica",
+      lead: "Analysis and updates from our attorneys on law, investment and business in Costa Rica.",
+    },
+  },
+};
 
 // --- Leer el dict() de la referencia -----------------------------------------
 
@@ -44,7 +99,7 @@ type TextKey =
   | "recoEyebrow" | "recoTitle" | "distTitle"
   | "contactTitle" | "contactBody" | "address" | "footerBody" | "rights";
 type ReferenceTexts = Record<TextKey, string> & {
-  nav: { invest: string; contact: string };
+  nav: { firm: string; invest: string; news: string; contact: string };
   firmList: string[];
   investTopics: string[];
   services: Pair[];
@@ -68,6 +123,7 @@ const ids = {
   service: (lang: Lang, n: number) => `service-${lang}-${n}`,
   guide: (lang: Lang, n: number) => `investGuide-${lang}-${n}`,
   home: (lang: Lang) => `homePage-${lang}`,
+  section: (section: string, lang: Lang) => `sectionPage-${section}-${lang}`,
 };
 
 const ref = (id: string, key?: string) => ({
@@ -111,6 +167,8 @@ function buildDocuments(dict: Record<Lang, ReferenceTexts>): Doc[] {
     email: EMAIL,
     address: localized("localeText", (lang) => t(lang).address),
     bookingUrl: BOOKING_URL,
+    mapsUrl: MAPS_URL,
+    mapsEmbedUrl: MAPS_EMBED_URL,
     footerBody: localized("localeText", (lang) => t(lang).footerBody),
     footerRights: localized("localeString", (lang) => t(lang).rights),
   });
@@ -235,8 +293,46 @@ function buildDocuments(dict: Record<Lang, ReferenceTexts>): Doc[] {
   }
   docs.push(translations("translations-homePage", "homePage", ids.home));
 
+  // Páginas de sección, una por sección e idioma.
+  const sectionTexts = (lang: Lang) => {
+    const d = t(lang);
+    const extra = SECTION_TEXTS[lang];
+    return {
+      firm: { eyebrow: d.nav.firm, title: d.firmTitle, lead: `SBS Abogados ${d.firmBody}` },
+      founders: { eyebrow: d.nav.firm, title: extra.founders.title, lead: extra.founders.lead },
+      associates: { eyebrow: d.nav.firm, title: extra.associates.title, lead: extra.associates.lead },
+      expertise: { eyebrow: d.servEyebrow, title: d.servTitle, lead: d.servLead },
+      invest: { eyebrow: d.nav.invest, title: d.investTitle, lead: d.investLead },
+      experiences: { eyebrow: d.testiEyebrow, title: d.testiTitle, lead: extra.experiences.lead },
+      news: { eyebrow: d.nav.news, title: extra.news.title, lead: extra.news.lead },
+      contact: { eyebrow: d.nav.contact, title: d.contactTitle, lead: d.contactBody },
+    };
+  };
+  for (const section of Object.keys(sectionTexts("fr"))) {
+    for (const { id: lang } of languages) {
+      docs.push({
+        _id: ids.section(section, lang),
+        _type: "sectionPage",
+        language: lang,
+        section,
+        ...sectionTexts(lang)[section as keyof ReturnType<typeof sectionTexts>],
+      });
+    }
+    docs.push(
+      translations(`translations-sectionPage-${section}`, "sectionPage", (lang) =>
+        ids.section(section, lang),
+      ),
+    );
+  }
+
   return docs;
 }
+
+// Campos añadidos después del primer seed: se rellenan en los documentos que
+// ya existen solo si están vacíos (setIfMissing), sin tocar lo editado.
+const newFields: { id: string; fields: Record<string, unknown> }[] = [
+  { id: "siteSettings", fields: { mapsUrl: MAPS_URL, mapsEmbedUrl: MAPS_EMBED_URL } },
+];
 
 // --- Escribir en Sanity -------------------------------------------------------
 
@@ -245,7 +341,7 @@ async function main() {
   const count = (type: string) => docs.filter((doc) => doc._type === type).length;
   console.log(
     `Documentos preparados: ${docs.length} (` +
-      ["siteSettings", "homePage", "service", "investGuide", "testimonial", "translation.metadata"]
+      ["siteSettings", "homePage", "sectionPage", "service", "investGuide", "testimonial", "translation.metadata"]
         .map((type) => `${type}: ${count(type)}`)
         .join(", ") +
       ")",
@@ -259,16 +355,21 @@ async function main() {
     await client.fetch<string[]>(`*[_id in $ids]._id`, { ids: docs.map((doc) => doc._id) }),
   );
   const toWrite = force ? docs : docs.filter((doc) => !existing.has(doc._id));
+  const toPatch = force ? [] : newFields.filter(({ id }) => existing.has(id));
   console.log(
-    `Ya existen: ${existing.size}. ${force ? "Se sobrescriben todos (--force)" : "Se crean"}: ${toWrite.length}.`,
+    `Ya existen: ${existing.size}. ${force ? "Se sobrescriben todos (--force)" : "Se crean"}: ${toWrite.length}.` +
+      (toPatch.length ? ` Campos nuevos (si están vacíos) en: ${toPatch.map(({ id }) => id).join(", ")}.` : ""),
   );
-  if (!toWrite.length) return;
+  if (!toWrite.length && !toPatch.length) return;
 
   // Una transacción: o se escribe todo, o nada (las referencias fuertes lo exigen).
   const transaction = client.transaction();
   for (const doc of toWrite) {
     if (force) transaction.createOrReplace(doc);
     else transaction.createIfNotExists(doc);
+  }
+  for (const { id, fields } of toPatch) {
+    transaction.patch(id, (patch) => patch.setIfMissing(fields));
   }
   const result = await transaction.commit({ dryRun, visibility: "sync" });
   console.log(dryRun ? `Prueba en seco correcta: ${result.results.length} documentos (no se guardó nada).` : `Guardados: ${result.results.length} documentos.`);
