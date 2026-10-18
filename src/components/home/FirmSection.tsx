@@ -6,7 +6,7 @@ import { Heading } from "../Heading";
 import { ArrowRightIcon } from "../icons";
 import { ImagePlaceholder } from "../ImagePlaceholder";
 import { SectionEyebrow } from "../SectionEyebrow";
-import { sectionHref, type HomeContent } from "./types";
+import type { HomeContent } from "./types";
 
 export function FirmSection({ firm }: { firm: NonNullable<HomeContent["firm"]> }) {
   const t = useTranslations("Common");
@@ -28,7 +28,7 @@ export function FirmSection({ firm }: { firm: NonNullable<HomeContent["firm"]> }
           )}
           {firm.moreLabel && (
             <Link
-              href={sectionHref("firm")}
+              href="/le-cabinet"
               className="mt-10 inline-flex items-center gap-3.5 border-b border-on-paper py-3 text-[13px] font-semibold tracking-[0.14em] uppercase focus-visible:outline-on-paper"
             >
               {firm.moreLabel}

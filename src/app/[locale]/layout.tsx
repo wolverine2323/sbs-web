@@ -9,6 +9,7 @@ import { locale as rootLocale } from "next/root-params";
 import { Suspense } from "react";
 import { Footer } from "@/components/Footer";
 import { Header, type NavItem } from "@/components/Header";
+import { AlternatesProvider } from "@/components/LocaleAlternates";
 import { WhatsAppFloat } from "@/components/WhatsAppFloat";
 import { routing } from "@/i18n/routing";
 import { cachedSanity, SanityLive } from "@/sanity/lib/live";
@@ -56,18 +57,17 @@ async function SanityTools() {
   );
 }
 
-// Hasta la Fase 5 el menú lleva a las secciones de la portada y «Actualité»
-// al blog actual de sbs.cr, como en la referencia.
-async function getNavItems(locale: string): Promise<NavItem[]> {
+// En escritorio el menú muestra las cuatro secciones de la referencia;
+// Actualité y Contact solo en el menú móvil (están en el pie y en la portada).
+async function getNavItems(): Promise<NavItem[]> {
   const t = await getTranslations("Navigation");
-  const section = (hash: string) => ({ pathname: "/", hash });
   return [
-    { label: t("firm"), href: section("firm") },
-    { label: t("expertise"), href: section("expertise") },
-    { label: t("invest"), href: section("invest") },
-    { label: t("experiences"), href: section("experiences") },
-    { label: t("news"), href: `https://www.sbs.cr/${locale}/`, mobileOnly: true },
-    { label: t("contact"), href: section("contact"), mobileOnly: true },
+    { label: t("firm"), href: "/le-cabinet" },
+    { label: t("expertise"), href: "/expertises" },
+    { label: t("invest"), href: "/investir-au-costa-rica" },
+    { label: t("experiences"), href: "/experiences" },
+    { label: t("news"), href: "/actualite", mobileOnly: true },
+    { label: t("contact"), href: "/contact", mobileOnly: true },
   ];
 }
 
@@ -78,7 +78,7 @@ export default async function LocaleLayout({
   if (!hasLocale(routing.locales, locale)) notFound();
 
   const [navItems, { data: settings }] = await Promise.all([
-    getNavItems(locale),
+    getNavItems(),
     cachedSanity({
       query: SITE_SETTINGS_QUERY,
       params: { language: locale },
@@ -92,14 +92,12 @@ export default async function LocaleLayout({
     <html lang={locale} className={`${cormorant.variable} ${dmSans.variable}`}>
       <body>
         <NextIntlClientProvider>
-          <Header items={navItems} bookingUrl={settings?.bookingUrl} />
-          {children}
+          <AlternatesProvider>
+            <Header items={navItems} bookingUrl={settings?.bookingUrl} />
+            {children}
+          </AlternatesProvider>
           {settings && (
-            <Footer
-              body={settings.footerBody ?? ""}
-              rights={settings.footerRights ?? ""}
-              newsHref={`https://www.sbs.cr/${locale}/`}
-            />
+            <Footer body={settings.footerBody ?? ""} rights={settings.footerRights ?? ""} />
           )}
           <WhatsAppFloat number={settings?.whatsapp ?? undefined} />
         </NextIntlClientProvider>

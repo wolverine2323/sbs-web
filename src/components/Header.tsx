@@ -3,7 +3,8 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useEffect, useId, useState, type ComponentProps } from "react";
-import { Link } from "@/i18n/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
+import { cn } from "@/lib/cn";
 import { ButtonPrimary } from "./ButtonPrimary";
 import { CloseIcon, MenuIcon } from "./icons";
 import { LocaleSwitcher } from "./LocaleSwitcher";
@@ -29,6 +30,14 @@ export function Header({ items, bookingUrl }: Props) {
   const tc = useTranslations("Common");
   const [open, setOpen] = useState(false);
   const menuId = useId();
+  const pathname = usePathname();
+
+  // "page" en la página de la sección; "true" dentro de ella (p. ej. un servicio).
+  const current = (href: NavItem["href"]) => {
+    if (typeof href !== "string") return undefined;
+    if (pathname === href) return "page" as const;
+    return pathname.startsWith(`${href}/`) ? ("true" as const) : undefined;
+  };
 
   useEffect(() => {
     if (!open) return;
@@ -54,7 +63,11 @@ export function Header({ items, bookingUrl }: Props) {
               <Link
                 key={item.label}
                 href={item.href}
-                className="inline-flex min-h-11 items-center text-cream transition-colors hover:text-bronze-light"
+                aria-current={current(item.href)}
+                className={cn(
+                  "inline-flex min-h-11 items-center transition-colors hover:text-bronze-light",
+                  current(item.href) ? "text-bronze-light" : "text-cream",
+                )}
               >
                 {item.label}
               </Link>
@@ -117,7 +130,11 @@ export function Header({ items, bookingUrl }: Props) {
             key={item.label}
             href={item.href}
             onClick={close}
-            className="border-b border-bronze-light/12 py-4 text-cream last-of-type:border-b-0"
+            aria-current={current(item.href)}
+            className={cn(
+              "border-b border-bronze-light/12 py-4 last-of-type:border-b-0",
+              current(item.href) ? "text-bronze-light" : "text-cream",
+            )}
           >
             {item.label}
           </Link>

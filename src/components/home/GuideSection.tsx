@@ -3,7 +3,7 @@ import { pad2 } from "@/lib/format";
 import { ButtonPrimary } from "../ButtonPrimary";
 import { Heading } from "../Heading";
 import { SectionEyebrow } from "../SectionEyebrow";
-import { sectionHref, type HomeContent } from "./types";
+import type { HomeContent } from "./types";
 
 type Props = {
   guide: NonNullable<HomeContent["guide"]>;
@@ -12,7 +12,7 @@ type Props = {
 
 // Índice de la guía del inversor (sobre paper).
 export function GuideSection({ guide, bookingUrl }: Props) {
-  const topics = guide.topics?.filter(Boolean) ?? [];
+  const topics = guide.topics?.filter((topic) => topic?.slug) ?? [];
 
   return (
     <section id="invest" className="scroll-mt-[92px] bg-paper text-on-paper">
@@ -40,9 +40,11 @@ export function GuideSection({ guide, bookingUrl }: Props) {
         <ol className="min-w-0 flex-[2_1_580px] columns-[2_280px] gap-x-14">
           {topics.map((topic, i) => (
             <li key={topic._id} className="break-inside-avoid border-t border-on-paper/14">
-              {/* Las páginas de cada tema llegan en la Fase 5. */}
               <Link
-                href={sectionHref("invest")}
+                href={{
+                  pathname: "/investir-au-costa-rica/[topic]",
+                  params: { topic: topic.slug ?? "" },
+                }}
                 className="flex items-baseline gap-5 py-[22px] transition-colors hover:text-burgundy focus-visible:outline-on-paper"
               >
                 <span className="text-xs tracking-[0.1em] text-bronze-text tabular-nums">{pad2(i + 1)}</span>

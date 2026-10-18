@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-const kitHref = (hash: string) => ({ pathname: "/_kit", hash });
+const kitHref = (hash: string) => ({ pathname: "/_kit" as const, hash });
 
 // Nombre del componente que se ve debajo (solo para el kit).
 function KitLabel({ name, light = false }: { name: string; light?: boolean }) {

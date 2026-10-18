@@ -2,10 +2,10 @@ import { pad2 } from "@/lib/format";
 import { Heading } from "../Heading";
 import { SectionEyebrow } from "../SectionEyebrow";
 import { ServiceRow } from "../ServiceRow";
-import { sectionHref, type HomeContent } from "./types";
+import type { HomeContent } from "./types";
 
 export function ServicesSection({ services }: { services: NonNullable<HomeContent["services"]> }) {
-  const items = services.items?.filter(Boolean) ?? [];
+  const items = services.items?.filter((service) => service?.slug) ?? [];
 
   return (
     <section id="expertise" className="mx-auto max-w-[1320px] scroll-mt-[92px] px-7 py-[136px]">
@@ -21,12 +21,11 @@ export function ServicesSection({ services }: { services: NonNullable<HomeConten
       <ul className="border-t border-bronze-light/25">
         {items.map((service, i) => (
           <li key={service._id}>
-            {/* Hasta la Fase 5 (páginas de servicio) la fila lleva al contacto, como en la referencia. */}
             <ServiceRow
               number={pad2(i + 1)}
               title={service.title}
               description={service.summary}
-              href={sectionHref("contact")}
+              href={{ pathname: "/expertises/[slug]", params: { slug: service.slug ?? "" } }}
             />
           </li>
         ))}

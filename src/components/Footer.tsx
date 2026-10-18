@@ -1,16 +1,14 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import type { ComponentProps } from "react";
 import { Link } from "@/i18n/navigation";
 
 type Props = {
   // Textos del pie por idioma (siteSettings en Sanity).
   body: string;
   rights: string;
-  newsHref: ComponentProps<typeof Link>["href"];
 };
 
-export function Footer({ body, rights, newsHref }: Props) {
+export function Footer({ body, rights }: Props) {
   const t = useTranslations("Navigation");
 
   return (
@@ -30,7 +28,7 @@ export function Footer({ body, rights, newsHref }: Props) {
       </div>
       <div className="flex flex-[1_1_240px] flex-col items-end gap-2.5 text-right text-[13px] text-stone-dim">
         <Link
-          href={newsHref}
+          href="/actualite"
           className="inline-flex min-h-11 min-w-11 items-center justify-end text-bronze-light underline-offset-4 hover:text-cream hover:underline"
         >
           {t("news")}

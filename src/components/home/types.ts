@@ -8,6 +8,3 @@ export type Contact = {
   phone: string;
   email: string;
 };
-
-// Enlaces provisionales a secciones de la portada hasta la Fase 5.
-export const sectionHref = (hash: string) => ({ pathname: "/", hash });
