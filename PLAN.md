@@ -197,7 +197,7 @@ No publiques nada todavía: déjalo como borrador para que lo revise.
   - Actualité: 2 artículos × 3 idiomas. «Constitution d’une société» como página general en su misma dirección.
   - Expériences (cambio pedido por José Luis el 18/10/2026): los 13 casos × 3 idiomas son un tipo nuevo, «Experiencia (caso)», con foto, resumen y relato, en el mismo orden que la página vieja. La página Expériences muestra los casos (sobre paper) y debajo los testimonios; cada caso tiene su página `/fr/experiences/(slug)`, `/es/experiencias/(slug)`, `/en/experiences/(slug)` con otros casos y el CTA de cita. Ya no salen en Actualité ni hay categoría «Expériences».
   - No se importan: logos de embajadas (CLAUDE.md), de reconocimientos (ya están como texto) ni de empresas en la guía; formularios de Joomla (el botón lleva a la agenda). Portada e índices: ya rehechos en las Fases 4 y 5.
-- [ ] 👤 Revisar en el Studio y publicar (Páginas → Experiencias (casos), Equipo, Servicios, Guía, Blog…). Los servicios, la guía y Le Cabinet tienen un borrador sobre la versión publicada: «Publicar» los reemplaza. De paso, ajustar la introducción de la página Expériences, que aún habla solo de testimonios.
+- [x] 👤 Revisar en el Studio y publicar (Páginas → Experiencias (casos), Equipo, Servicios, Guía, Blog…). Los servicios, la guía y Le Cabinet tienen un borrador sobre la versión publicada: «Publicar» los reemplaza. De paso, ajustar la introducción de la página Expériences, que aún habla solo de testimonios. Publicados en la Fase 9 con `npm run migrate:publish`, a petición de José Luis; lo que la firma corrija se cambia en el Studio.
 - [ ] Traducir la guía al español y al inglés (solo existía en francés).
 
 ---
@@ -224,7 +224,7 @@ Entrégame un reporte de las redirecciones y de los puntajes.
   - JSON-LD: LegalService (dirección y horario editables en Ajustes del sitio → Contacto), BreadcrumbList, BlogPosting, Article y Person.
   - Lighthouse móvil (build de producción en local, 11 páginas): Performance 92–98, Accessibility 100, Best Practices 96, SEO 100. Corregidos el favicon, el rol ARIA del carrusel y las descripciones vacías.
   - El pendiente de la Fase 5 queda como limitación conocida de Next.js 16: la primera visita a una dirección que nunca existió responde 200 con `noindex`, después 404 (las direcciones viejas no se ven afectadas: redirigen antes).
-- [ ] 👤 Publicar los borradores y volver a ejecutar `npm run migrate:check-redirects`; borrar «Article de test».
+- [x] 👤 Publicar los borradores y volver a ejecutar `npm run migrate:check-redirects`; borrar «Article de test». Hecho en la Fase 9: 360/360 correctas, 99 destinos con 200; «Article de test» despublicado.
 - [ ] Repetir la comprobación y Lighthouse en Vercel: este entorno no puede abrir `*.vercel.app` (permitirlo en la red del entorno). Best Practices llega a 100 al añadir www.sbs.cr en Sanity → CORS origins (Fase 9).
 
 ---
@@ -269,6 +269,18 @@ Dame la URL de prueba (*.vercel.app) y una lista de verificación para que la fi
 **👤 Revisión con la firma:** que naveguen la URL de prueba en móvil y escritorio, en los 3 idiomas, y que prueben agendar una cita. Recoge correcciones.
 
 **Listo cuando:** la firma aprueba el sitio de prueba.
+
+**Estado (18/10/2026):** decisiones de José Luis: la firma entra con un enlace para compartir de Vercel (la protección sigue activa), publicar los borradores de la Fase 6 y lista de verificación como página interactiva.
+- [x] Conexión con Vercel y `SANITY_API_READ_TOKEN` ya hechos en la Fase 3. El ID del proyecto y el dataset de Sanity vienen en el código (no hace falta variable). URL de prueba: https://sbs-web-git-claude-brave-knuth-zr7iuh-sbs-abogados.vercel.app
+- [x] Publicados los 99 borradores de la migración (`npm run migrate:publish`); la política de privacidad sigue en borrador y «Article de test» quedó despublicado (sigue como borrador en el Studio). `npm run migrate:check-redirects`: 360/360 correctas y los 99 destinos responden 200.
+- [x] Página de revisión para la firma: https://claude.ai/artifact/N5p6iKAiRo5Rna9UT5c4qR — 17 puntos (recorrido, páginas, citas y contacto, imagen de la firma) más el texto de la política de privacidad en los 3 idiomas. Cada persona marca «Correcto» o «Corregir» con su nota; las respuestas se guardan en la página (o se copian para enviarlas si no pueden guardarse).
+- [ ] 👤 Vercel → sbs-web → Settings → Deployment Protection → *Protection Bypass for Automation*: crear el secreto (para que el webhook pase la protección).
+- [ ] 👤 Vercel → Environment Variables: `SANITY_REVALIDATE_SECRET` (Production y Preview, Sensitive).
+- [ ] 👤 Sanity → API → Webhooks: webhook a `/api/revalidate` de la URL de prueba (POST, proyección `{_type}`, crear/actualizar/borrar, sin borradores, cabecera `x-vercel-protection-bypass`, mismo secreto). En la Fase 10 se cambia a https://www.sbs.cr/api/revalidate.
+- [ ] 👤 Sanity → API → CORS origins: añadir `https://www.sbs.cr` con *Allow credentials*.
+- [ ] Volver a desplegar y comprobar en los registros de Vercel que el webhook responde 200 al publicar.
+- [ ] 👤 Crear el enlace para compartir (botón *Share* de la versión de prueba en Vercel) y enviarlo a la firma con la página de revisión (compartida por correo como *Editor* para que se guarden sus respuestas).
+- [ ] Aplicar las correcciones de la firma y obtener su aprobación.
 
 ---
 
