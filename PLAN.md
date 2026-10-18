@@ -175,7 +175,7 @@ Muéstrame primero la estructura de rutas propuesta.
 
 ---
 
-## Fase 6 — Migración del contenido actual
+## Fase 6 — Migración del contenido actual ✅
 
 **Prompt:**
 ```
@@ -188,6 +188,16 @@ No publiques nada todavía: déjalo como borrador para que lo revise.
 **👤 Después:** revisa en el Studio que los textos y las imágenes estén completos, y publica.
 
 **Listo cuando:** todo el contenido de Joomla existe en Sanity y el inventario no tiene páginas sin migrar.
+
+- [x] **Completada el 18/10/2026** — Recorridas las 120 páginas de sbs.cr (sitemap, menús, enlaces internos y hreflang; fr, es y en). Inventario en `migration/inventory.csv` (120 filas, ninguna sin destino; `slug_nuevo` es la dirección nueva completa, lista para las 301 de la Fase 7) y el contenido extraído en `migration/pages.json`. Importado a Sanity **solo como borradores** (nada publicado): 102 borradores, 39 imágenes y las traducciones enlazadas. `npm run build` y `npm run lint` limpios; los borradores se probaron en la vista previa a 375px y 1440px (sin desbordes, objetivos ≥ 44px, consola limpia, selector de idioma correcto) y el sitio público sigue igual.
+  - Scripts: `npm run migrate:crawl` (rastreo → `pages.json`), `npm run migrate:inventory` (→ `inventory.csv`) y `npm run migrate:import` (borradores; `--dry-run` para probar, `--only=tipo` y `--force` para rehacerlos). El mapeo está en `scripts/migration/plan.ts`.
+  - Le Cabinet: texto y política de servicio → «Contenido» del borrador, con su foto. Equipo: 7 personas × 3 idiomas (fundadores: Angel Edmundo, Kattia, David), con foto, cargo, idiomas, biografía y un campo nuevo «Email» (enlace con evento `email_click`; los títulos «Me / Lic. / Licda. / LLM.» se quitan del nombre).
+  - Servicios 1–4: introducción → «Contenido», foto principal → «Imagen» y cada sección → «Comment nous vous aidons». Las fotos de cada sección no se importan (los puntos no llevan foto; quedan listadas en el inventario).
+  - Guía: los 9 temas y 6 subtemas de «Propriété et droits immobiliers», con los subtítulos convertidos en títulos (índice lateral). En el sitio viejo solo existía en francés.
+  - Actualité: 2 artículos × 3 idiomas. Expériences: los 13 casos × 3 idiomas como artículos de la categoría nueva «Expériences» (fecha aproximada de Joomla, mismo orden que la página vieja). «Constitution d’une société» como página general en su misma dirección.
+  - No se importan: logos de embajadas (CLAUDE.md), de reconocimientos (ya están como texto) ni de empresas en la guía; formularios de Joomla (el botón lleva a la agenda). Portada e índices: ya rehechos en las Fases 4 y 5.
+- [ ] 👤 Revisar en el Studio y publicar. **Primero la categoría «Expériences» (fr, es, en)**: el Studio no deja publicar un caso antes que su categoría. Los servicios, la guía y Le Cabinet tienen un borrador sobre la versión publicada: «Publicar» los reemplaza.
+- [ ] Traducir la guía al español y al inglés (solo existía en francés).
 
 ---
 
