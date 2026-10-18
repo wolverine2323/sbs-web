@@ -260,6 +260,7 @@ export type TeamMember = {
   language?: string;
   name: string;
   role?: string;
+  email?: string;
   kind: "founder" | "associate";
   photo?: AccessibleImage;
   bio?: BlockContent;
@@ -831,11 +832,12 @@ export type FIRM_EXTRAS_QUERY_RESULT = {
 
 // Source: src/sanity/lib/queries.ts
 // Variable: TEAM_QUERY
-// Query: *[_type == "teamMember" && language == $language && kind == $kind]    | order(order asc, name asc){      _id,      name,      role,      photo,      bio,      spokenLanguages    }
+// Query: *[_type == "teamMember" && language == $language && kind == $kind]    | order(order asc, name asc){      _id,      name,      role,      email,      photo,      bio,      spokenLanguages    }
 export type TEAM_QUERY_RESULT = Array<{
   _id: string;
   name: string;
   role: string | null;
+  email: string | null;
   photo: AccessibleImage | null;
   bio: BlockContent | null;
   spokenLanguages: Array<string> | null;
@@ -1139,7 +1141,7 @@ declare global {
     '\n  *[_type == "sectionPage" && language == $language && section == $section][0]{\n    eyebrow,\n    title,\n    lead,\n    image,\n    body,\n    "featuredService": featuredService->{ title, summary, "slug": slug.current },\n    seo\n  }\n': SECTION_PAGE_QUERY_RESULT;
     '\n  *[_type == "homePage" && language == $language][0]{ steps, booking }\n': CLOSING_CTA_QUERY_RESULT;
     '\n  *[_type == "homePage" && language == $language][0]{\n    "highlights": firm.highlights,\n    "photoLabel": firm.photoLabel,\n    recognition\n  }\n': FIRM_EXTRAS_QUERY_RESULT;
-    '\n  *[_type == "teamMember" && language == $language && kind == $kind]\n    | order(order asc, name asc){\n      _id,\n      name,\n      role,\n      photo,\n      bio,\n      spokenLanguages\n    }\n': TEAM_QUERY_RESULT;
+    '\n  *[_type == "teamMember" && language == $language && kind == $kind]\n    | order(order asc, name asc){\n      _id,\n      name,\n      role,\n      email,\n      photo,\n      bio,\n      spokenLanguages\n    }\n': TEAM_QUERY_RESULT;
     '\n  *[_type == "service" && language == $language && defined(slug.current)]\n    | order(order asc, title asc){ _id, title, summary, "slug": slug.current }\n': SERVICES_QUERY_RESULT;
     '\n  *[_type == "service" && language == $language && defined(slug.current)].slug.current\n': SERVICE_SLUGS_QUERY_RESULT;
     '\n  *[_type == "service" && language == $language && slug.current == $slug][0]{\n    _id,\n    title,\n    summary,\n    image,\n    body,\n    audiences[]{\n      _key,\n      eyebrow,\n      title,\n      lead,\n      facts[]{ _key, value, label },\n      steps[]{ _key, title, description },\n      ctaLabel\n    },\n    helpPoints[]{ _key, title, description },\n    faq[]{ _key, question, answer },\n    disclaimer,\n    "testimonial": select(testimonial->published != false => testimonial->{\n      author,\n      "quote": select($language == "es" => quote.es, $language == "en" => quote.en, quote.fr),\n      "role": select($language == "es" => role.es, $language == "en" => role.en, role.fr)\n    }),\n    seo,\n    "others": *[_type == "service" && language == $language && _id != ^._id && defined(slug.current)]\n      | order(order asc, title asc){ _id, title, "slug": slug.current },\n    "translations": *[_type == "translation.metadata" && references(^._id)][0].translations[].value->{ language, "slug": slug.current }\n  }\n': SERVICE_QUERY_RESULT;

@@ -21,6 +21,13 @@ export const teamMember = defineType({
       description: "P. ej. «Avocate et notaire, associée fondatrice».",
     }),
     defineField({
+      name: "email",
+      title: "Email",
+      type: "string",
+      description: "Opcional. Se muestra en su ficha como enlace para escribirle.",
+      validation: (rule) => rule.email().error("Escribe un email válido"),
+    }),
+    defineField({
       name: "kind",
       title: "Tipo",
       type: "string",

@@ -93,6 +93,7 @@ export const TEAM_QUERY = defineQuery(`
       _id,
       name,
       role,
+      email,
       photo,
       bio,
       spokenLanguages

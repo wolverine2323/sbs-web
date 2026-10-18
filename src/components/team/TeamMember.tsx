@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { stegaClean } from "next-sanity";
 import { cn } from "@/lib/cn";
+import { mailtoHref } from "@/lib/contact";
 import { slugify } from "@/lib/slugify";
 import { urlFor } from "@/sanity/lib/image";
 import type { TEAM_QUERY_RESULT } from "@/sanity/types";
@@ -47,7 +48,24 @@ function SpokenLanguages({ codes, className }: { codes: string[] | null; classNa
   );
 }
 
-// Tarjeta de abogado colaborador (sobre paper): foto, nombre, cargo, idiomas.
+// Email de la persona: enlace con objetivo táctil de 44 px y evento email_click.
+function Email({ email, className }: { email: string | null; className?: string }) {
+  if (!email) return null;
+  return (
+    <a
+      href={mailtoHref(email)}
+      data-track="email_click"
+      className={cn(
+        "inline-flex min-h-11 items-center text-[15px] text-on-paper underline decoration-bronze/45 underline-offset-4 transition-colors hover:text-burgundy-mid",
+        className,
+      )}
+    >
+      {email}
+    </a>
+  );
+}
+
+// Tarjeta de abogado colaborador (sobre paper): foto, nombre, cargo, idiomas y email.
 export function TeamCard({ member }: { member: Member }) {
   return (
     <article id={memberAnchor(member.name)} className="scroll-mt-[120px]">
@@ -60,6 +78,7 @@ export function TeamCard({ member }: { member: Member }) {
         codes={member.spokenLanguages}
         className="mt-4 border-t border-on-paper/14 pt-4 text-bronze-text"
       />
+      <Email email={member.email} className="mt-1" />
     </article>
   );
 }
@@ -81,6 +100,7 @@ export function FounderProfile({ member }: { member: Member }) {
           codes={member.spokenLanguages}
           className="mt-6 border-y border-on-paper/14 py-4 text-bronze-text"
         />
+        <Email email={member.email} className="mt-3" />
         {member.bio && <RichText value={member.bio} tone="light" />}
       </div>
     </article>
