@@ -51,7 +51,7 @@ Reproducir ese diseño fielmente; no inventar otro estilo.
 - **Agendar cita (CTA principal):** `https://calendar.app.google/oU4teZWLHRAWEcy67` — guardar en Sanity (`siteSettings.bookingUrl`), nunca hardcodear en componentes.
 - Reconocimientos: abogados/notarios conocidos por las embajadas de Francia, Suiza y Canadá; Chambers & Partners; LACCA Approved.
 - Miembros de: Chambre de Commerce et d'Industrie France – Costa Rica; Chambre d'Infocommunication.
-- **No usar escudos ni logos de embajadas** (solo texto) salvo que la firma lo autorice por escrito.
+- **Logos de embajadas: autorizados por la firma** (José Luis, 18/10/2026). Solo en la sección de reconocimientos, en un solo color (#4A4540) como los de Chambers y LACCA; archivos en `scripts/content/logos`, se suben con `npm run logos`. Fuera de esa sección, las embajadas van como texto.
 
 ## Conversión (prioridad en cada página)
 - CTA "Prendre rendez-vous / Agendar una cita / Book a consultation" visible en el header fijo y al menos una vez por sección relevante.

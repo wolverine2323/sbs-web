@@ -254,6 +254,7 @@ Entrégame un reporte de las redirecciones y de los puntajes.
 - [ ] 👤 Que la firma revise la política de privacidad (completar la cédula jurídica entre corchetes) y publicarla en los 3 idiomas.
 - [ ] 👤 Google Ads: crear la acción de conversión «Cita» y pegar su etiqueta en Ajustes del sitio → Enlaces (o importar los eventos clave de GA4).
 - [ ] 👤 GA4: registrar las dimensiones personalizadas `page_language` y `section`, y marcar los 4 eventos como eventos clave.
+- [x] **Logos de reconocimientos** (pedido de José Luis el 18/10/2026, con la autorización de la firma para los de embajadas): Canada, Suisse, France, Chambers & Partners y LACCA Approved en la sección de reconocimientos de la portada y de Le Cabinet, en un solo color (#4A4540) y en vector. Los de las embajadas son las versiones oficiales actuales (el de Francia ya no lleva el nombre antiguo del ministerio); Chambers y LACCA, vectorizados de los del sitio viejo. Cada sello tiene un campo «Logo» en Portada → Reconocimientos; sin logo vuelve al sello de texto.
 
 ---
 
