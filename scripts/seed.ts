@@ -58,6 +58,10 @@ const POSTAL_ADDRESS = {
   region: "Cartago",
   country: "CR",
 };
+// Redes de la firma (José Luis, 18/10/2026): van en los datos estructurados (sameAs).
+const SOCIAL = [
+  { _key: "instagram", _type: "socialLink", platform: "instagram", url: "https://www.instagram.com/sbs_abogados" },
+];
 const MAPS_URL =
   "https://www.google.com/maps/search/?api=1&query=Terra+Campus+Corporativo%2C+La+Uni%C3%B3n%2C+Costa+Rica";
 const MAPS_EMBED_URL =
@@ -201,6 +205,7 @@ function buildDocuments(dict: Record<Lang, ReferenceTexts>): Doc[] {
     mapsEmbedUrl: MAPS_EMBED_URL,
     openingHours: OPENING_HOURS,
     postalAddress: POSTAL_ADDRESS,
+    social: SOCIAL,
     featuredService: ref(ids.service("fr", LENDING)),
     footerBody: localized("localeText", (lang) => t(lang).footerBody),
     footerRights: localized("localeString", (lang) => t(lang).rights),
@@ -409,6 +414,7 @@ const newFields: { id: string; fields: Record<string, unknown> }[] = [
       featuredService: ref(ids.service("fr", LENDING)),
       openingHours: OPENING_HOURS,
       postalAddress: POSTAL_ADDRESS,
+      social: SOCIAL,
     },
   },
   ...languages.map(({ id: lang }) => ({
