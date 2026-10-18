@@ -19,6 +19,7 @@ import { currentLocale } from "@/i18n/locale";
 import { getPathname, Link } from "@/i18n/navigation";
 import { alternatesFor } from "@/lib/alternates";
 import { pageMetadata, pathsWithSelf } from "@/lib/metadata";
+import { plainExcerpt } from "@/lib/portable-text";
 import { siteUrl } from "@/lib/site";
 import { article } from "@/lib/structured-data";
 import { imageDimensions, urlFor } from "@/sanity/lib/image";
@@ -66,7 +67,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     locale,
     paths: pathsWithSelf(locale, postAlternates(post.translations), postHref(slug)),
     title: post.title,
-    description: post.excerpt,
+    description: post.excerpt || plainExcerpt(post.body),
     image: post.image,
     seo: post.seo,
     article: { publishedTime: post.publishedAt },

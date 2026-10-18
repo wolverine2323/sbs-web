@@ -42,26 +42,26 @@ export function TestimonialCarousel({ items, label }: Props) {
           largo y los botones no saltan al cambiar. */}
       <div aria-live="polite" className="grid w-full">
         {items.map((item, i) => (
-          <figure
+          // La diapositiva es un div con role="group" (no se permite en <figure>).
+          <div
             key={item.name}
             role="group"
             aria-roledescription={t("slide")}
             aria-label={t("position", { current: i + 1, total })}
-            className={cn(
-              "col-start-1 row-start-1 flex flex-col items-center",
-              i !== index && "invisible",
-            )}
+            className={cn("col-start-1 row-start-1", i !== index && "invisible")}
           >
-            <blockquote className="font-serif text-[clamp(26px,2.6vw,36px)] leading-[1.4] text-cream italic">
-              {item.quote}
-            </blockquote>
-            <figcaption className="mt-9 flex flex-col gap-1.5">
-              <span className="text-[13px] tracking-[0.24em] text-cream uppercase">
-                {item.name}
-              </span>
-              <span className="text-sm text-bronze-light">{item.role}</span>
-            </figcaption>
-          </figure>
+            <figure className="flex flex-col items-center">
+              <blockquote className="font-serif text-[clamp(26px,2.6vw,36px)] leading-[1.4] text-cream italic">
+                {item.quote}
+              </blockquote>
+              <figcaption className="mt-9 flex flex-col gap-1.5">
+                <span className="text-[13px] tracking-[0.24em] text-cream uppercase">
+                  {item.name}
+                </span>
+                <span className="text-sm text-bronze-light">{item.role}</span>
+              </figcaption>
+            </figure>
+          </div>
         ))}
       </div>
       {total > 1 && (

@@ -49,10 +49,15 @@ type Options = {
 
 export async function pageMetadata(options: Options): Promise<Metadata> {
   const { locale, paths, article, noindex } = options;
-  const [settings, tCommon] = await Promise.all([getSiteSettings(locale), getTranslations("Common")]);
+  const [settings, tCommon, tMeta] = await Promise.all([
+    getSiteSettings(locale),
+    getTranslations("Common"),
+    getTranslations("Metadata"),
+  ]);
 
   const title = options.seo?.title || options.title || undefined;
-  const description = options.seo?.description || options.description || undefined;
+  // Sin descripción propia, la general del sitio (Google la pide siempre).
+  const description = options.seo?.description || options.description || tMeta("description");
   // Una página con noindex no entra en el grupo de idiomas.
   const languages: Record<string, string> = noindex
     ? {}
