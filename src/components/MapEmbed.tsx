@@ -3,13 +3,21 @@
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { buttonBase, buttonSizes } from "./button-styles";
+import { useConsent } from "./consent/useConsent";
 import { MapPinIcon } from "./icons";
 
-// Mapa de Google que solo se carga cuando el visitante lo pide: Google Maps
-// pone cookies (consentimiento, Fase 8) y hace la página más lenta.
+// Mapa de Google: Google Maps pone cookies y hace la página más lenta, así que
+// solo se carga si el visitante aceptó los mapas en el banner de cookies o lo
+// pide con el botón (lo que queda guardado si ya había elegido).
 export function MapEmbed({ src }: { src: string }) {
   const t = useTranslations("Contact");
-  const [shown, setShown] = useState(false);
+  const { consent, choose } = useConsent();
+  const [requested, setRequested] = useState(false);
+  const shown = requested || !!consent?.maps;
+  const show = () => {
+    setRequested(true);
+    if (consent) choose({ ...consent, maps: true });
+  };
 
   if (shown) {
     return (
@@ -29,7 +37,7 @@ export function MapEmbed({ src }: { src: string }) {
       <MapPinIcon size={44} strokeWidth={1} className="text-bronze-light" />
       <button
         type="button"
-        onClick={() => setShown(true)}
+        onClick={show}
         className={`${buttonBase} ${buttonSizes.md} inline-flex border border-cream/40 text-cream hover:bg-cream hover:text-ink`}
       >
         {t("showMap")}

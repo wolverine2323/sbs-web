@@ -7,6 +7,8 @@ export const routing = defineRouting({
   localePrefix: "always",
   // La raíz / siempre redirige a /fr, sin mirar el idioma del navegador.
   localeDetection: false,
+  // Sin detección no hace falta recordar el idioma: ninguna cookie NEXT_LOCALE.
+  localeCookie: false,
   // Sin cabecera Link con hreflang: con slugs traducidos sería incorrecta en
   // las páginas de Sanity. Los hreflang por página llegan en la Fase 7.
   alternateLinks: false,

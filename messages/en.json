@@ -26,6 +26,27 @@
     "social": "Our social media",
     "socialLink": "SBS Abogados on {network} (new tab)"
   },
+  "Consent": {
+    "title": "Cookies and privacy",
+    "text": "We use cookies to measure visits to the site, see whether our ads work and show the Google map. Nothing is turned on without your consent.",
+    "privacy": "Privacy policy",
+    "accept": "Accept all",
+    "reject": "Reject all",
+    "customize": "Customize",
+    "save": "Save my choices",
+    "close": "Close",
+    "categories": "Cookie categories",
+    "alwaysOn": "Always on",
+    "necessary": "Necessary",
+    "necessaryText": "Required for the site: your chosen language and remembering your preferences.",
+    "analytics": "Analytics",
+    "analyticsText": "Google Analytics: pages viewed and clicks on the contact buttons, to improve the site.",
+    "marketing": "Advertising",
+    "marketingText": "Google Ads: knowing whether our ads lead to appointments.",
+    "maps": "Map",
+    "mapsText": "Google Maps on the Contact page.",
+    "manage": "Manage cookies"
+  },
   "LocaleSwitcher": {
     "label": "Language",
     "fr": "Français",

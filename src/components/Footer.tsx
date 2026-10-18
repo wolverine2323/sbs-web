@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { ComponentProps } from "react";
 import { Link } from "@/i18n/navigation";
+import { CookieSettingsButton } from "./consent/CookieSettingsButton";
 import { SocialLinks, type SocialLink } from "./SocialLinks";
 
 export type FooterLink = { label: string; href: ComponentProps<typeof Link>["href"] };
@@ -11,9 +12,14 @@ type Props = {
   rights: string;
   links: FooterLink[];
   social: SocialLink[];
+  // Política de privacidad, si está publicada.
+  privacy?: FooterLink | null;
 };
 
-export function Footer({ body, rights, links, social }: Props) {
+const smallLink =
+  "inline-flex min-h-11 items-center text-stone-dim underline-offset-4 transition-colors hover:text-cream hover:underline";
+
+export function Footer({ body, rights, links, social, privacy }: Props) {
   return (
     // pb-24 deja sitio para que WhatsAppFloat no tape el último texto.
     <footer className="mx-auto flex max-w-[1320px] flex-wrap items-start justify-between gap-x-14 gap-y-8 px-7 pt-14 pb-24">
@@ -43,6 +49,14 @@ export function Footer({ body, rights, links, social }: Props) {
             </li>
           ))}
         </ul>
+        <div className="flex flex-wrap items-center justify-end gap-x-6">
+          {privacy && (
+            <Link href={privacy.href} className={smallLink}>
+              {privacy.label}
+            </Link>
+          )}
+          <CookieSettingsButton className={smallLink} />
+        </div>
         <p>{rights}</p>
       </div>
     </footer>

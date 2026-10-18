@@ -7,6 +7,8 @@ import { draftMode } from "next/headers";
 import { notFound } from "next/navigation";
 import { locale as rootLocale } from "next/root-params";
 import { Suspense } from "react";
+import { Analytics } from "@/components/consent/Analytics";
+import { CookieBanner } from "@/components/consent/CookieBanner";
 import { Footer, type FooterLink } from "@/components/Footer";
 import { Header, type NavItem } from "@/components/Header";
 import { JsonLd } from "@/components/JsonLd";
@@ -118,6 +120,13 @@ export default async function LocaleLayout({
     perspective: "published",
     stega: false,
   });
+  // Política de privacidad (Ajustes del sitio), si está publicada en este idioma.
+  const privacy = settings?.privacyPage?.slug
+    ? {
+        label: settings.privacyPage.title ?? "",
+        href: { pathname: "/[slug]", params: { slug: settings.privacyPage.slug } } as const,
+      }
+    : null;
   const [navItems, footerLinks, tMeta, tCommon] = await Promise.all([
     getNavItems(settings?.featuredService),
     getFooterLinks(settings?.featuredService),
@@ -152,9 +161,16 @@ export default async function LocaleLayout({
               rights={settings.footerRights ?? ""}
               links={footerLinks}
               social={settings.social ?? []}
+              privacy={privacy}
             />
           )}
           <WhatsAppFloat number={settings?.whatsapp ?? undefined} />
+          <CookieBanner privacyHref={privacy?.href} />
+          <Analytics
+            gaId={settings?.gaId}
+            adsId={settings?.adsId}
+            adsConversionLabel={settings?.adsConversionLabel}
+          />
         </NextIntlClientProvider>
         <Suspense>
           <SanityTools />
