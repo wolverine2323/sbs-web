@@ -202,7 +202,7 @@ No publiques nada todavía: déjalo como borrador para que lo revise.
 
 ---
 
-## Fase 7 — SEO y redirecciones (crítico para no perder Google)
+## Fase 7 — SEO y redirecciones (crítico para no perder Google) ✅
 
 **Pendiente de la Fase 5:** hreflang por página desde los metadatos (la cabecera `Link` de next-intl está desactivada porque con slugs traducidos sería incorrecta) y revisar que la primera visita a una dirección inexistente responde 200 con `noindex` (Next.js con Cache Components; las siguientes ya dan 404).
 
@@ -217,6 +217,15 @@ No publiques nada todavía: déjalo como borrador para que lo revise.
 Entrégame un reporte de las redirecciones y de los puntajes.
 ```
 **Listo cuando:** cada URL vieja del inventario redirige correctamente (verificado con un script) y Lighthouse está en verde.
+
+- [x] **Completada el 18/10/2026** — Reporte completo en `migration/reporte-fase7.md` (y cada comprobación en `migration/redirects-report.csv`). Decisiones de José Luis: dominio principal **www.sbs.cr**, horario **lunes a viernes de 8:00 a 17:00**, medir ya con lo publicado.
+  - Redirecciones: 92 direcciones viejas cambian (tabla `src/i18n/legacy-redirects.json`, generada con `npm run migrate:redirects`) y `src/proxy.ts` responde con un solo 301, con o sin barra final y con `/index.php` delante. `npm run migrate:check-redirects`: 360/360 correctas. Hoy 54 destinos dan 404 porque su contenido sigue en borrador.
+  - Metadatos por página desde Sanity (canónica, Open Graph y tarjeta para redes, imagen de marca `public/og-default.png`), hreflang con x-default → /fr, `sitemap.xml` y `robots.txt` (bloquea todo en las versiones de prueba). Los temas de la guía sin texto llevan `noindex`.
+  - JSON-LD: LegalService (dirección y horario editables en Ajustes del sitio → Contacto), BreadcrumbList, BlogPosting, Article y Person.
+  - Lighthouse móvil (build de producción en local, 11 páginas): Performance 92–98, Accessibility 100, Best Practices 96, SEO 100. Corregidos el favicon, el rol ARIA del carrusel y las descripciones vacías.
+  - El pendiente de la Fase 5 queda como limitación conocida de Next.js 16: la primera visita a una dirección que nunca existió responde 200 con `noindex`, después 404 (las direcciones viejas no se ven afectadas: redirigen antes).
+- [ ] 👤 Publicar los borradores y volver a ejecutar `npm run migrate:check-redirects`; borrar «Article de test».
+- [ ] Repetir la comprobación y Lighthouse en Vercel: este entorno no puede abrir `*.vercel.app` (permitirlo en la red del entorno). Best Practices llega a 100 al añadir www.sbs.cr en Sanity → CORS origins (Fase 9).
 
 ---
 

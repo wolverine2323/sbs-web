@@ -35,6 +35,16 @@ async function head(path: string) {
   return { status: response.status, location: resolved ? resolved.pathname + resolved.hash : "" };
 }
 
+// Estado de la página de destino. La primera visita a una página que no
+// existe (p. ej. aún sin publicar) puede responder 200 con la página 404 y
+// <meta name="robots" content="noindex"> (Next.js ya había empezado a
+// enviarla): se cuenta como 404.
+async function pageStatus(path: string) {
+  const response = await fetch(base + path, { headers });
+  const html = await response.text();
+  return response.status === 200 && html.includes('<meta name="robots" content="noindex"/>') ? 404 : response.status;
+}
+
 // De 8 en 8 para no saturar el servidor.
 async function inBatches<T, R>(items: T[], run: (item: T) => Promise<R>) {
   const results: R[] = [];
@@ -57,7 +67,7 @@ async function main() {
         ["con /index.php", `/index.php${path === "/" ? "" : path}`],
       ];
       const targetPath = expected.split("#")[0];
-      if (!targets.has(targetPath)) targets.set(targetPath, (await head(targetPath)).status);
+      if (!targets.has(targetPath)) targets.set(targetPath, await pageStatus(targetPath));
       return Promise.all(
         variants.map(async ([variant, from]): Promise<Result> => {
           const { status, location } = await head(from);

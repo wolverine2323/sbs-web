@@ -1,0 +1,361 @@
+﻿url_vieja,idioma,variante,estado,redirige_a,esperado,correcto,estado_destino
+http://localhost:3001/fr,fr,tal cual,200,,(sin redirección),sí,200
+http://localhost:3001/fr/,fr,con barra final,301,/fr,/fr,sí,200
+http://localhost:3001/index.php/fr,fr,con /index.php,301,/fr,/fr,sí,200
+http://localhost:3001/es,es,tal cual,200,,(sin redirección),sí,200
+http://localhost:3001/es/,es,con barra final,301,/es,/es,sí,200
+http://localhost:3001/index.php/es,es,con /index.php,301,/es,/es,sí,200
+http://localhost:3001/en,en,tal cual,200,,(sin redirección),sí,200
+http://localhost:3001/en/,en,con barra final,301,/en,/en,sí,200
+http://localhost:3001/index.php/en,en,con /index.php,301,/en,/en,sí,200
+http://localhost:3001/fr/le-cabinet,fr,tal cual,200,,(sin redirección),sí,200
+http://localhost:3001/fr/le-cabinet/,fr,con barra final,301,/fr/le-cabinet,/fr/le-cabinet,sí,200
+http://localhost:3001/index.php/fr/le-cabinet,fr,con /index.php,301,/fr/le-cabinet,/fr/le-cabinet,sí,200
+http://localhost:3001/es/la-firma,es,tal cual,200,,(sin redirección),sí,200
+http://localhost:3001/es/la-firma/,es,con barra final,301,/es/la-firma,/es/la-firma,sí,200
+http://localhost:3001/index.php/es/la-firma,es,con /index.php,301,/es/la-firma,/es/la-firma,sí,200
+http://localhost:3001/en/our-firm,en,tal cual,301,/en/the-firm,/en/the-firm,sí,200
+http://localhost:3001/en/our-firm/,en,con barra final,301,/en/the-firm,/en/the-firm,sí,200
+http://localhost:3001/index.php/en/our-firm,en,con /index.php,301,/en/the-firm,/en/the-firm,sí,200
+http://localhost:3001/fr/le-cabinet/les-associes-fondateurs,fr,tal cual,301,/fr/le-cabinet/associes-fondateurs,/fr/le-cabinet/associes-fondateurs,sí,200
+http://localhost:3001/fr/le-cabinet/les-associes-fondateurs/,fr,con barra final,301,/fr/le-cabinet/associes-fondateurs,/fr/le-cabinet/associes-fondateurs,sí,200
+http://localhost:3001/index.php/fr/le-cabinet/les-associes-fondateurs,fr,con /index.php,301,/fr/le-cabinet/associes-fondateurs,/fr/le-cabinet/associes-fondateurs,sí,200
+http://localhost:3001/es/la-firma/socios-fundadores,es,tal cual,200,,(sin redirección),sí,200
+http://localhost:3001/es/la-firma/socios-fundadores/,es,con barra final,301,/es/la-firma/socios-fundadores,/es/la-firma/socios-fundadores,sí,200
+http://localhost:3001/index.php/es/la-firma/socios-fundadores,es,con /index.php,301,/es/la-firma/socios-fundadores,/es/la-firma/socios-fundadores,sí,200
+http://localhost:3001/en/our-firm/founding-partners,en,tal cual,301,/en/the-firm/founding-partners,/en/the-firm/founding-partners,sí,200
+http://localhost:3001/en/our-firm/founding-partners/,en,con barra final,301,/en/the-firm/founding-partners,/en/the-firm/founding-partners,sí,200
+http://localhost:3001/index.php/en/our-firm/founding-partners,en,con /index.php,301,/en/the-firm/founding-partners,/en/the-firm/founding-partners,sí,200
+http://localhost:3001/fr/le-cabinet/les-avocats-collaborateurs,fr,tal cual,301,/fr/le-cabinet/avocats-collaborateurs,/fr/le-cabinet/avocats-collaborateurs,sí,200
+http://localhost:3001/fr/le-cabinet/les-avocats-collaborateurs/,fr,con barra final,301,/fr/le-cabinet/avocats-collaborateurs,/fr/le-cabinet/avocats-collaborateurs,sí,200
+http://localhost:3001/index.php/fr/le-cabinet/les-avocats-collaborateurs,fr,con /index.php,301,/fr/le-cabinet/avocats-collaborateurs,/fr/le-cabinet/avocats-collaborateurs,sí,200
+http://localhost:3001/es/la-firma/asociados-y-abogados-colaboradores,es,tal cual,301,/es/la-firma/abogados-colaboradores,/es/la-firma/abogados-colaboradores,sí,200
+http://localhost:3001/es/la-firma/asociados-y-abogados-colaboradores/,es,con barra final,301,/es/la-firma/abogados-colaboradores,/es/la-firma/abogados-colaboradores,sí,200
+http://localhost:3001/index.php/es/la-firma/asociados-y-abogados-colaboradores,es,con /index.php,301,/es/la-firma/abogados-colaboradores,/es/la-firma/abogados-colaboradores,sí,200
+http://localhost:3001/en/our-firm/associates-lawyers,en,tal cual,301,/en/the-firm/associate-attorneys,/en/the-firm/associate-attorneys,sí,200
+http://localhost:3001/en/our-firm/associates-lawyers/,en,con barra final,301,/en/the-firm/associate-attorneys,/en/the-firm/associate-attorneys,sí,200
+http://localhost:3001/index.php/en/our-firm/associates-lawyers,en,con /index.php,301,/en/the-firm/associate-attorneys,/en/the-firm/associate-attorneys,sí,200
+http://localhost:3001/fr/domaines-dexpertises,fr,tal cual,301,/fr/expertises,/fr/expertises,sí,200
+http://localhost:3001/fr/domaines-dexpertises/,fr,con barra final,301,/fr/expertises,/fr/expertises,sí,200
+http://localhost:3001/index.php/fr/domaines-dexpertises,fr,con /index.php,301,/fr/expertises,/fr/expertises,sí,200
+http://localhost:3001/es/areas-de-servicio,es,tal cual,301,/es/areas-de-practica,/es/areas-de-practica,sí,200
+http://localhost:3001/es/areas-de-servicio/,es,con barra final,301,/es/areas-de-practica,/es/areas-de-practica,sí,200
+http://localhost:3001/index.php/es/areas-de-servicio,es,con /index.php,301,/es/areas-de-practica,/es/areas-de-practica,sí,200
+http://localhost:3001/en/service-areas,en,tal cual,301,/en/practice-areas,/en/practice-areas,sí,200
+http://localhost:3001/en/service-areas/,en,con barra final,301,/en/practice-areas,/en/practice-areas,sí,200
+http://localhost:3001/index.php/en/service-areas,en,con /index.php,301,/en/practice-areas,/en/practice-areas,sí,200
+http://localhost:3001/fr/experiences,fr,tal cual,200,,(sin redirección),sí,200
+http://localhost:3001/fr/experiences/,fr,con barra final,301,/fr/experiences,/fr/experiences,sí,200
+http://localhost:3001/index.php/fr/experiences,fr,con /index.php,301,/fr/experiences,/fr/experiences,sí,200
+http://localhost:3001/es/experiencias,es,tal cual,200,,(sin redirección),sí,200
+http://localhost:3001/es/experiencias/,es,con barra final,301,/es/experiencias,/es/experiencias,sí,200
+http://localhost:3001/index.php/es/experiencias,es,con /index.php,301,/es/experiencias,/es/experiencias,sí,200
+http://localhost:3001/en/experiences,en,tal cual,200,,(sin redirección),sí,200
+http://localhost:3001/en/experiences/,en,con barra final,301,/en/experiences,/en/experiences,sí,200
+http://localhost:3001/index.php/en/experiences,en,con /index.php,301,/en/experiences,/en/experiences,sí,200
+http://localhost:3001/fr/actualite,fr,tal cual,200,,(sin redirección),sí,200
+http://localhost:3001/fr/actualite/,fr,con barra final,301,/fr/actualite,/fr/actualite,sí,200
+http://localhost:3001/index.php/fr/actualite,fr,con /index.php,301,/fr/actualite,/fr/actualite,sí,200
+http://localhost:3001/es/actualidad,es,tal cual,200,,(sin redirección),sí,200
+http://localhost:3001/es/actualidad/,es,con barra final,301,/es/actualidad,/es/actualidad,sí,200
+http://localhost:3001/index.php/es/actualidad,es,con /index.php,301,/es/actualidad,/es/actualidad,sí,200
+http://localhost:3001/en/actuality,en,tal cual,301,/en/news,/en/news,sí,200
+http://localhost:3001/en/actuality/,en,con barra final,301,/en/news,/en/news,sí,200
+http://localhost:3001/index.php/en/actuality,en,con /index.php,301,/en/news,/en/news,sí,200
+http://localhost:3001/fr/contact,fr,tal cual,200,,(sin redirección),sí,200
+http://localhost:3001/fr/contact/,fr,con barra final,301,/fr/contact,/fr/contact,sí,200
+http://localhost:3001/index.php/fr/contact,fr,con /index.php,301,/fr/contact,/fr/contact,sí,200
+http://localhost:3001/es/contacto,es,tal cual,200,,(sin redirección),sí,200
+http://localhost:3001/es/contacto/,es,con barra final,301,/es/contacto,/es/contacto,sí,200
+http://localhost:3001/index.php/es/contacto,es,con /index.php,301,/es/contacto,/es/contacto,sí,200
+http://localhost:3001/en/contact,en,tal cual,200,,(sin redirección),sí,200
+http://localhost:3001/en/contact/,en,con barra final,301,/en/contact,/en/contact,sí,200
+http://localhost:3001/index.php/en/contact,en,con /index.php,301,/en/contact,/en/contact,sí,200
+http://localhost:3001/fr/domaines-dexpertises/affaires-et-investissement-immobilier,fr,tal cual,301,/fr/expertises/affaires-et-investissement-immobilier,/fr/expertises/affaires-et-investissement-immobilier,sí,200
+http://localhost:3001/fr/domaines-dexpertises/affaires-et-investissement-immobilier/,fr,con barra final,301,/fr/expertises/affaires-et-investissement-immobilier,/fr/expertises/affaires-et-investissement-immobilier,sí,200
+http://localhost:3001/index.php/fr/domaines-dexpertises/affaires-et-investissement-immobilier,fr,con /index.php,301,/fr/expertises/affaires-et-investissement-immobilier,/fr/expertises/affaires-et-investissement-immobilier,sí,200
+http://localhost:3001/es/areas-de-servicio/negocios-e-inversion-inmobiliaria,es,tal cual,301,/es/areas-de-practica/negocios-e-inversion-inmobiliaria,/es/areas-de-practica/negocios-e-inversion-inmobiliaria,sí,200
+http://localhost:3001/es/areas-de-servicio/negocios-e-inversion-inmobiliaria/,es,con barra final,301,/es/areas-de-practica/negocios-e-inversion-inmobiliaria,/es/areas-de-practica/negocios-e-inversion-inmobiliaria,sí,200
+http://localhost:3001/index.php/es/areas-de-servicio/negocios-e-inversion-inmobiliaria,es,con /index.php,301,/es/areas-de-practica/negocios-e-inversion-inmobiliaria,/es/areas-de-practica/negocios-e-inversion-inmobiliaria,sí,200
+http://localhost:3001/en/service-areas/business-real-estate-investment,en,tal cual,301,/en/practice-areas/business-real-estate-investment,/en/practice-areas/business-real-estate-investment,sí,200
+http://localhost:3001/en/service-areas/business-real-estate-investment/,en,con barra final,301,/en/practice-areas/business-real-estate-investment,/en/practice-areas/business-real-estate-investment,sí,200
+http://localhost:3001/index.php/en/service-areas/business-real-estate-investment,en,con /index.php,301,/en/practice-areas/business-real-estate-investment,/en/practice-areas/business-real-estate-investment,sí,200
+http://localhost:3001/fr/domaines-dexpertises/droit-corporatif,fr,tal cual,301,/fr/expertises/droit-corporatif,/fr/expertises/droit-corporatif,sí,200
+http://localhost:3001/fr/domaines-dexpertises/droit-corporatif/,fr,con barra final,301,/fr/expertises/droit-corporatif,/fr/expertises/droit-corporatif,sí,200
+http://localhost:3001/index.php/fr/domaines-dexpertises/droit-corporatif,fr,con /index.php,301,/fr/expertises/droit-corporatif,/fr/expertises/droit-corporatif,sí,200
+http://localhost:3001/es/areas-de-servicio/derecho-corporativo,es,tal cual,301,/es/areas-de-practica/derecho-corporativo,/es/areas-de-practica/derecho-corporativo,sí,200
+http://localhost:3001/es/areas-de-servicio/derecho-corporativo/,es,con barra final,301,/es/areas-de-practica/derecho-corporativo,/es/areas-de-practica/derecho-corporativo,sí,200
+http://localhost:3001/index.php/es/areas-de-servicio/derecho-corporativo,es,con /index.php,301,/es/areas-de-practica/derecho-corporativo,/es/areas-de-practica/derecho-corporativo,sí,200
+http://localhost:3001/en/service-areas/corporate-law,en,tal cual,301,/en/practice-areas/corporate-law,/en/practice-areas/corporate-law,sí,200
+http://localhost:3001/en/service-areas/corporate-law/,en,con barra final,301,/en/practice-areas/corporate-law,/en/practice-areas/corporate-law,sí,200
+http://localhost:3001/index.php/en/service-areas/corporate-law,en,con /index.php,301,/en/practice-areas/corporate-law,/en/practice-areas/corporate-law,sí,200
+http://localhost:3001/fr/domaines-dexpertises/droit-du-travail,fr,tal cual,301,/fr/expertises/droit-du-travail,/fr/expertises/droit-du-travail,sí,200
+http://localhost:3001/fr/domaines-dexpertises/droit-du-travail/,fr,con barra final,301,/fr/expertises/droit-du-travail,/fr/expertises/droit-du-travail,sí,200
+http://localhost:3001/index.php/fr/domaines-dexpertises/droit-du-travail,fr,con /index.php,301,/fr/expertises/droit-du-travail,/fr/expertises/droit-du-travail,sí,200
+http://localhost:3001/es/areas-de-servicio/derecho-laboral,es,tal cual,301,/es/areas-de-practica/derecho-laboral,/es/areas-de-practica/derecho-laboral,sí,200
+http://localhost:3001/es/areas-de-servicio/derecho-laboral/,es,con barra final,301,/es/areas-de-practica/derecho-laboral,/es/areas-de-practica/derecho-laboral,sí,200
+http://localhost:3001/index.php/es/areas-de-servicio/derecho-laboral,es,con /index.php,301,/es/areas-de-practica/derecho-laboral,/es/areas-de-practica/derecho-laboral,sí,200
+http://localhost:3001/en/service-areas/labor-law,en,tal cual,301,/en/practice-areas/employment-law,/en/practice-areas/employment-law,sí,200
+http://localhost:3001/en/service-areas/labor-law/,en,con barra final,301,/en/practice-areas/employment-law,/en/practice-areas/employment-law,sí,200
+http://localhost:3001/index.php/en/service-areas/labor-law,en,con /index.php,301,/en/practice-areas/employment-law,/en/practice-areas/employment-law,sí,200
+http://localhost:3001/fr/domaines-dexpertises/concurrence-et-telecommunications,fr,tal cual,301,/fr/expertises/concurrence-telecommunications,/fr/expertises/concurrence-telecommunications,sí,200
+http://localhost:3001/fr/domaines-dexpertises/concurrence-et-telecommunications/,fr,con barra final,301,/fr/expertises/concurrence-telecommunications,/fr/expertises/concurrence-telecommunications,sí,200
+http://localhost:3001/index.php/fr/domaines-dexpertises/concurrence-et-telecommunications,fr,con /index.php,301,/fr/expertises/concurrence-telecommunications,/fr/expertises/concurrence-telecommunications,sí,200
+http://localhost:3001/es/areas-de-servicio/competencia-y-telecomunicaciones,es,tal cual,301,/es/areas-de-practica/competencia-telecomunicaciones,/es/areas-de-practica/competencia-telecomunicaciones,sí,200
+http://localhost:3001/es/areas-de-servicio/competencia-y-telecomunicaciones/,es,con barra final,301,/es/areas-de-practica/competencia-telecomunicaciones,/es/areas-de-practica/competencia-telecomunicaciones,sí,200
+http://localhost:3001/index.php/es/areas-de-servicio/competencia-y-telecomunicaciones,es,con /index.php,301,/es/areas-de-practica/competencia-telecomunicaciones,/es/areas-de-practica/competencia-telecomunicaciones,sí,200
+http://localhost:3001/en/service-areas/competition-telecommunications,en,tal cual,301,/en/practice-areas/competition-telecommunications,/en/practice-areas/competition-telecommunications,sí,200
+http://localhost:3001/en/service-areas/competition-telecommunications/,en,con barra final,301,/en/practice-areas/competition-telecommunications,/en/practice-areas/competition-telecommunications,sí,200
+http://localhost:3001/index.php/en/service-areas/competition-telecommunications,en,con /index.php,301,/en/practice-areas/competition-telecommunications,/en/practice-areas/competition-telecommunications,sí,200
+http://localhost:3001/fr/investir-au-costa-rica/climat-dinvestissement,fr,tal cual,301,/fr/investir-au-costa-rica/climat-d-investissement,/fr/investir-au-costa-rica/climat-d-investissement,sí,200
+http://localhost:3001/fr/investir-au-costa-rica/climat-dinvestissement/,fr,con barra final,301,/fr/investir-au-costa-rica/climat-d-investissement,/fr/investir-au-costa-rica/climat-d-investissement,sí,200
+http://localhost:3001/index.php/fr/investir-au-costa-rica/climat-dinvestissement,fr,con /index.php,301,/fr/investir-au-costa-rica/climat-d-investissement,/fr/investir-au-costa-rica/climat-d-investissement,sí,200
+http://localhost:3001/fr/investir-au-costa-rica/propriete-et-droits-immobiliers,fr,tal cual,200,,(sin redirección),sí,200
+http://localhost:3001/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/,fr,con barra final,301,/fr/investir-au-costa-rica/propriete-et-droits-immobiliers,/fr/investir-au-costa-rica/propriete-et-droits-immobiliers,sí,200
+http://localhost:3001/index.php/fr/investir-au-costa-rica/propriete-et-droits-immobiliers,fr,con /index.php,301,/fr/investir-au-costa-rica/propriete-et-droits-immobiliers,/fr/investir-au-costa-rica/propriete-et-droits-immobiliers,sí,200
+http://localhost:3001/fr/investir-au-costa-rica/commerce-entreprises-societes,fr,tal cual,200,,(sin redirección),sí,200
+http://localhost:3001/fr/investir-au-costa-rica/commerce-entreprises-societes/,fr,con barra final,301,/fr/investir-au-costa-rica/commerce-entreprises-societes,/fr/investir-au-costa-rica/commerce-entreprises-societes,sí,200
+http://localhost:3001/index.php/fr/investir-au-costa-rica/commerce-entreprises-societes,fr,con /index.php,301,/fr/investir-au-costa-rica/commerce-entreprises-societes,/fr/investir-au-costa-rica/commerce-entreprises-societes,sí,200
+http://localhost:3001/fr/investir-au-costa-rica/droit-du-travail,fr,tal cual,200,,(sin redirección),sí,200
+http://localhost:3001/fr/investir-au-costa-rica/droit-du-travail/,fr,con barra final,301,/fr/investir-au-costa-rica/droit-du-travail,/fr/investir-au-costa-rica/droit-du-travail,sí,200
+http://localhost:3001/index.php/fr/investir-au-costa-rica/droit-du-travail,fr,con /index.php,301,/fr/investir-au-costa-rica/droit-du-travail,/fr/investir-au-costa-rica/droit-du-travail,sí,200
+http://localhost:3001/fr/investir-au-costa-rica/migration,fr,tal cual,200,,(sin redirección),sí,200
+http://localhost:3001/fr/investir-au-costa-rica/migration/,fr,con barra final,301,/fr/investir-au-costa-rica/migration,/fr/investir-au-costa-rica/migration,sí,200
+http://localhost:3001/index.php/fr/investir-au-costa-rica/migration,fr,con /index.php,301,/fr/investir-au-costa-rica/migration,/fr/investir-au-costa-rica/migration,sí,200
+http://localhost:3001/fr/investir-au-costa-rica/centre-daffaires,fr,tal cual,301,/fr/investir-au-costa-rica/centre-d-affaires,/fr/investir-au-costa-rica/centre-d-affaires,sí,200
+http://localhost:3001/fr/investir-au-costa-rica/centre-daffaires/,fr,con barra final,301,/fr/investir-au-costa-rica/centre-d-affaires,/fr/investir-au-costa-rica/centre-d-affaires,sí,200
+http://localhost:3001/index.php/fr/investir-au-costa-rica/centre-daffaires,fr,con /index.php,301,/fr/investir-au-costa-rica/centre-d-affaires,/fr/investir-au-costa-rica/centre-d-affaires,sí,200
+http://localhost:3001/fr/investir-au-costa-rica/fiscalite,fr,tal cual,200,,(sin redirección),sí,200
+http://localhost:3001/fr/investir-au-costa-rica/fiscalite/,fr,con barra final,301,/fr/investir-au-costa-rica/fiscalite,/fr/investir-au-costa-rica/fiscalite,sí,200
+http://localhost:3001/index.php/fr/investir-au-costa-rica/fiscalite,fr,con /index.php,301,/fr/investir-au-costa-rica/fiscalite,/fr/investir-au-costa-rica/fiscalite,sí,200
+http://localhost:3001/fr/investir-au-costa-rica/concurrence-et-marches-regules,fr,tal cual,200,,(sin redirección),sí,200
+http://localhost:3001/fr/investir-au-costa-rica/concurrence-et-marches-regules/,fr,con barra final,301,/fr/investir-au-costa-rica/concurrence-et-marches-regules,/fr/investir-au-costa-rica/concurrence-et-marches-regules,sí,200
+http://localhost:3001/index.php/fr/investir-au-costa-rica/concurrence-et-marches-regules,fr,con /index.php,301,/fr/investir-au-costa-rica/concurrence-et-marches-regules,/fr/investir-au-costa-rica/concurrence-et-marches-regules,sí,200
+http://localhost:3001/fr/investir-au-costa-rica/accord-dassociation-ue-ac,fr,tal cual,301,/fr/investir-au-costa-rica/accord-d-association-ue-ac,/fr/investir-au-costa-rica/accord-d-association-ue-ac,sí,200
+http://localhost:3001/fr/investir-au-costa-rica/accord-dassociation-ue-ac/,fr,con barra final,301,/fr/investir-au-costa-rica/accord-d-association-ue-ac,/fr/investir-au-costa-rica/accord-d-association-ue-ac,sí,200
+http://localhost:3001/index.php/fr/investir-au-costa-rica/accord-dassociation-ue-ac,fr,con /index.php,301,/fr/investir-au-costa-rica/accord-d-association-ue-ac,/fr/investir-au-costa-rica/accord-d-association-ue-ac,sí,200
+http://localhost:3001/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/acquerir-la-propriete-immobiliere,fr,tal cual,404,,(sin redirección),sí,404
+http://localhost:3001/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/acquerir-la-propriete-immobiliere/,fr,con barra final,301,/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/acquerir-la-propriete-immobiliere,/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/acquerir-la-propriete-immobiliere,sí,404
+http://localhost:3001/index.php/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/acquerir-la-propriete-immobiliere,fr,con /index.php,301,/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/acquerir-la-propriete-immobiliere,/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/acquerir-la-propriete-immobiliere,sí,404
+http://localhost:3001/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/louer-un-inmeuble,fr,tal cual,301,/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/louer-un-immeuble,/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/louer-un-immeuble,sí,404
+http://localhost:3001/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/louer-un-inmeuble/,fr,con barra final,301,/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/louer-un-immeuble,/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/louer-un-immeuble,sí,404
+http://localhost:3001/index.php/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/louer-un-inmeuble,fr,con /index.php,301,/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/louer-un-immeuble,/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/louer-un-immeuble,sí,404
+http://localhost:3001/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/fiscalite-fonciere,fr,tal cual,404,,(sin redirección),sí,404
+http://localhost:3001/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/fiscalite-fonciere/,fr,con barra final,301,/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/fiscalite-fonciere,/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/fiscalite-fonciere,sí,404
+http://localhost:3001/index.php/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/fiscalite-fonciere,fr,con /index.php,301,/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/fiscalite-fonciere,/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/fiscalite-fonciere,sí,404
+http://localhost:3001/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/fiscalite-fonciere-2,fr,tal cual,301,/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/devenez-promoteur-immobilier,/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/devenez-promoteur-immobilier,sí,404
+http://localhost:3001/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/fiscalite-fonciere-2/,fr,con barra final,301,/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/devenez-promoteur-immobilier,/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/devenez-promoteur-immobilier,sí,404
+http://localhost:3001/index.php/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/fiscalite-fonciere-2,fr,con /index.php,301,/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/devenez-promoteur-immobilier,/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/devenez-promoteur-immobilier,sí,404
+http://localhost:3001/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/financement-de-projet-dinvestissement,fr,tal cual,301,/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/financement-de-projet-d-investissement,/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/financement-de-projet-d-investissement,sí,404
+http://localhost:3001/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/financement-de-projet-dinvestissement/,fr,con barra final,301,/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/financement-de-projet-d-investissement,/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/financement-de-projet-d-investissement,sí,404
+http://localhost:3001/index.php/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/financement-de-projet-dinvestissement,fr,con /index.php,301,/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/financement-de-projet-d-investissement,/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/financement-de-projet-d-investissement,sí,404
+http://localhost:3001/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/successions,fr,tal cual,404,,(sin redirección),sí,404
+http://localhost:3001/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/successions/,fr,con barra final,301,/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/successions,/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/successions,sí,404
+http://localhost:3001/index.php/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/successions,fr,con /index.php,301,/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/successions,/fr/investir-au-costa-rica/propriete-et-droits-immobiliers/successions,sí,404
+http://localhost:3001/fr/angel-edmundo-solano-calderon,fr,tal cual,301,/fr/le-cabinet/associes-fondateurs#angel-edmundo-solano-calderon,/fr/le-cabinet/associes-fondateurs#angel-edmundo-solano-calderon,sí,200
+http://localhost:3001/fr/angel-edmundo-solano-calderon/,fr,con barra final,301,/fr/le-cabinet/associes-fondateurs#angel-edmundo-solano-calderon,/fr/le-cabinet/associes-fondateurs#angel-edmundo-solano-calderon,sí,200
+http://localhost:3001/index.php/fr/angel-edmundo-solano-calderon,fr,con /index.php,301,/fr/le-cabinet/associes-fondateurs#angel-edmundo-solano-calderon,/fr/le-cabinet/associes-fondateurs#angel-edmundo-solano-calderon,sí,200
+http://localhost:3001/es/angel-edmundo-solano-calderon,es,tal cual,301,/es/la-firma/socios-fundadores#angel-edmundo-solano-calderon,/es/la-firma/socios-fundadores#angel-edmundo-solano-calderon,sí,200
+http://localhost:3001/es/angel-edmundo-solano-calderon/,es,con barra final,301,/es/la-firma/socios-fundadores#angel-edmundo-solano-calderon,/es/la-firma/socios-fundadores#angel-edmundo-solano-calderon,sí,200
+http://localhost:3001/index.php/es/angel-edmundo-solano-calderon,es,con /index.php,301,/es/la-firma/socios-fundadores#angel-edmundo-solano-calderon,/es/la-firma/socios-fundadores#angel-edmundo-solano-calderon,sí,200
+http://localhost:3001/en/angel-edmundo-solano-calderon,en,tal cual,301,/en/the-firm/founding-partners#angel-edmundo-solano-calderon,/en/the-firm/founding-partners#angel-edmundo-solano-calderon,sí,200
+http://localhost:3001/en/angel-edmundo-solano-calderon/,en,con barra final,301,/en/the-firm/founding-partners#angel-edmundo-solano-calderon,/en/the-firm/founding-partners#angel-edmundo-solano-calderon,sí,200
+http://localhost:3001/index.php/en/angel-edmundo-solano-calderon,en,con /index.php,301,/en/the-firm/founding-partners#angel-edmundo-solano-calderon,/en/the-firm/founding-partners#angel-edmundo-solano-calderon,sí,200
+http://localhost:3001/fr/kattia-bermudez-montenegro,fr,tal cual,301,/fr/le-cabinet/associes-fondateurs#kattia-bermudez-montenegro,/fr/le-cabinet/associes-fondateurs#kattia-bermudez-montenegro,sí,200
+http://localhost:3001/fr/kattia-bermudez-montenegro/,fr,con barra final,301,/fr/le-cabinet/associes-fondateurs#kattia-bermudez-montenegro,/fr/le-cabinet/associes-fondateurs#kattia-bermudez-montenegro,sí,200
+http://localhost:3001/index.php/fr/kattia-bermudez-montenegro,fr,con /index.php,301,/fr/le-cabinet/associes-fondateurs#kattia-bermudez-montenegro,/fr/le-cabinet/associes-fondateurs#kattia-bermudez-montenegro,sí,200
+http://localhost:3001/es/kattia-bermudez-montenegro,es,tal cual,301,/es/la-firma/socios-fundadores#kattia-bermudez-montenegro,/es/la-firma/socios-fundadores#kattia-bermudez-montenegro,sí,200
+http://localhost:3001/es/kattia-bermudez-montenegro/,es,con barra final,301,/es/la-firma/socios-fundadores#kattia-bermudez-montenegro,/es/la-firma/socios-fundadores#kattia-bermudez-montenegro,sí,200
+http://localhost:3001/index.php/es/kattia-bermudez-montenegro,es,con /index.php,301,/es/la-firma/socios-fundadores#kattia-bermudez-montenegro,/es/la-firma/socios-fundadores#kattia-bermudez-montenegro,sí,200
+http://localhost:3001/en/kattia-bermudez-montenegro,en,tal cual,301,/en/the-firm/founding-partners#kattia-bermudez-montenegro,/en/the-firm/founding-partners#kattia-bermudez-montenegro,sí,200
+http://localhost:3001/en/kattia-bermudez-montenegro/,en,con barra final,301,/en/the-firm/founding-partners#kattia-bermudez-montenegro,/en/the-firm/founding-partners#kattia-bermudez-montenegro,sí,200
+http://localhost:3001/index.php/en/kattia-bermudez-montenegro,en,con /index.php,301,/en/the-firm/founding-partners#kattia-bermudez-montenegro,/en/the-firm/founding-partners#kattia-bermudez-montenegro,sí,200
+http://localhost:3001/fr/dr-david-solano-ortiz,fr,tal cual,301,/fr/le-cabinet/associes-fondateurs#dr-david-solano-ortiz,/fr/le-cabinet/associes-fondateurs#dr-david-solano-ortiz,sí,200
+http://localhost:3001/fr/dr-david-solano-ortiz/,fr,con barra final,301,/fr/le-cabinet/associes-fondateurs#dr-david-solano-ortiz,/fr/le-cabinet/associes-fondateurs#dr-david-solano-ortiz,sí,200
+http://localhost:3001/index.php/fr/dr-david-solano-ortiz,fr,con /index.php,301,/fr/le-cabinet/associes-fondateurs#dr-david-solano-ortiz,/fr/le-cabinet/associes-fondateurs#dr-david-solano-ortiz,sí,200
+http://localhost:3001/es/david-solano-ortiz,es,tal cual,301,/es/la-firma/socios-fundadores#dr-david-solano-ortiz,/es/la-firma/socios-fundadores#dr-david-solano-ortiz,sí,200
+http://localhost:3001/es/david-solano-ortiz/,es,con barra final,301,/es/la-firma/socios-fundadores#dr-david-solano-ortiz,/es/la-firma/socios-fundadores#dr-david-solano-ortiz,sí,200
+http://localhost:3001/index.php/es/david-solano-ortiz,es,con /index.php,301,/es/la-firma/socios-fundadores#dr-david-solano-ortiz,/es/la-firma/socios-fundadores#dr-david-solano-ortiz,sí,200
+http://localhost:3001/en/phd-david-solano-ortiz,en,tal cual,301,/en/the-firm/founding-partners#phd-david-solano-ortiz,/en/the-firm/founding-partners#phd-david-solano-ortiz,sí,200
+http://localhost:3001/en/phd-david-solano-ortiz/,en,con barra final,301,/en/the-firm/founding-partners#phd-david-solano-ortiz,/en/the-firm/founding-partners#phd-david-solano-ortiz,sí,200
+http://localhost:3001/index.php/en/phd-david-solano-ortiz,en,con /index.php,301,/en/the-firm/founding-partners#phd-david-solano-ortiz,/en/the-firm/founding-partners#phd-david-solano-ortiz,sí,200
+http://localhost:3001/fr/lilliana-garcia-barrantes,fr,tal cual,301,/fr/le-cabinet/avocats-collaborateurs#lilliana-garcia-barrantes,/fr/le-cabinet/avocats-collaborateurs#lilliana-garcia-barrantes,sí,200
+http://localhost:3001/fr/lilliana-garcia-barrantes/,fr,con barra final,301,/fr/le-cabinet/avocats-collaborateurs#lilliana-garcia-barrantes,/fr/le-cabinet/avocats-collaborateurs#lilliana-garcia-barrantes,sí,200
+http://localhost:3001/index.php/fr/lilliana-garcia-barrantes,fr,con /index.php,301,/fr/le-cabinet/avocats-collaborateurs#lilliana-garcia-barrantes,/fr/le-cabinet/avocats-collaborateurs#lilliana-garcia-barrantes,sí,200
+http://localhost:3001/es/lilliana-garcia-barrantes,es,tal cual,301,/es/la-firma/abogados-colaboradores#lilliana-garcia-barrantes,/es/la-firma/abogados-colaboradores#lilliana-garcia-barrantes,sí,200
+http://localhost:3001/es/lilliana-garcia-barrantes/,es,con barra final,301,/es/la-firma/abogados-colaboradores#lilliana-garcia-barrantes,/es/la-firma/abogados-colaboradores#lilliana-garcia-barrantes,sí,200
+http://localhost:3001/index.php/es/lilliana-garcia-barrantes,es,con /index.php,301,/es/la-firma/abogados-colaboradores#lilliana-garcia-barrantes,/es/la-firma/abogados-colaboradores#lilliana-garcia-barrantes,sí,200
+http://localhost:3001/en/lilliana-garcia-barrantes,en,tal cual,301,/en/the-firm/associate-attorneys#lilliana-garcia-barrantes,/en/the-firm/associate-attorneys#lilliana-garcia-barrantes,sí,200
+http://localhost:3001/en/lilliana-garcia-barrantes/,en,con barra final,301,/en/the-firm/associate-attorneys#lilliana-garcia-barrantes,/en/the-firm/associate-attorneys#lilliana-garcia-barrantes,sí,200
+http://localhost:3001/index.php/en/lilliana-garcia-barrantes,en,con /index.php,301,/en/the-firm/associate-attorneys#lilliana-garcia-barrantes,/en/the-firm/associate-attorneys#lilliana-garcia-barrantes,sí,200
+http://localhost:3001/fr/andrea-hernandez-bermudez,fr,tal cual,301,/fr/le-cabinet/avocats-collaborateurs#andrea-hernandez-bermudez,/fr/le-cabinet/avocats-collaborateurs#andrea-hernandez-bermudez,sí,200
+http://localhost:3001/fr/andrea-hernandez-bermudez/,fr,con barra final,301,/fr/le-cabinet/avocats-collaborateurs#andrea-hernandez-bermudez,/fr/le-cabinet/avocats-collaborateurs#andrea-hernandez-bermudez,sí,200
+http://localhost:3001/index.php/fr/andrea-hernandez-bermudez,fr,con /index.php,301,/fr/le-cabinet/avocats-collaborateurs#andrea-hernandez-bermudez,/fr/le-cabinet/avocats-collaborateurs#andrea-hernandez-bermudez,sí,200
+http://localhost:3001/es/andrea-hernandez-bermudez,es,tal cual,301,/es/la-firma/abogados-colaboradores#andrea-hernandez-bermudez,/es/la-firma/abogados-colaboradores#andrea-hernandez-bermudez,sí,200
+http://localhost:3001/es/andrea-hernandez-bermudez/,es,con barra final,301,/es/la-firma/abogados-colaboradores#andrea-hernandez-bermudez,/es/la-firma/abogados-colaboradores#andrea-hernandez-bermudez,sí,200
+http://localhost:3001/index.php/es/andrea-hernandez-bermudez,es,con /index.php,301,/es/la-firma/abogados-colaboradores#andrea-hernandez-bermudez,/es/la-firma/abogados-colaboradores#andrea-hernandez-bermudez,sí,200
+http://localhost:3001/en/andrea-hernandez-bermudez,en,tal cual,301,/en/the-firm/associate-attorneys#andrea-hernandez-bermudez,/en/the-firm/associate-attorneys#andrea-hernandez-bermudez,sí,200
+http://localhost:3001/en/andrea-hernandez-bermudez/,en,con barra final,301,/en/the-firm/associate-attorneys#andrea-hernandez-bermudez,/en/the-firm/associate-attorneys#andrea-hernandez-bermudez,sí,200
+http://localhost:3001/index.php/en/andrea-hernandez-bermudez,en,con /index.php,301,/en/the-firm/associate-attorneys#andrea-hernandez-bermudez,/en/the-firm/associate-attorneys#andrea-hernandez-bermudez,sí,200
+http://localhost:3001/fr/maxime-bargain,fr,tal cual,301,/fr/le-cabinet/avocats-collaborateurs#maxime-bargain,/fr/le-cabinet/avocats-collaborateurs#maxime-bargain,sí,200
+http://localhost:3001/fr/maxime-bargain/,fr,con barra final,301,/fr/le-cabinet/avocats-collaborateurs#maxime-bargain,/fr/le-cabinet/avocats-collaborateurs#maxime-bargain,sí,200
+http://localhost:3001/index.php/fr/maxime-bargain,fr,con /index.php,301,/fr/le-cabinet/avocats-collaborateurs#maxime-bargain,/fr/le-cabinet/avocats-collaborateurs#maxime-bargain,sí,200
+http://localhost:3001/es/maxime-bargain,es,tal cual,301,/es/la-firma/abogados-colaboradores#maxime-bargain,/es/la-firma/abogados-colaboradores#maxime-bargain,sí,200
+http://localhost:3001/es/maxime-bargain/,es,con barra final,301,/es/la-firma/abogados-colaboradores#maxime-bargain,/es/la-firma/abogados-colaboradores#maxime-bargain,sí,200
+http://localhost:3001/index.php/es/maxime-bargain,es,con /index.php,301,/es/la-firma/abogados-colaboradores#maxime-bargain,/es/la-firma/abogados-colaboradores#maxime-bargain,sí,200
+http://localhost:3001/en/maxime-bargain,en,tal cual,301,/en/the-firm/associate-attorneys#maxime-bargain,/en/the-firm/associate-attorneys#maxime-bargain,sí,200
+http://localhost:3001/en/maxime-bargain/,en,con barra final,301,/en/the-firm/associate-attorneys#maxime-bargain,/en/the-firm/associate-attorneys#maxime-bargain,sí,200
+http://localhost:3001/index.php/en/maxime-bargain,en,con /index.php,301,/en/the-firm/associate-attorneys#maxime-bargain,/en/the-firm/associate-attorneys#maxime-bargain,sí,200
+http://localhost:3001/fr/leticia-monge-castillo,fr,tal cual,301,/fr/le-cabinet/avocats-collaborateurs#leticia-monge-castillo,/fr/le-cabinet/avocats-collaborateurs#leticia-monge-castillo,sí,200
+http://localhost:3001/fr/leticia-monge-castillo/,fr,con barra final,301,/fr/le-cabinet/avocats-collaborateurs#leticia-monge-castillo,/fr/le-cabinet/avocats-collaborateurs#leticia-monge-castillo,sí,200
+http://localhost:3001/index.php/fr/leticia-monge-castillo,fr,con /index.php,301,/fr/le-cabinet/avocats-collaborateurs#leticia-monge-castillo,/fr/le-cabinet/avocats-collaborateurs#leticia-monge-castillo,sí,200
+http://localhost:3001/es/leticia-monge-castillo,es,tal cual,301,/es/la-firma/abogados-colaboradores#leticia-monge-castillo,/es/la-firma/abogados-colaboradores#leticia-monge-castillo,sí,200
+http://localhost:3001/es/leticia-monge-castillo/,es,con barra final,301,/es/la-firma/abogados-colaboradores#leticia-monge-castillo,/es/la-firma/abogados-colaboradores#leticia-monge-castillo,sí,200
+http://localhost:3001/index.php/es/leticia-monge-castillo,es,con /index.php,301,/es/la-firma/abogados-colaboradores#leticia-monge-castillo,/es/la-firma/abogados-colaboradores#leticia-monge-castillo,sí,200
+http://localhost:3001/en/leticia-monge-castillo,en,tal cual,301,/en/the-firm/associate-attorneys#leticia-monge-castillo,/en/the-firm/associate-attorneys#leticia-monge-castillo,sí,200
+http://localhost:3001/en/leticia-monge-castillo/,en,con barra final,301,/en/the-firm/associate-attorneys#leticia-monge-castillo,/en/the-firm/associate-attorneys#leticia-monge-castillo,sí,200
+http://localhost:3001/index.php/en/leticia-monge-castillo,en,con /index.php,301,/en/the-firm/associate-attorneys#leticia-monge-castillo,/en/the-firm/associate-attorneys#leticia-monge-castillo,sí,200
+http://localhost:3001/fr/actualite/les-obligations-legales-pour-les-societes-locales-au-costa-rica,fr,tal cual,404,,(sin redirección),sí,404
+http://localhost:3001/fr/actualite/les-obligations-legales-pour-les-societes-locales-au-costa-rica/,fr,con barra final,301,/fr/actualite/les-obligations-legales-pour-les-societes-locales-au-costa-rica,/fr/actualite/les-obligations-legales-pour-les-societes-locales-au-costa-rica,sí,404
+http://localhost:3001/index.php/fr/actualite/les-obligations-legales-pour-les-societes-locales-au-costa-rica,fr,con /index.php,301,/fr/actualite/les-obligations-legales-pour-les-societes-locales-au-costa-rica,/fr/actualite/les-obligations-legales-pour-les-societes-locales-au-costa-rica,sí,404
+http://localhost:3001/es/actualidad/obligaciones-legales-para-sociedades-en-costa-rica,es,tal cual,404,,(sin redirección),sí,404
+http://localhost:3001/es/actualidad/obligaciones-legales-para-sociedades-en-costa-rica/,es,con barra final,301,/es/actualidad/obligaciones-legales-para-sociedades-en-costa-rica,/es/actualidad/obligaciones-legales-para-sociedades-en-costa-rica,sí,404
+http://localhost:3001/index.php/es/actualidad/obligaciones-legales-para-sociedades-en-costa-rica,es,con /index.php,301,/es/actualidad/obligaciones-legales-para-sociedades-en-costa-rica,/es/actualidad/obligaciones-legales-para-sociedades-en-costa-rica,sí,404
+http://localhost:3001/en/actuality/general-obligations-of-a-corporation-in-costa-rica,en,tal cual,301,/en/news/general-obligations-of-a-corporation-in-costa-rica,/en/news/general-obligations-of-a-corporation-in-costa-rica,sí,404
+http://localhost:3001/en/actuality/general-obligations-of-a-corporation-in-costa-rica/,en,con barra final,301,/en/news/general-obligations-of-a-corporation-in-costa-rica,/en/news/general-obligations-of-a-corporation-in-costa-rica,sí,404
+http://localhost:3001/index.php/en/actuality/general-obligations-of-a-corporation-in-costa-rica,en,con /index.php,301,/en/news/general-obligations-of-a-corporation-in-costa-rica,/en/news/general-obligations-of-a-corporation-in-costa-rica,sí,404
+http://localhost:3001/fr/actualite/david-solano-participe-en-qualite-dexpert-dans-le-webinaire-zones-franches-et-dispositifs-medicaux-au-costa-rica,fr,tal cual,301,/fr/actualite/david-solano-participe-en-qualite-d-expert-dans-le-webinaire-zones-franches-et-dispositifs,/fr/actualite/david-solano-participe-en-qualite-d-expert-dans-le-webinaire-zones-franches-et-dispositifs,sí,404
+http://localhost:3001/fr/actualite/david-solano-participe-en-qualite-dexpert-dans-le-webinaire-zones-franches-et-dispositifs-medicaux-au-costa-rica/,fr,con barra final,301,/fr/actualite/david-solano-participe-en-qualite-d-expert-dans-le-webinaire-zones-franches-et-dispositifs,/fr/actualite/david-solano-participe-en-qualite-d-expert-dans-le-webinaire-zones-franches-et-dispositifs,sí,404
+http://localhost:3001/index.php/fr/actualite/david-solano-participe-en-qualite-dexpert-dans-le-webinaire-zones-franches-et-dispositifs-medicaux-au-costa-rica,fr,con /index.php,301,/fr/actualite/david-solano-participe-en-qualite-d-expert-dans-le-webinaire-zones-franches-et-dispositifs,/fr/actualite/david-solano-participe-en-qualite-d-expert-dans-le-webinaire-zones-franches-et-dispositifs,sí,404
+http://localhost:3001/es/actualidad/david-solano-participa-como-experto-en-el-webinar-sobre-zonas-francas-y-dispositivos-medicos-en-costa-rica,es,tal cual,301,/es/actualidad/david-solano-participa-como-experto-en-el-webinar-sobre-zonas-francas-y-dispositivos-medicos-en,/es/actualidad/david-solano-participa-como-experto-en-el-webinar-sobre-zonas-francas-y-dispositivos-medicos-en,sí,404
+http://localhost:3001/es/actualidad/david-solano-participa-como-experto-en-el-webinar-sobre-zonas-francas-y-dispositivos-medicos-en-costa-rica/,es,con barra final,301,/es/actualidad/david-solano-participa-como-experto-en-el-webinar-sobre-zonas-francas-y-dispositivos-medicos-en,/es/actualidad/david-solano-participa-como-experto-en-el-webinar-sobre-zonas-francas-y-dispositivos-medicos-en,sí,404
+http://localhost:3001/index.php/es/actualidad/david-solano-participa-como-experto-en-el-webinar-sobre-zonas-francas-y-dispositivos-medicos-en-costa-rica,es,con /index.php,301,/es/actualidad/david-solano-participa-como-experto-en-el-webinar-sobre-zonas-francas-y-dispositivos-medicos-en,/es/actualidad/david-solano-participa-como-experto-en-el-webinar-sobre-zonas-francas-y-dispositivos-medicos-en,sí,404
+http://localhost:3001/en/actuality/david-solano-participates-as-an-expert-in-the-free-zones-and-medical-devices-webinar-in-costa-rica,en,tal cual,301,/en/news/david-solano-participates-as-an-expert-in-the-free-zones-and-medical-devices-webinar-in-costa,/en/news/david-solano-participates-as-an-expert-in-the-free-zones-and-medical-devices-webinar-in-costa,sí,404
+http://localhost:3001/en/actuality/david-solano-participates-as-an-expert-in-the-free-zones-and-medical-devices-webinar-in-costa-rica/,en,con barra final,301,/en/news/david-solano-participates-as-an-expert-in-the-free-zones-and-medical-devices-webinar-in-costa,/en/news/david-solano-participates-as-an-expert-in-the-free-zones-and-medical-devices-webinar-in-costa,sí,404
+http://localhost:3001/index.php/en/actuality/david-solano-participates-as-an-expert-in-the-free-zones-and-medical-devices-webinar-in-costa-rica,en,con /index.php,301,/en/news/david-solano-participates-as-an-expert-in-the-free-zones-and-medical-devices-webinar-in-costa,/en/news/david-solano-participates-as-an-expert-in-the-free-zones-and-medical-devices-webinar-in-costa,sí,404
+http://localhost:3001/fr/note-dappreciation-a-legard-dinvestisseurs-francais,fr,tal cual,301,/fr/experiences/note-d-appreciation-a-l-egard-d-investisseurs-francais,/fr/experiences/note-d-appreciation-a-l-egard-d-investisseurs-francais,sí,404
+http://localhost:3001/fr/note-dappreciation-a-legard-dinvestisseurs-francais/,fr,con barra final,301,/fr/experiences/note-d-appreciation-a-l-egard-d-investisseurs-francais,/fr/experiences/note-d-appreciation-a-l-egard-d-investisseurs-francais,sí,404
+http://localhost:3001/index.php/fr/note-dappreciation-a-legard-dinvestisseurs-francais,fr,con /index.php,301,/fr/experiences/note-d-appreciation-a-l-egard-d-investisseurs-francais,/fr/experiences/note-d-appreciation-a-l-egard-d-investisseurs-francais,sí,404
+http://localhost:3001/es/calificacion-para-inversores-franceses,es,tal cual,301,/es/experiencias/calificacion-para-inversores-franceses,/es/experiencias/calificacion-para-inversores-franceses,sí,404
+http://localhost:3001/es/calificacion-para-inversores-franceses/,es,con barra final,301,/es/experiencias/calificacion-para-inversores-franceses,/es/experiencias/calificacion-para-inversores-franceses,sí,404
+http://localhost:3001/index.php/es/calificacion-para-inversores-franceses,es,con /index.php,301,/es/experiencias/calificacion-para-inversores-franceses,/es/experiencias/calificacion-para-inversores-franceses,sí,404
+http://localhost:3001/en/experiences-rating-for-francophone-investors,en,tal cual,301,/en/experiences/rating-for-francophone-investors,/en/experiences/rating-for-francophone-investors,sí,404
+http://localhost:3001/en/experiences-rating-for-francophone-investors/,en,con barra final,301,/en/experiences/rating-for-francophone-investors,/en/experiences/rating-for-francophone-investors,sí,404
+http://localhost:3001/index.php/en/experiences-rating-for-francophone-investors,en,con /index.php,301,/en/experiences/rating-for-francophone-investors,/en/experiences/rating-for-francophone-investors,sí,404
+http://localhost:3001/fr/etude-de-la-regulation-de-la-concurrence-pour-loperateur-mobile,fr,tal cual,301,/fr/experiences/etude-de-la-regulation-de-la-concurrence-pour-l-operateur-mobile,/fr/experiences/etude-de-la-regulation-de-la-concurrence-pour-l-operateur-mobile,sí,404
+http://localhost:3001/fr/etude-de-la-regulation-de-la-concurrence-pour-loperateur-mobile/,fr,con barra final,301,/fr/experiences/etude-de-la-regulation-de-la-concurrence-pour-l-operateur-mobile,/fr/experiences/etude-de-la-regulation-de-la-concurrence-pour-l-operateur-mobile,sí,404
+http://localhost:3001/index.php/fr/etude-de-la-regulation-de-la-concurrence-pour-loperateur-mobile,fr,con /index.php,301,/fr/experiences/etude-de-la-regulation-de-la-concurrence-pour-l-operateur-mobile,/fr/experiences/etude-de-la-regulation-de-la-concurrence-pour-l-operateur-mobile,sí,404
+http://localhost:3001/es/estudio-en-regulacion-de-la-competencia-para-operador-movil,es,tal cual,301,/es/experiencias/estudio-en-regulacion-de-la-competencia-para-operador-movil,/es/experiencias/estudio-en-regulacion-de-la-competencia-para-operador-movil,sí,404
+http://localhost:3001/es/estudio-en-regulacion-de-la-competencia-para-operador-movil/,es,con barra final,301,/es/experiencias/estudio-en-regulacion-de-la-competencia-para-operador-movil,/es/experiencias/estudio-en-regulacion-de-la-competencia-para-operador-movil,sí,404
+http://localhost:3001/index.php/es/estudio-en-regulacion-de-la-competencia-para-operador-movil,es,con /index.php,301,/es/experiencias/estudio-en-regulacion-de-la-competencia-para-operador-movil,/es/experiencias/estudio-en-regulacion-de-la-competencia-para-operador-movil,sí,404
+http://localhost:3001/en/experiences-study-on-competition-regulation-for-mobile-operator,en,tal cual,301,/en/experiences/study-on-competition-regulation-for-mobile-operator,/en/experiences/study-on-competition-regulation-for-mobile-operator,sí,404
+http://localhost:3001/en/experiences-study-on-competition-regulation-for-mobile-operator/,en,con barra final,301,/en/experiences/study-on-competition-regulation-for-mobile-operator,/en/experiences/study-on-competition-regulation-for-mobile-operator,sí,404
+http://localhost:3001/index.php/en/experiences-study-on-competition-regulation-for-mobile-operator,en,con /index.php,301,/en/experiences/study-on-competition-regulation-for-mobile-operator,/en/experiences/study-on-competition-regulation-for-mobile-operator,sí,404
+http://localhost:3001/fr/experiences-expatries-notre-experience-de-service,fr,tal cual,301,/fr/experiences/expatries-notre-experience-de-service,/fr/experiences/expatries-notre-experience-de-service,sí,404
+http://localhost:3001/fr/experiences-expatries-notre-experience-de-service/,fr,con barra final,301,/fr/experiences/expatries-notre-experience-de-service,/fr/experiences/expatries-notre-experience-de-service,sí,404
+http://localhost:3001/index.php/fr/experiences-expatries-notre-experience-de-service,fr,con /index.php,301,/fr/experiences/expatries-notre-experience-de-service,/fr/experiences/expatries-notre-experience-de-service,sí,404
+http://localhost:3001/es/expatriados-nuestra-experiencia-de-servicio,es,tal cual,301,/es/experiencias/expatriados-nuestra-experiencia-de-servicio,/es/experiencias/expatriados-nuestra-experiencia-de-servicio,sí,404
+http://localhost:3001/es/expatriados-nuestra-experiencia-de-servicio/,es,con barra final,301,/es/experiencias/expatriados-nuestra-experiencia-de-servicio,/es/experiencias/expatriados-nuestra-experiencia-de-servicio,sí,404
+http://localhost:3001/index.php/es/expatriados-nuestra-experiencia-de-servicio,es,con /index.php,301,/es/experiencias/expatriados-nuestra-experiencia-de-servicio,/es/experiencias/expatriados-nuestra-experiencia-de-servicio,sí,404
+http://localhost:3001/en/experiences-expats-our-service-experiences,en,tal cual,301,/en/experiences/expats-our-service-experiences,/en/experiences/expats-our-service-experiences,sí,404
+http://localhost:3001/en/experiences-expats-our-service-experiences/,en,con barra final,301,/en/experiences/expats-our-service-experiences,/en/experiences/expats-our-service-experiences,sí,404
+http://localhost:3001/index.php/en/experiences-expats-our-service-experiences,en,con /index.php,301,/en/experiences/expats-our-service-experiences,/en/experiences/expats-our-service-experiences,sí,404
+http://localhost:3001/fr/experiences-role-protagoniste-lors-de-louverture-du-secteur-des-telecommunications,fr,tal cual,301,/fr/experiences/role-protagoniste-lors-de-l-ouverture-du-secteur-des-telecommunications,/fr/experiences/role-protagoniste-lors-de-l-ouverture-du-secteur-des-telecommunications,sí,404
+http://localhost:3001/fr/experiences-role-protagoniste-lors-de-louverture-du-secteur-des-telecommunications/,fr,con barra final,301,/fr/experiences/role-protagoniste-lors-de-l-ouverture-du-secteur-des-telecommunications,/fr/experiences/role-protagoniste-lors-de-l-ouverture-du-secteur-des-telecommunications,sí,404
+http://localhost:3001/index.php/fr/experiences-role-protagoniste-lors-de-louverture-du-secteur-des-telecommunications,fr,con /index.php,301,/fr/experiences/role-protagoniste-lors-de-l-ouverture-du-secteur-des-telecommunications,/fr/experiences/role-protagoniste-lors-de-l-ouverture-du-secteur-des-telecommunications,sí,404
+http://localhost:3001/es/protagonismo-durante-la-apertura-del-sector-telecomunicaciones,es,tal cual,301,/es/experiencias/protagonismo-durante-la-apertura-del-sector-telecomunicaciones,/es/experiencias/protagonismo-durante-la-apertura-del-sector-telecomunicaciones,sí,404
+http://localhost:3001/es/protagonismo-durante-la-apertura-del-sector-telecomunicaciones/,es,con barra final,301,/es/experiencias/protagonismo-durante-la-apertura-del-sector-telecomunicaciones,/es/experiencias/protagonismo-durante-la-apertura-del-sector-telecomunicaciones,sí,404
+http://localhost:3001/index.php/es/protagonismo-durante-la-apertura-del-sector-telecomunicaciones,es,con /index.php,301,/es/experiencias/protagonismo-durante-la-apertura-del-sector-telecomunicaciones,/es/experiencias/protagonismo-durante-la-apertura-del-sector-telecomunicaciones,sí,404
+http://localhost:3001/en/experiences-leadership-during-the-opening-of-the-telecommunications-sector,en,tal cual,301,/en/experiences/leadership-during-the-opening-of-the-telecommunications-sector,/en/experiences/leadership-during-the-opening-of-the-telecommunications-sector,sí,404
+http://localhost:3001/en/experiences-leadership-during-the-opening-of-the-telecommunications-sector/,en,con barra final,301,/en/experiences/leadership-during-the-opening-of-the-telecommunications-sector,/en/experiences/leadership-during-the-opening-of-the-telecommunications-sector,sí,404
+http://localhost:3001/index.php/en/experiences-leadership-during-the-opening-of-the-telecommunications-sector,en,con /index.php,301,/en/experiences/leadership-during-the-opening-of-the-telecommunications-sector,/en/experiences/leadership-during-the-opening-of-the-telecommunications-sector,sí,404
+http://localhost:3001/fr/experiences-culmination-reussie-du-projet-condominium-capannori,fr,tal cual,301,/fr/experiences/culmination-reussie-du-projet-condominium-capannori,/fr/experiences/culmination-reussie-du-projet-condominium-capannori,sí,404
+http://localhost:3001/fr/experiences-culmination-reussie-du-projet-condominium-capannori/,fr,con barra final,301,/fr/experiences/culmination-reussie-du-projet-condominium-capannori,/fr/experiences/culmination-reussie-du-projet-condominium-capannori,sí,404
+http://localhost:3001/index.php/fr/experiences-culmination-reussie-du-projet-condominium-capannori,fr,con /index.php,301,/fr/experiences/culmination-reussie-du-projet-condominium-capannori,/fr/experiences/culmination-reussie-du-projet-condominium-capannori,sí,404
+http://localhost:3001/es/culminacion-exitosa-del-proyecto-condominio-capannori,es,tal cual,301,/es/experiencias/culminacion-exitosa-del-proyecto-condominio-capannori,/es/experiencias/culminacion-exitosa-del-proyecto-condominio-capannori,sí,404
+http://localhost:3001/es/culminacion-exitosa-del-proyecto-condominio-capannori/,es,con barra final,301,/es/experiencias/culminacion-exitosa-del-proyecto-condominio-capannori,/es/experiencias/culminacion-exitosa-del-proyecto-condominio-capannori,sí,404
+http://localhost:3001/index.php/es/culminacion-exitosa-del-proyecto-condominio-capannori,es,con /index.php,301,/es/experiencias/culminacion-exitosa-del-proyecto-condominio-capannori,/es/experiencias/culminacion-exitosa-del-proyecto-condominio-capannori,sí,404
+http://localhost:3001/en/experiences-successful-completion-of-the-capannori-condominium-project,en,tal cual,301,/en/experiences/successful-completion-of-the-capannori-condominium-project,/en/experiences/successful-completion-of-the-capannori-condominium-project,sí,404
+http://localhost:3001/en/experiences-successful-completion-of-the-capannori-condominium-project/,en,con barra final,301,/en/experiences/successful-completion-of-the-capannori-condominium-project,/en/experiences/successful-completion-of-the-capannori-condominium-project,sí,404
+http://localhost:3001/index.php/en/experiences-successful-completion-of-the-capannori-condominium-project,en,con /index.php,301,/en/experiences/successful-completion-of-the-capannori-condominium-project,/en/experiences/successful-completion-of-the-capannori-condominium-project,sí,404
+http://localhost:3001/fr/experiences-projet-immobilier-montana-del-mar,fr,tal cual,301,/fr/experiences/projet-immobilier-montana-del-mar,/fr/experiences/projet-immobilier-montana-del-mar,sí,404
+http://localhost:3001/fr/experiences-projet-immobilier-montana-del-mar/,fr,con barra final,301,/fr/experiences/projet-immobilier-montana-del-mar,/fr/experiences/projet-immobilier-montana-del-mar,sí,404
+http://localhost:3001/index.php/fr/experiences-projet-immobilier-montana-del-mar,fr,con /index.php,301,/fr/experiences/projet-immobilier-montana-del-mar,/fr/experiences/projet-immobilier-montana-del-mar,sí,404
+http://localhost:3001/es/proyecto-inmobiliario-montana-del-mar,es,tal cual,301,/es/experiencias/proyecto-inmobiliario-montana-del-mar,/es/experiencias/proyecto-inmobiliario-montana-del-mar,sí,404
+http://localhost:3001/es/proyecto-inmobiliario-montana-del-mar/,es,con barra final,301,/es/experiencias/proyecto-inmobiliario-montana-del-mar,/es/experiencias/proyecto-inmobiliario-montana-del-mar,sí,404
+http://localhost:3001/index.php/es/proyecto-inmobiliario-montana-del-mar,es,con /index.php,301,/es/experiencias/proyecto-inmobiliario-montana-del-mar,/es/experiencias/proyecto-inmobiliario-montana-del-mar,sí,404
+http://localhost:3001/en/experiences-real-estate-project-montana-del-mar,en,tal cual,301,/en/experiences/real-estate-project-montana-del-mar,/en/experiences/real-estate-project-montana-del-mar,sí,404
+http://localhost:3001/en/experiences-real-estate-project-montana-del-mar/,en,con barra final,301,/en/experiences/real-estate-project-montana-del-mar,/en/experiences/real-estate-project-montana-del-mar,sí,404
+http://localhost:3001/index.php/en/experiences-real-estate-project-montana-del-mar,en,con /index.php,301,/en/experiences/real-estate-project-montana-del-mar,/en/experiences/real-estate-project-montana-del-mar,sí,404
+http://localhost:3001/fr/experiences-telecommunications-litige-reussi,fr,tal cual,301,/fr/experiences/telecommunications-litige-reussi,/fr/experiences/telecommunications-litige-reussi,sí,404
+http://localhost:3001/fr/experiences-telecommunications-litige-reussi/,fr,con barra final,301,/fr/experiences/telecommunications-litige-reussi,/fr/experiences/telecommunications-litige-reussi,sí,404
+http://localhost:3001/index.php/fr/experiences-telecommunications-litige-reussi,fr,con /index.php,301,/fr/experiences/telecommunications-litige-reussi,/fr/experiences/telecommunications-litige-reussi,sí,404
+http://localhost:3001/es/telecomunicaciones-litigio-exitoso,es,tal cual,301,/es/experiencias/telecomunicaciones-litigio-exitoso,/es/experiencias/telecomunicaciones-litigio-exitoso,sí,404
+http://localhost:3001/es/telecomunicaciones-litigio-exitoso/,es,con barra final,301,/es/experiencias/telecomunicaciones-litigio-exitoso,/es/experiencias/telecomunicaciones-litigio-exitoso,sí,404
+http://localhost:3001/index.php/es/telecomunicaciones-litigio-exitoso,es,con /index.php,301,/es/experiencias/telecomunicaciones-litigio-exitoso,/es/experiencias/telecomunicaciones-litigio-exitoso,sí,404
+http://localhost:3001/en/experiences-telecommunications-successful-litigation,en,tal cual,301,/en/experiences/telecommunications-successful-litigation,/en/experiences/telecommunications-successful-litigation,sí,404
+http://localhost:3001/en/experiences-telecommunications-successful-litigation/,en,con barra final,301,/en/experiences/telecommunications-successful-litigation,/en/experiences/telecommunications-successful-litigation,sí,404
+http://localhost:3001/index.php/en/experiences-telecommunications-successful-litigation,en,con /index.php,301,/en/experiences/telecommunications-successful-litigation,/en/experiences/telecommunications-successful-litigation,sí,404
+http://localhost:3001/fr/experiences-the-sanctuary-resort-and-condos,fr,tal cual,301,/fr/experiences/the-sanctuary-resort-and-condos,/fr/experiences/the-sanctuary-resort-and-condos,sí,404
+http://localhost:3001/fr/experiences-the-sanctuary-resort-and-condos/,fr,con barra final,301,/fr/experiences/the-sanctuary-resort-and-condos,/fr/experiences/the-sanctuary-resort-and-condos,sí,404
+http://localhost:3001/index.php/fr/experiences-the-sanctuary-resort-and-condos,fr,con /index.php,301,/fr/experiences/the-sanctuary-resort-and-condos,/fr/experiences/the-sanctuary-resort-and-condos,sí,404
+http://localhost:3001/es/the-sanctuary-resort-and-condos,es,tal cual,301,/es/experiencias/the-sanctuary-resort-and-condos,/es/experiencias/the-sanctuary-resort-and-condos,sí,404
+http://localhost:3001/es/the-sanctuary-resort-and-condos/,es,con barra final,301,/es/experiencias/the-sanctuary-resort-and-condos,/es/experiencias/the-sanctuary-resort-and-condos,sí,404
+http://localhost:3001/index.php/es/the-sanctuary-resort-and-condos,es,con /index.php,301,/es/experiencias/the-sanctuary-resort-and-condos,/es/experiencias/the-sanctuary-resort-and-condos,sí,404
+http://localhost:3001/en/experiences-the-sanctuary-resort-and-condos,en,tal cual,301,/en/experiences/the-sanctuary-resort-and-condos,/en/experiences/the-sanctuary-resort-and-condos,sí,404
+http://localhost:3001/en/experiences-the-sanctuary-resort-and-condos/,en,con barra final,301,/en/experiences/the-sanctuary-resort-and-condos,/en/experiences/the-sanctuary-resort-and-condos,sí,404
+http://localhost:3001/index.php/en/experiences-the-sanctuary-resort-and-condos,en,con /index.php,301,/en/experiences/the-sanctuary-resort-and-condos,/en/experiences/the-sanctuary-resort-and-condos,sí,404
+http://localhost:3001/fr/experiences-corporatif-entreprise-en-zone-franche,fr,tal cual,301,/fr/experiences/corporatif-entreprise-en-zone-franche,/fr/experiences/corporatif-entreprise-en-zone-franche,sí,404
+http://localhost:3001/fr/experiences-corporatif-entreprise-en-zone-franche/,fr,con barra final,301,/fr/experiences/corporatif-entreprise-en-zone-franche,/fr/experiences/corporatif-entreprise-en-zone-franche,sí,404
+http://localhost:3001/index.php/fr/experiences-corporatif-entreprise-en-zone-franche,fr,con /index.php,301,/fr/experiences/corporatif-entreprise-en-zone-franche,/fr/experiences/corporatif-entreprise-en-zone-franche,sí,404
+http://localhost:3001/es/corporativo-empresa-en-zona-franca,es,tal cual,301,/es/experiencias/corporativo-empresa-en-zona-franca,/es/experiencias/corporativo-empresa-en-zona-franca,sí,404
+http://localhost:3001/es/corporativo-empresa-en-zona-franca/,es,con barra final,301,/es/experiencias/corporativo-empresa-en-zona-franca,/es/experiencias/corporativo-empresa-en-zona-franca,sí,404
+http://localhost:3001/index.php/es/corporativo-empresa-en-zona-franca,es,con /index.php,301,/es/experiencias/corporativo-empresa-en-zona-franca,/es/experiencias/corporativo-empresa-en-zona-franca,sí,404
+http://localhost:3001/en/experiences-corporate-company-in-free-zone,en,tal cual,301,/en/experiences/corporate-company-in-free-zone,/en/experiences/corporate-company-in-free-zone,sí,404
+http://localhost:3001/en/experiences-corporate-company-in-free-zone/,en,con barra final,301,/en/experiences/corporate-company-in-free-zone,/en/experiences/corporate-company-in-free-zone,sí,404
+http://localhost:3001/index.php/en/experiences-corporate-company-in-free-zone,en,con /index.php,301,/en/experiences/corporate-company-in-free-zone,/en/experiences/corporate-company-in-free-zone,sí,404
+http://localhost:3001/fr/experiences-hotel-royal-corin,fr,tal cual,301,/fr/experiences/hotel-royal-corin,/fr/experiences/hotel-royal-corin,sí,404
+http://localhost:3001/fr/experiences-hotel-royal-corin/,fr,con barra final,301,/fr/experiences/hotel-royal-corin,/fr/experiences/hotel-royal-corin,sí,404
+http://localhost:3001/index.php/fr/experiences-hotel-royal-corin,fr,con /index.php,301,/fr/experiences/hotel-royal-corin,/fr/experiences/hotel-royal-corin,sí,404
+http://localhost:3001/es/hotel-royal-corin,es,tal cual,301,/es/experiencias/hotel-royal-corin,/es/experiencias/hotel-royal-corin,sí,404
+http://localhost:3001/es/hotel-royal-corin/,es,con barra final,301,/es/experiencias/hotel-royal-corin,/es/experiencias/hotel-royal-corin,sí,404
+http://localhost:3001/index.php/es/hotel-royal-corin,es,con /index.php,301,/es/experiencias/hotel-royal-corin,/es/experiencias/hotel-royal-corin,sí,404
+http://localhost:3001/en/experiences-hotel-royal-corin,en,tal cual,301,/en/experiences/hotel-royal-corin,/en/experiences/hotel-royal-corin,sí,404
+http://localhost:3001/en/experiences-hotel-royal-corin/,en,con barra final,301,/en/experiences/hotel-royal-corin,/en/experiences/hotel-royal-corin,sí,404
+http://localhost:3001/index.php/en/experiences-hotel-royal-corin,en,con /index.php,301,/en/experiences/hotel-royal-corin,/en/experiences/hotel-royal-corin,sí,404
+http://localhost:3001/fr/experiences-secteur-financier-credit-et-recouvrement,fr,tal cual,301,/fr/experiences/secteur-financier-credit-et-recouvrement,/fr/experiences/secteur-financier-credit-et-recouvrement,sí,404
+http://localhost:3001/fr/experiences-secteur-financier-credit-et-recouvrement/,fr,con barra final,301,/fr/experiences/secteur-financier-credit-et-recouvrement,/fr/experiences/secteur-financier-credit-et-recouvrement,sí,404
+http://localhost:3001/index.php/fr/experiences-secteur-financier-credit-et-recouvrement,fr,con /index.php,301,/fr/experiences/secteur-financier-credit-et-recouvrement,/fr/experiences/secteur-financier-credit-et-recouvrement,sí,404
+http://localhost:3001/es/sector-financiero-credito-y-cobro,es,tal cual,301,/es/experiencias/sector-financiero-credito-y-cobro,/es/experiencias/sector-financiero-credito-y-cobro,sí,404
+http://localhost:3001/es/sector-financiero-credito-y-cobro/,es,con barra final,301,/es/experiencias/sector-financiero-credito-y-cobro,/es/experiencias/sector-financiero-credito-y-cobro,sí,404
+http://localhost:3001/index.php/es/sector-financiero-credito-y-cobro,es,con /index.php,301,/es/experiencias/sector-financiero-credito-y-cobro,/es/experiencias/sector-financiero-credito-y-cobro,sí,404
+http://localhost:3001/en/experiences-financial-sector-credit-and-collection,en,tal cual,301,/en/experiences/financial-sector-credit-and-collection,/en/experiences/financial-sector-credit-and-collection,sí,404
+http://localhost:3001/en/experiences-financial-sector-credit-and-collection/,en,con barra final,301,/en/experiences/financial-sector-credit-and-collection,/en/experiences/financial-sector-credit-and-collection,sí,404
+http://localhost:3001/index.php/en/experiences-financial-sector-credit-and-collection,en,con /index.php,301,/en/experiences/financial-sector-credit-and-collection,/en/experiences/financial-sector-credit-and-collection,sí,404
+http://localhost:3001/fr/experiences-fintech-litige-reussi-dans-le-secteur-technologique,fr,tal cual,301,/fr/experiences/fintech-litige-reussi-dans-le-secteur-technologique,/fr/experiences/fintech-litige-reussi-dans-le-secteur-technologique,sí,404
+http://localhost:3001/fr/experiences-fintech-litige-reussi-dans-le-secteur-technologique/,fr,con barra final,301,/fr/experiences/fintech-litige-reussi-dans-le-secteur-technologique,/fr/experiences/fintech-litige-reussi-dans-le-secteur-technologique,sí,404
+http://localhost:3001/index.php/fr/experiences-fintech-litige-reussi-dans-le-secteur-technologique,fr,con /index.php,301,/fr/experiences/fintech-litige-reussi-dans-le-secteur-technologique,/fr/experiences/fintech-litige-reussi-dans-le-secteur-technologique,sí,404
+http://localhost:3001/es/fintech-litigio-exitoso-en-sector-tecnologia,es,tal cual,301,/es/experiencias/fintech-litigio-exitoso-en-sector-tecnologia,/es/experiencias/fintech-litigio-exitoso-en-sector-tecnologia,sí,404
+http://localhost:3001/es/fintech-litigio-exitoso-en-sector-tecnologia/,es,con barra final,301,/es/experiencias/fintech-litigio-exitoso-en-sector-tecnologia,/es/experiencias/fintech-litigio-exitoso-en-sector-tecnologia,sí,404
+http://localhost:3001/index.php/es/fintech-litigio-exitoso-en-sector-tecnologia,es,con /index.php,301,/es/experiencias/fintech-litigio-exitoso-en-sector-tecnologia,/es/experiencias/fintech-litigio-exitoso-en-sector-tecnologia,sí,404
+http://localhost:3001/en/experiences-fintech-successful-arbitration-in-the-technology-sector,en,tal cual,301,/en/experiences/fintech-successful-arbitration-in-the-technology-sector,/en/experiences/fintech-successful-arbitration-in-the-technology-sector,sí,404
+http://localhost:3001/en/experiences-fintech-successful-arbitration-in-the-technology-sector/,en,con barra final,301,/en/experiences/fintech-successful-arbitration-in-the-technology-sector,/en/experiences/fintech-successful-arbitration-in-the-technology-sector,sí,404
+http://localhost:3001/index.php/en/experiences-fintech-successful-arbitration-in-the-technology-sector,en,con /index.php,301,/en/experiences/fintech-successful-arbitration-in-the-technology-sector,/en/experiences/fintech-successful-arbitration-in-the-technology-sector,sí,404
+http://localhost:3001/fr/experiences-affaires-dans-le-secteur-productif-des-caraibes,fr,tal cual,301,/fr/experiences/affaires-dans-le-secteur-productif-des-caraibes,/fr/experiences/affaires-dans-le-secteur-productif-des-caraibes,sí,404
+http://localhost:3001/fr/experiences-affaires-dans-le-secteur-productif-des-caraibes/,fr,con barra final,301,/fr/experiences/affaires-dans-le-secteur-productif-des-caraibes,/fr/experiences/affaires-dans-le-secteur-productif-des-caraibes,sí,404
+http://localhost:3001/index.php/fr/experiences-affaires-dans-le-secteur-productif-des-caraibes,fr,con /index.php,301,/fr/experiences/affaires-dans-le-secteur-productif-des-caraibes,/fr/experiences/affaires-dans-le-secteur-productif-des-caraibes,sí,404
+http://localhost:3001/es/negocios-en-sector-productivo-del-caribe,es,tal cual,301,/es/experiencias/negocios-en-sector-productivo-del-caribe,/es/experiencias/negocios-en-sector-productivo-del-caribe,sí,404
+http://localhost:3001/es/negocios-en-sector-productivo-del-caribe/,es,con barra final,301,/es/experiencias/negocios-en-sector-productivo-del-caribe,/es/experiencias/negocios-en-sector-productivo-del-caribe,sí,404
+http://localhost:3001/index.php/es/negocios-en-sector-productivo-del-caribe,es,con /index.php,301,/es/experiencias/negocios-en-sector-productivo-del-caribe,/es/experiencias/negocios-en-sector-productivo-del-caribe,sí,404
+http://localhost:3001/en/experiences-business-in-the-productive-sector-of-the-caribbean,en,tal cual,301,/en/experiences/business-in-the-productive-sector-of-the-caribbean,/en/experiences/business-in-the-productive-sector-of-the-caribbean,sí,404
+http://localhost:3001/en/experiences-business-in-the-productive-sector-of-the-caribbean/,en,con barra final,301,/en/experiences/business-in-the-productive-sector-of-the-caribbean,/en/experiences/business-in-the-productive-sector-of-the-caribbean,sí,404
+http://localhost:3001/index.php/en/experiences-business-in-the-productive-sector-of-the-caribbean,en,con /index.php,301,/en/experiences/business-in-the-productive-sector-of-the-caribbean,/en/experiences/business-in-the-productive-sector-of-the-caribbean,sí,404
+http://localhost:3001/fr/constitution-d-une-societe-a-responsabilite-limitee,fr,tal cual,404,,(sin redirección),sí,404
+http://localhost:3001/fr/constitution-d-une-societe-a-responsabilite-limitee/,fr,con barra final,301,/fr/constitution-d-une-societe-a-responsabilite-limitee,/fr/constitution-d-une-societe-a-responsabilite-limitee,sí,404
+http://localhost:3001/index.php/fr/constitution-d-une-societe-a-responsabilite-limitee,fr,con /index.php,301,/fr/constitution-d-une-societe-a-responsabilite-limitee,/fr/constitution-d-une-societe-a-responsabilite-limitee,sí,404
+http://localhost:3001/es/creacion-de-sociedad-de-responsabilidad-limitada,es,tal cual,404,,(sin redirección),sí,404
+http://localhost:3001/es/creacion-de-sociedad-de-responsabilidad-limitada/,es,con barra final,301,/es/creacion-de-sociedad-de-responsabilidad-limitada,/es/creacion-de-sociedad-de-responsabilidad-limitada,sí,404
+http://localhost:3001/index.php/es/creacion-de-sociedad-de-responsabilidad-limitada,es,con /index.php,301,/es/creacion-de-sociedad-de-responsabilidad-limitada,/es/creacion-de-sociedad-de-responsabilidad-limitada,sí,404
+http://localhost:3001/en/creation-of-a-limited-liability-company,en,tal cual,404,,(sin redirección),sí,404
+http://localhost:3001/en/creation-of-a-limited-liability-company/,en,con barra final,301,/en/creation-of-a-limited-liability-company,/en/creation-of-a-limited-liability-company,sí,404
+http://localhost:3001/index.php/en/creation-of-a-limited-liability-company,en,con /index.php,301,/en/creation-of-a-limited-liability-company,/en/creation-of-a-limited-liability-company,sí,404
