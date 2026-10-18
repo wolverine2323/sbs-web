@@ -112,7 +112,7 @@ async function main() {
   const count = (type: string) => todo.filter((draft) => draft.type === type).length;
   console.log(
     `Borradores preparados: ${todo.length} de ${plan.drafts.length} (` +
-      ["sectionPage", "service", "investGuide", "teamMember", "post", "category", "page"]
+      ["sectionPage", "service", "investGuide", "teamMember", "post", "caseStudy", "page"]
         .map((type) => `${type}: ${count(type)}`)
         .join(", ") +
       ")",

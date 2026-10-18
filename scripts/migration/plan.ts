@@ -31,9 +31,6 @@ const PROPERTY_TOPIC = 2;
 // Casos que en realidad son testimonios largos (su versión corta ya está en «Testimonios»).
 const LONG_TESTIMONIALS: Record<number, string> = { 1: "François Tary", 3: "Catherinne Gallardo" };
 
-// Nombre de la categoría de artículos para los casos de Expériences.
-const EXPERIENCES_CATEGORY: Record<Lang, string> = { fr: "Expériences", es: "Experiencias", en: "Experiences" };
-
 // Fotos que no se importan: logos de embajadas (CLAUDE.md: solo texto) y de
 // reconocimientos (ya están como texto en la portada), y logos de empresas.
 const SKIP_IMAGE = /\/images\/general\/(canada|suiza|francia|lacca|chambers)\.|\/images\/logos\//;
@@ -43,7 +40,7 @@ const SECTION_NOTES: Partial<Record<Section, string>> = {
   founders: "Cada persona se importa como «Miembro del equipo»",
   associates: "Cada persona se importa como «Miembro del equipo»",
   expertise: "Índice: se arma con los servicios",
-  experiences: "Índice: los casos se importan como artículos de la categoría «Expériences»; los testimonios ya están en Sanity",
+  experiences: "Índice: lista los casos («Experiencia (caso)») y los testimonios, que ya están en Sanity",
   news: "Índice: se arma con los artículos",
   contact: "Dirección, teléfono y email ya están en Ajustes del sitio; el formulario no se migra (el botón lleva a la agenda)",
 };
@@ -301,17 +298,10 @@ export function summarize(blocks: PortableBlock[], max = 240) {
   const first = blocks.find((block) => block._type === "block" && !block.listItem && block.style === "normal" && blockText(block).length > 60);
   const text = first ? blockText(first).replace(/\s+/g, " ").trim() : "";
   if (text.length <= max) return text || undefined;
+  // Mejor una frase entera, aunque sea corta, que un texto cortado con «…».
   const cut = text.slice(0, max);
   const sentence = cut.lastIndexOf(". ");
-  return sentence > max / 2 ? cut.slice(0, sentence + 1) : `${cut.slice(0, cut.lastIndexOf(" "))}…`;
-}
-
-// Los casos no tienen fecha: se usa la de creación de la página en Joomla (la
-// más antigua de sus traducciones), restando n minutos para que la lista
-// nueva conserve el orden de la página Expériences.
-function experienceDate(versions: OldPage[], n: number) {
-  const created = versions.flatMap((version) => (version.created ? [Date.parse(version.created)] : []));
-  return created.length ? new Date(Math.min(...created) - n * 60_000).toISOString() : undefined;
+  return sentence >= 60 ? cut.slice(0, sentence + 1) : `${cut.slice(0, cut.lastIndexOf(" "))}…`;
 }
 
 // slugify corta a 96 caracteres: en los títulos muy largos, sin dejar una palabra a medias.
@@ -578,19 +568,14 @@ export function buildPlan(pages: OldPage[], existing: Existing): Plan {
           row("miembro del equipo", name, `${localizedPath(lang, section)}#${slugify(name)}`, id, "borrador nuevo");
           break;
         }
-        case "news":
-        case "experience": {
-          const isNews = group.kind === "news";
-          const id = `post-${lang}-${isNews ? "news" : "exp"}-${group.n}`;
-          const title = (page.headline || page.title).replace(/^(Expériences|Experiencias|Experiences)\s*:\s*/, "").trim();
+        case "news": {
+          const id = `post-${lang}-news-${group.n}`;
+          const title = page.headline || page.title;
           const [main] = contentImages;
           const body = bodyFrom(htmlOf(page.blocks.filter((block) => block !== main)), title);
           const slug = slugFor(title);
-          const publishedAt = isNews ? page.date : experienceDate(pagesOf.map(([, version]) => version), group.n);
-          if (!publishedAt) throw new Error(`Sin fecha: ${page.url}`);
-          if (!isNews) notes.push("Fecha aproximada: creación de la página en Joomla");
-          if (!isNews && LONG_TESTIMONIALS[group.n]) notes.push(`Testimonio largo de ${LONG_TESTIMONIALS[group.n]}: la versión corta ya está en «Testimonios»`);
-          if (isNews && !Object.keys(page.alternates).length) notes.push("Traducciones emparejadas a mano (Joomla no las enlazaba)");
+          if (!page.date) throw new Error(`Sin fecha: ${page.url}`);
+          if (!Object.keys(page.alternates).length) notes.push("Traducciones emparejadas a mano (Joomla no las enlazaba)");
           drafts.push({
             id,
             type: "post",
@@ -599,15 +584,43 @@ export function buildPlan(pages: OldPage[], existing: Existing): Plan {
               language: lang,
               title,
               slug: { _type: "slug", current: slug },
-              publishedAt,
-              excerpt: (isNews && page.description) || summarize(body),
+              publishedAt: page.date,
+              // La descripción de Joomla, salvo si solo repite el título.
+              excerpt: (page.description !== title && page.description) || summarize(body),
               image: main && marker(main.src, main.alt, title),
-              category: isNews ? undefined : weakRef(`category-${lang}-experiences`, "category"),
               body,
             },
           });
           translationIds[lang] = id;
-          row(isNews ? "artículo" : "experiencia (caso)", title, localizedPath(lang, "/actualite/[slug]", { slug }), id, "borrador nuevo");
+          row("artículo", title, localizedPath(lang, "/actualite/[slug]", { slug }), id, "borrador nuevo");
+          break;
+        }
+        case "experience": {
+          // Casos de la firma: se listan en Expériences con los testimonios.
+          const id = `caseStudy-${lang}-${group.n}`;
+          const title = page.title.replace(/^(Expériences|Experiencias|Experiences)\s*:\s*/, "").trim();
+          const [main] = contentImages;
+          const body = bodyFrom(htmlOf(page.blocks.filter((block) => block !== main)), title);
+          const slug = slugFor(title);
+          if (LONG_TESTIMONIALS[group.n]) {
+            notes.push(`Testimonio largo de ${LONG_TESTIMONIALS[group.n]}: la versión corta ya está en «Testimonios»`);
+          }
+          drafts.push({
+            id,
+            type: "caseStudy",
+            base: "new",
+            fields: {
+              language: lang,
+              title,
+              slug: { _type: "slug", current: slug },
+              summary: summarize(body),
+              image: main && marker(main.src, main.alt, title),
+              body,
+              order: group.n,
+            },
+          });
+          translationIds[lang] = id;
+          row("experiencia (caso)", title, localizedPath(lang, "/experiences/[slug]", { slug }), id, "borrador nuevo");
           break;
         }
         case "page": {
@@ -637,31 +650,13 @@ export function buildPlan(pages: OldPage[], existing: Existing): Plan {
     const meta =
       group.kind === "team" ? ["teamMember", `teamMember-${group.n}`]
       : group.kind === "news" ? ["post", `post-news-${group.n}`]
-      : group.kind === "experience" ? ["post", `post-exp-${group.n}`]
+      : group.kind === "experience" ? ["caseStudy", `caseStudy-${group.n}`]
       : group.kind === "page" ? ["page", `page-${group.key}`]
       : undefined;
     if (meta && Object.keys(translationIds).length > 1) {
       metadata.push(translations(`translations-${meta[1]}`, meta[0], translationIds));
     }
   }
-
-  // Categoría «Expériences» para los casos.
-  const categoryIds: Partial<Record<Lang, string>> = {};
-  for (const lang of ["fr", "es", "en"] as const) {
-    const id = `category-${lang}-experiences`;
-    drafts.push({
-      id,
-      type: "category",
-      base: "new",
-      fields: {
-        language: lang,
-        title: EXPERIENCES_CATEGORY[lang],
-        slug: { _type: "slug", current: slugify(EXPERIENCES_CATEGORY[lang]) },
-      },
-    });
-    categoryIds[lang] = id;
-  }
-  metadata.push(translations("translations-category-experiences", "category", categoryIds));
 
   // Ninguna página sin destino, y ningún slug repetido.
   const missing = pages.filter((page) => !used.has(sitePath(page.url)));
