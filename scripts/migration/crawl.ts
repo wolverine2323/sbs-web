@@ -97,7 +97,7 @@ function cleanHtml(node: Element, base: string) {
   return root.innerHTML
     .replace(/<!--[\s\S]*?-->/g, "")
     .replace(/\s+/g, " ")
-    .replace(/<(p|h\d|li)>\s*(&nbsp;| )?\s*<\/\1>/g, "")
+    .replace(/<(p|h\d|li)>\s*(&nbsp;|\u00a0)?\s*<\/\1>/g, "")
     .trim();
 }
 

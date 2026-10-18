@@ -11,7 +11,9 @@
     "seed": "sanity exec scripts/seed.ts --",
     "migrate:crawl": "sanity exec scripts/migration/crawl.ts",
     "migrate:inventory": "sanity exec scripts/migration/inventory.ts",
-    "migrate:import": "sanity exec scripts/migration/import.ts --"
+    "migrate:import": "sanity exec scripts/migration/import.ts --",
+    "migrate:redirects": "sanity exec scripts/migration/redirects.ts",
+    "migrate:check-redirects": "sanity exec scripts/migration/check-redirects.ts --"
   },
   "dependencies": {
     "@portabletext/react": "^8.0.1",

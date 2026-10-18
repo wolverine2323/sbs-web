@@ -8,6 +8,9 @@ const nextConfig: NextConfig = {
   // Lo cacheado se renueva con Sanity Live y el webhook, no por tiempo.
   cacheLife: { default: sanity },
   partialPrefetching: true,
+  // La barra final la quita src/proxy.ts, junto con las redirecciones del
+  // sitio viejo: así cada dirección vieja llega a la nueva en un solo salto.
+  skipTrailingSlashRedirect: true,
   images: {
     remotePatterns: [{ protocol: "https", hostname: "cdn.sanity.io" }],
   },

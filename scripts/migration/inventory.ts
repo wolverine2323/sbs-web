@@ -36,7 +36,7 @@ async function main() {
       .join(","),
   );
   // Con BOM para que Excel abra bien las tildes.
-  writeFileSync(INVENTORY_FILE, `﻿${[HEADER.join(","), ...lines].join("\n")}\n`);
+  writeFileSync(INVENTORY_FILE, `\uFEFF${[HEADER.join(","), ...lines].join("\n")}\n`);
 
   const count = (key: "tipo" | "action") =>
     Object.entries(Object.groupBy(plan.rows, (row) => row[key]))
