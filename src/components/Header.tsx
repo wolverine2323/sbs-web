@@ -3,7 +3,8 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useEffect, useId, useState, type ComponentProps } from "react";
-import { Link, usePathname } from "@/i18n/navigation";
+import { Link } from "@/i18n/navigation";
+import { useRoute } from "@/i18n/route";
 import { cn } from "@/lib/cn";
 import { ButtonPrimary } from "./ButtonPrimary";
 import { CloseIcon, MenuIcon } from "./icons";
@@ -30,13 +31,13 @@ export function Header({ items, bookingUrl }: Props) {
   const tc = useTranslations("Common");
   const [open, setOpen] = useState(false);
   const menuId = useId();
-  const pathname = usePathname();
+  const route = useRoute();
 
   // "page" en la página de la sección; "true" dentro de ella (p. ej. un servicio).
   const current = (href: NavItem["href"]) => {
-    if (typeof href !== "string") return undefined;
-    if (pathname === href) return "page" as const;
-    return pathname.startsWith(`${href}/`) ? ("true" as const) : undefined;
+    if (typeof href !== "string" || !route) return undefined;
+    if (route === href) return "page" as const;
+    return route.startsWith(`${href}/`) ? ("true" as const) : undefined;
   };
 
   useEffect(() => {

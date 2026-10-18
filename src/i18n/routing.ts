@@ -76,7 +76,8 @@ export type Locale = (typeof routing.locales)[number];
 export type Pathname = keyof typeof routing.pathnames;
 
 // Índice de cada sección con slugs de Sanity: adonde lleva el selector de
-// idioma si la página no tiene traducción vinculada.
+// idioma mientras la página no ha indicado sus traducciones, o si le falta
+// alguna.
 export const sectionIndex: Partial<Record<Pathname, Pathname>> = {
   "/expertises/[slug]": "/expertises",
   "/investir-au-costa-rica/[topic]": "/investir-au-costa-rica",

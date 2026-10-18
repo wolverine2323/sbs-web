@@ -4,7 +4,8 @@ import NextLink from "next/link";
 import { useParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import type { ComponentProps } from "react";
-import { Link, usePathname } from "@/i18n/navigation";
+import { Link } from "@/i18n/navigation";
+import { useRoute } from "@/i18n/route";
 import { routing, sectionIndex } from "@/i18n/routing";
 import { cn } from "@/lib/cn";
 import { useAlternates } from "./LocaleAlternates";
@@ -19,11 +20,11 @@ type Href = ComponentProps<typeof Link>["href"];
 export function LocaleSwitcher({ className }: { className?: string }) {
   const t = useTranslations("LocaleSwitcher");
   const locale = useLocale();
-  const pathname = usePathname();
+  const route = useRoute();
   const params = useParams<Record<string, string>>();
   const alternates = useAlternates();
 
-  const target = sectionIndex[pathname] ?? pathname;
+  const target = route ? (sectionIndex[route] ?? route) : "/";
   const fallback = (target.includes("[") ? { pathname: target, params } : target) as Href;
 
   return (
