@@ -73,7 +73,11 @@
     "label": "Practice area",
     "howWeHelp": "How we help",
     "otherServices": "Other practice areas",
-    "testimonial": "Testimonial"
+    "testimonial": "Testimonial",
+    "audiences": "Who it is for",
+    "steps": "Steps",
+    "faq": "Frequently asked questions",
+    "disclaimer": "Important notice"
   },
   "Guide": {
     "onThisPage": "On this page",

@@ -73,6 +73,16 @@ export const siteSettings = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "featuredService",
+      title: "Servicio en el menú",
+      type: "reference",
+      group: "links",
+      to: [{ type: "service" }],
+      options: { filter: 'language == "fr"' },
+      description:
+        "Opcional. Aparece en el menú y en el pie con su «Título corto». Se elige la versión francesa; cada idioma muestra su traducción.",
+    }),
+    defineField({
       name: "gaId",
       title: "ID de Google Analytics 4",
       type: "string",

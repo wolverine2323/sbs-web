@@ -1,7 +1,7 @@
 import { defineField, defineType } from "sanity";
 import { apiVersion } from "../../env";
 import { languageTitle } from "../../languages";
-import { languageField } from "../fields";
+import { languageField, sameLanguageFilter } from "../fields";
 
 // Páginas fijas del sitio cuyo contenido viene de otros documentos (equipo,
 // servicios, guía, testimonios, artículos): aquí van sus textos propios.
@@ -66,6 +66,14 @@ export const sectionPage = defineType({
       title: "Contenido",
       type: "blockContent",
       description: "Opcional. Texto largo de la página (p. ej. la presentación del cabinet).",
+    }),
+    defineField({
+      name: "featuredService",
+      title: "Servicio destacado",
+      type: "reference",
+      to: [{ type: "service" }],
+      options: { filter: sameLanguageFilter },
+      description: "Opcional. Recuadro que lleva a un servicio (p. ej. en la guía del inversor).",
     }),
     defineField({ name: "seo", title: "SEO", type: "seo" }),
   ],

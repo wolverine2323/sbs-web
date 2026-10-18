@@ -1,11 +1,16 @@
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { buttonBase, buttonSizes } from "@/components/button-styles";
 import { ClosingCta } from "@/components/ClosingCta";
+import { Heading } from "@/components/Heading";
 import { HeroActions } from "@/components/HeroActions";
+import { ArrowRightIcon } from "@/components/icons";
 import { PageHero } from "@/components/PageHero";
+import { SectionEyebrow } from "@/components/SectionEyebrow";
 import { currentLocale } from "@/i18n/locale";
 import { Link } from "@/i18n/navigation";
+import { cn } from "@/lib/cn";
 import { pad2 } from "@/lib/format";
 import { cachedSanity, type DynamicFetchOptions } from "@/sanity/lib/live";
 import { WithFetchOptions } from "@/sanity/lib/preview";
@@ -23,11 +28,12 @@ export default function GuideIndexPage() {
 
 async function GuideIndex(fetchOptions: DynamicFetchOptions) {
   const language = await currentLocale();
-  const [page, { data: topics }, settings, tNav] = await Promise.all([
+  const [page, { data: topics }, settings, tNav, tFirm] = await Promise.all([
     getSectionPage("invest", fetchOptions),
     cachedSanity({ query: GUIDE_INDEX_QUERY, params: { language }, tags: ["investGuide"], ...fetchOptions }),
     getSiteSettings(language),
     getTranslations("Navigation"),
+    getTranslations("Firm"),
   ]);
   if (!page || !settings) notFound();
 
@@ -84,6 +90,28 @@ async function GuideIndex(fetchOptions: DynamicFetchOptions) {
           ))}
         </ol>
       </section>
+
+      {/* Servicio destacado (Páginas de sección → Guía → Servicio destacado) */}
+      {page.featuredService?.slug && (
+        <section className="border-b border-bronze-light/16">
+          <div className="mx-auto flex max-w-[1320px] flex-wrap items-end justify-between gap-x-16 gap-y-10 px-7 py-24">
+            <div className="max-w-[760px] min-w-0">
+              <SectionEyebrow>{tNav("expertise")}</SectionEyebrow>
+              <Heading size="sub" className="mt-5">
+                {page.featuredService.title}
+              </Heading>
+              <p className="mt-5 text-base leading-[1.7] text-stone">{page.featuredService.summary}</p>
+            </div>
+            <Link
+              href={{ pathname: "/expertises/[slug]", params: { slug: page.featuredService.slug } }}
+              className={cn(buttonBase, buttonSizes.md, "inline-flex border border-cream/40 text-cream hover:bg-cream hover:text-ink")}
+            >
+              {tFirm("discover")}
+              <ArrowRightIcon />
+            </Link>
+          </div>
+        </section>
+      )}
 
       <ClosingCta {...fetchOptions} />
     </main>

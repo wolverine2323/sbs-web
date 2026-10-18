@@ -23,7 +23,7 @@ export async function getSectionPage(section: Section, fetchOptions: DynamicFetc
   const { data } = await cachedSanity({
     query: SECTION_PAGE_QUERY,
     params: { language: await currentLocale(), section },
-    tags: ["sectionPage"],
+    tags: ["sectionPage", "service"],
     ...fetchOptions,
   });
   return data;

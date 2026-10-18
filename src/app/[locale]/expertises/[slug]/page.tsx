@@ -4,27 +4,33 @@ import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ClosingCta } from "@/components/ClosingCta";
-import { Heading } from "@/components/Heading";
 import { HeroActions } from "@/components/HeroActions";
-import { ArrowRightIcon } from "@/components/icons";
 import { PageAlternates } from "@/components/LocaleAlternates";
 import { PageHero } from "@/components/PageHero";
 import { RichText } from "@/components/RichText";
-import { SectionEyebrow } from "@/components/SectionEyebrow";
+import {
+  AudienceNav,
+  AudienceSection,
+  HelpPoints,
+  OtherServices,
+  ServiceFaq,
+} from "@/components/service/ServiceSections";
 import { TestimonialQuote } from "@/components/TestimonialQuote";
+import { toneClasses, type Tone } from "@/components/tone";
 import { currentLocale } from "@/i18n/locale";
-import { Link } from "@/i18n/navigation";
 import { alternatesFor } from "@/lib/alternates";
-import { pad2 } from "@/lib/format";
 import { imageDimensions, urlFor } from "@/sanity/lib/image";
 import { cachedSanity, type DynamicFetchOptions } from "@/sanity/lib/live";
 import { PLACEHOLDER, withPlaceholder } from "@/sanity/lib/params";
 import { WithFetchOptions } from "@/sanity/lib/preview";
 import { SERVICE_QUERY, SERVICE_SLUGS_QUERY } from "@/sanity/lib/queries";
 import { getSiteSettings } from "@/sanity/lib/settings";
+import type { SERVICE_QUERY_RESULT } from "@/sanity/types";
 
-// Plantilla de servicio: hero, cuerpo, «Comment nous vous aidons»,
-// testimonio relacionado, otras expertises y CTA final.
+// Plantilla de servicio: hero, cuerpo, públicos (p. ej. quien pide un crédito
+// y quien invierte), «Comment nous vous aidons», preguntas frecuentes y aviso,
+// testimonio relacionado, otras expertises y CTA final. Solo se muestran los
+// bloques que el servicio tiene rellenos en Sanity.
 
 type Props = PageProps<"/[locale]/expertises/[slug]">;
 
@@ -61,6 +67,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+// Los bloques que el servicio tiene rellenos alternan fondo (ink ↔ paper) a
+// partir del hero; el testimonio (burgundy-deep) cuenta como oscuro.
+function sectionTones(service: NonNullable<SERVICE_QUERY_RESULT>) {
+  let tone: Tone = "dark";
+  const next = (): Tone => (tone = tone === "dark" ? "light" : "dark");
+  return {
+    body: service.body ? next() : tone,
+    audiences: (service.audiences ?? []).map(() => next()),
+    help: service.helpPoints?.length ? next() : tone,
+    faq: service.faq?.length || service.disclaimer ? next() : tone,
+    others: service.testimonial?.quote ? ("light" as Tone) : next(),
+  };
+}
+
 export default async function ServicePage({ params }: Props) {
   const { slug } = await params;
   return <WithFetchOptions>{(options) => <Service slug={slug} {...options} />}</WithFetchOptions>;
@@ -77,9 +97,13 @@ async function Service({ slug, ...fetchOptions }: { slug: string } & DynamicFetc
 
   const image = imageDimensions(service.image?.asset?._ref);
   const helpPoints = service.helpPoints ?? [];
+  const audiences = service.audiences ?? [];
+  const faq = service.faq ?? [];
   const alternates = alternatesFor(service.translations, ({ slug }) =>
     slug ? { pathname: "/expertises/[slug]", params: { slug } } : null,
   );
+
+  const tones = sectionTones(service);
 
   return (
     <main>
@@ -97,13 +121,14 @@ async function Service({ slug, ...fetchOptions }: { slug: string } & DynamicFetc
       >
         <HeroActions bookingUrl={settings.bookingUrl} phone={settings.phone} />
       </PageHero>
+      {audiences.length > 1 && <AudienceNav audiences={audiences} />}
 
-      {/* Cuerpo (sobre paper) con la imagen al lado */}
+      {/* Cuerpo con la imagen al lado */}
       {service.body && (
-        <section className="bg-paper text-on-paper">
+        <section className={toneClasses[tones.body].section}>
           <div className="mx-auto grid max-w-[1320px] gap-x-20 gap-y-12 px-7 py-28 lg:grid-cols-[minmax(0,1fr)_400px]">
             <div className="max-w-[760px] min-w-0 [&>*:first-child]:mt-0">
-              <RichText value={service.body} tone="light" />
+              <RichText value={service.body} tone={tones.body} />
             </div>
             {service.image?.asset && image && (
               <Image
@@ -119,27 +144,21 @@ async function Service({ slug, ...fetchOptions }: { slug: string } & DynamicFetc
         </section>
       )}
 
-      {/* Comment nous vous aidons */}
+      {audiences.map((audience, i) => (
+        <AudienceSection
+          key={audience._key}
+          audience={audience}
+          tone={tones.audiences[i]}
+          bookingUrl={settings.bookingUrl}
+        />
+      ))}
+
       {!!helpPoints.length && (
-        <section className="mx-auto max-w-[1320px] px-7 py-28">
-          <SectionEyebrow>{service.title}</SectionEyebrow>
-          <Heading className="mt-6">{t("howWeHelp")}</Heading>
-          <ol className="mt-16 grid gap-x-16 md:grid-cols-2">
-            {helpPoints.map((point, i) => (
-              <li key={point._key} className="flex gap-6 border-t border-bronze-light/25 py-9">
-                <span className="w-9 shrink-0 font-serif text-xl text-bronze-light italic">
-                  {pad2(i + 1)}
-                </span>
-                <div>
-                  <h3 className="font-serif text-[28px] leading-[1.15] text-cream">{point.title}</h3>
-                  {point.description && (
-                    <p className="mt-3 text-[15px] leading-[1.7] text-stone">{point.description}</p>
-                  )}
-                </div>
-              </li>
-            ))}
-          </ol>
-        </section>
+        <HelpPoints eyebrow={service.title} points={helpPoints} tone={tones.help} />
+      )}
+
+      {(!!faq.length || service.disclaimer) && (
+        <ServiceFaq items={faq} disclaimer={service.disclaimer} tone={tones.faq} />
       )}
 
       {/* Testimonio relacionado */}
@@ -155,29 +174,13 @@ async function Service({ slug, ...fetchOptions }: { slug: string } & DynamicFetc
         </section>
       )}
 
-      {/* Otras expertises */}
       {!!service.others.length && (
-        <section className="bg-paper text-on-paper">
-          <div className="mx-auto max-w-[1320px] px-7 py-28">
-            <SectionEyebrow tone="light">{tNav("expertise")}</SectionEyebrow>
-            <Heading size="sub" className="mt-5 mb-12">
-              {t("otherServices")}
-            </Heading>
-            <ul className="grid border-t border-on-paper/14 md:grid-cols-2 md:gap-x-16">
-              {service.others.map((other) => (
-                <li key={other._id} className="border-b border-on-paper/14">
-                  <Link
-                    href={{ pathname: "/expertises/[slug]", params: { slug: other.slug } }}
-                    className="group flex min-h-20 items-center justify-between gap-6 py-6 font-serif text-[clamp(24px,2.2vw,30px)] leading-[1.2] transition-colors hover:text-burgundy focus-visible:outline-on-paper"
-                  >
-                    {other.title}
-                    <ArrowRightIcon className="shrink-0 transition-transform duration-250 group-hover:translate-x-1.5" />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
+        <OtherServices
+          label={tNav("expertise")}
+          title={t("otherServices")}
+          services={service.others}
+          tone={tones.others}
+        />
       )}
 
       <ClosingCta {...fetchOptions} />

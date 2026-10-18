@@ -82,6 +82,13 @@ export type AccessibleImage = {
   alt?: string;
 };
 
+export type ServiceReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "service";
+};
+
 export type SiteSettings = {
   _id: string;
   _type: "siteSettings";
@@ -95,6 +102,7 @@ export type SiteSettings = {
   mapsEmbedUrl?: string;
   whatsapp?: string;
   bookingUrl: string;
+  featuredService?: ServiceReference;
   gaId?: string;
   social?: Array<{
     platform: "linkedin" | "facebook" | "instagram" | "x" | "youtube";
@@ -157,13 +165,6 @@ export type SectionPageReference = {
   _type: "reference";
   _weak?: boolean;
   [internalGroqTypeReferenceTo]?: "sectionPage";
-};
-
-export type ServiceReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "service";
 };
 
 export type InvestGuideReference = {
@@ -295,49 +296,6 @@ export type InvestGuide = {
   seo?: Seo;
 };
 
-export type TestimonialReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "testimonial";
-};
-
-export type Service = {
-  _id: string;
-  _type: "service";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  language?: string;
-  title: string;
-  slug: Slug;
-  summary: string;
-  image?: AccessibleImage;
-  body?: BlockContent;
-  helpPoints?: Array<{
-    title: string;
-    description?: string;
-    _type: "helpPoint";
-    _key: string;
-  }>;
-  testimonial?: TestimonialReference;
-  order?: number;
-  seo?: Seo;
-};
-
-export type Testimonial = {
-  _id: string;
-  _type: "testimonial";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  quote?: LocaleText;
-  author: string;
-  role?: LocaleString;
-  order?: number;
-  published?: boolean;
-};
-
 export type SectionPage = {
   _id: string;
   _type: "sectionPage";
@@ -359,7 +317,79 @@ export type SectionPage = {
   lead?: string;
   image?: AccessibleImage;
   body?: BlockContent;
+  featuredService?: ServiceReference;
   seo?: Seo;
+};
+
+export type TestimonialReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "testimonial";
+};
+
+export type Service = {
+  _id: string;
+  _type: "service";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  language?: string;
+  title: string;
+  shortTitle?: string;
+  slug: Slug;
+  summary: string;
+  image?: AccessibleImage;
+  body?: BlockContent;
+  audiences?: Array<{
+    eyebrow?: string;
+    title: string;
+    lead?: string;
+    facts?: Array<{
+      value: string;
+      label?: string;
+      _type: "fact";
+      _key: string;
+    }>;
+    steps?: Array<{
+      title: string;
+      description?: string;
+      _type: "step";
+      _key: string;
+    }>;
+    ctaLabel?: string;
+    _type: "audience";
+    _key: string;
+  }>;
+  helpPoints?: Array<{
+    title: string;
+    description?: string;
+    _type: "helpPoint";
+    _key: string;
+  }>;
+  faq?: Array<{
+    question: string;
+    answer: string;
+    _type: "faqItem";
+    _key: string;
+  }>;
+  disclaimer?: string;
+  testimonial?: TestimonialReference;
+  order?: number;
+  seo?: Seo;
+};
+
+export type Testimonial = {
+  _id: string;
+  _type: "testimonial";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  quote?: LocaleText;
+  author: string;
+  role?: LocaleString;
+  order?: number;
+  published?: boolean;
 };
 
 export type HomePage = {
@@ -562,6 +592,7 @@ export type AllSanitySchemaTypes =
   | LocaleString
   | BlockContent
   | AccessibleImage
+  | ServiceReference
   | SiteSettings
   | SanityImageCrop
   | SanityImageHotspot
@@ -569,7 +600,6 @@ export type AllSanitySchemaTypes =
   | InternationalizedArrayReference
   | HomePageReference
   | SectionPageReference
-  | ServiceReference
   | InvestGuideReference
   | PageReference
   | PostReference
@@ -582,10 +612,10 @@ export type AllSanitySchemaTypes =
   | TeamMember
   | Page
   | InvestGuide
+  | SectionPage
   | TestimonialReference
   | Service
   | Testimonial
-  | SectionPage
   | HomePage
   | SanityImagePaletteSwatch
   | SanityImagePalette
@@ -598,7 +628,7 @@ export type AllSanitySchemaTypes =
 
 // Source: src/sanity/lib/queries.ts
 // Variable: SITE_SETTINGS_QUERY
-// Query: *[_type == "siteSettings" && _id == "siteSettings"][0]{    phone,    email,    "address": select($language == "es" => address.es, $language == "en" => address.en, address.fr),    whatsapp,    bookingUrl,    mapsUrl,    mapsEmbedUrl,    gaId,    social[]{ platform, url },    "footerBody": select($language == "es" => footerBody.es, $language == "en" => footerBody.en, footerBody.fr),    "footerRights": select($language == "es" => footerRights.es, $language == "en" => footerRights.en, footerRights.fr),    ogImage  }
+// Query: *[_type == "siteSettings" && _id == "siteSettings"][0]{    phone,    email,    "address": select($language == "es" => address.es, $language == "en" => address.en, address.fr),    whatsapp,    bookingUrl,    mapsUrl,    mapsEmbedUrl,    // Servicio del menú y del pie, en el idioma pedido (la referencia apunta    // a la versión francesa).    "featuredService": coalesce(      *[_type == "translation.metadata" && references(^.featuredService._ref)][0]        .translations[language == $language][0].value->{ "label": coalesce(shortTitle, title), "slug": slug.current },      select(featuredService->language == $language => featuredService->{ "label": coalesce(shortTitle, title), "slug": slug.current })    ),    gaId,    social[]{ platform, url },    "footerBody": select($language == "es" => footerBody.es, $language == "en" => footerBody.en, footerBody.fr),    "footerRights": select($language == "es" => footerRights.es, $language == "en" => footerRights.en, footerRights.fr),    ogImage  }
 export type SITE_SETTINGS_QUERY_RESULT = {
   phone: string;
   email: string;
@@ -607,6 +637,24 @@ export type SITE_SETTINGS_QUERY_RESULT = {
   bookingUrl: string;
   mapsUrl: string | null;
   mapsEmbedUrl: string | null;
+  featuredService:
+    | {
+        label: null;
+        slug: null;
+      }
+    | {
+        label: string;
+        slug: string;
+      }
+    | {
+        label: string;
+        slug: null;
+      }
+    | {
+        label: string;
+        slug: string;
+      }
+    | null;
   gaId: string | null;
   social: Array<{
     platform: "facebook" | "instagram" | "linkedin" | "x" | "youtube";
@@ -719,13 +767,18 @@ export type HOME_PAGE_QUERY_RESULT = {
 
 // Source: src/sanity/lib/queries.ts
 // Variable: SECTION_PAGE_QUERY
-// Query: *[_type == "sectionPage" && language == $language && section == $section][0]{    eyebrow,    title,    lead,    image,    body,    seo  }
+// Query: *[_type == "sectionPage" && language == $language && section == $section][0]{    eyebrow,    title,    lead,    image,    body,    "featuredService": featuredService->{ title, summary, "slug": slug.current },    seo  }
 export type SECTION_PAGE_QUERY_RESULT = {
   eyebrow: string | null;
   title: string;
   lead: string | null;
   image: AccessibleImage | null;
   body: BlockContent | null;
+  featuredService: {
+    title: string;
+    summary: string;
+    slug: string;
+  } | null;
   seo: Seo | null;
 } | null;
 
@@ -805,18 +858,41 @@ export type SERVICE_SLUGS_QUERY_RESULT = Array<string>;
 
 // Source: src/sanity/lib/queries.ts
 // Variable: SERVICE_QUERY
-// Query: *[_type == "service" && language == $language && slug.current == $slug][0]{    _id,    title,    summary,    image,    body,    helpPoints[]{ _key, title, description },    "testimonial": select(testimonial->published != false => testimonial->{      author,      "quote": select($language == "es" => quote.es, $language == "en" => quote.en, quote.fr),      "role": select($language == "es" => role.es, $language == "en" => role.en, role.fr)    }),    seo,    "others": *[_type == "service" && language == $language && _id != ^._id && defined(slug.current)]      | order(order asc, title asc){ _id, title, "slug": slug.current },    "translations": *[_type == "translation.metadata" && references(^._id)][0].translations[].value->{ language, "slug": slug.current }  }
+// Query: *[_type == "service" && language == $language && slug.current == $slug][0]{    _id,    title,    summary,    image,    body,    audiences[]{      _key,      eyebrow,      title,      lead,      facts[]{ _key, value, label },      steps[]{ _key, title, description },      ctaLabel    },    helpPoints[]{ _key, title, description },    faq[]{ _key, question, answer },    disclaimer,    "testimonial": select(testimonial->published != false => testimonial->{      author,      "quote": select($language == "es" => quote.es, $language == "en" => quote.en, quote.fr),      "role": select($language == "es" => role.es, $language == "en" => role.en, role.fr)    }),    seo,    "others": *[_type == "service" && language == $language && _id != ^._id && defined(slug.current)]      | order(order asc, title asc){ _id, title, "slug": slug.current },    "translations": *[_type == "translation.metadata" && references(^._id)][0].translations[].value->{ language, "slug": slug.current }  }
 export type SERVICE_QUERY_RESULT = {
   _id: string;
   title: string;
   summary: string;
   image: AccessibleImage | null;
   body: BlockContent | null;
+  audiences: Array<{
+    _key: string;
+    eyebrow: string | null;
+    title: string;
+    lead: string | null;
+    facts: Array<{
+      _key: string;
+      value: string;
+      label: string | null;
+    }> | null;
+    steps: Array<{
+      _key: string;
+      title: string;
+      description: string | null;
+    }> | null;
+    ctaLabel: string | null;
+  }> | null;
   helpPoints: Array<{
     _key: string;
     title: string;
     description: string | null;
   }> | null;
+  faq: Array<{
+    _key: string;
+    question: string;
+    answer: string;
+  }> | null;
+  disclaimer: string | null;
   testimonial: {
     author: string;
     quote: string | null;
@@ -1058,15 +1134,15 @@ export type TESTIMONIALS_QUERY_RESULT = Array<{
 // Query TypeMap
 declare global {
   interface SanityQueries {
-    '\n  *[_type == "siteSettings" && _id == "siteSettings"][0]{\n    phone,\n    email,\n    "address": select($language == "es" => address.es, $language == "en" => address.en, address.fr),\n    whatsapp,\n    bookingUrl,\n    mapsUrl,\n    mapsEmbedUrl,\n    gaId,\n    social[]{ platform, url },\n    "footerBody": select($language == "es" => footerBody.es, $language == "en" => footerBody.en, footerBody.fr),\n    "footerRights": select($language == "es" => footerRights.es, $language == "en" => footerRights.en, footerRights.fr),\n    ogImage\n  }\n': SITE_SETTINGS_QUERY_RESULT;
+    '\n  *[_type == "siteSettings" && _id == "siteSettings"][0]{\n    phone,\n    email,\n    "address": select($language == "es" => address.es, $language == "en" => address.en, address.fr),\n    whatsapp,\n    bookingUrl,\n    mapsUrl,\n    mapsEmbedUrl,\n    // Servicio del men\xFA y del pie, en el idioma pedido (la referencia apunta\n    // a la versi\xF3n francesa).\n    "featuredService": coalesce(\n      *[_type == "translation.metadata" && references(^.featuredService._ref)][0]\n        .translations[language == $language][0].value->{ "label": coalesce(shortTitle, title), "slug": slug.current },\n      select(featuredService->language == $language => featuredService->{ "label": coalesce(shortTitle, title), "slug": slug.current })\n    ),\n    gaId,\n    social[]{ platform, url },\n    "footerBody": select($language == "es" => footerBody.es, $language == "en" => footerBody.en, footerBody.fr),\n    "footerRights": select($language == "es" => footerRights.es, $language == "en" => footerRights.en, footerRights.fr),\n    ogImage\n  }\n': SITE_SETTINGS_QUERY_RESULT;
     '\n  *[_type == "homePage" && language == $language][0]{\n    hero,\n    firm,\n    services{\n      eyebrow,\n      title,\n      lead,\n      "items": items[]->{ _id, title, summary, "slug": slug.current }\n    },\n    guide{\n      eyebrow,\n      title,\n      lead,\n      ctaLabel,\n      "topics": topics[]->{ _id, title, "slug": slug.current }\n    },\n    testimonials,\n    steps,\n    booking,\n    recognition,\n    contact,\n    seo\n  }\n': HOME_PAGE_QUERY_RESULT;
-    '\n  *[_type == "sectionPage" && language == $language && section == $section][0]{\n    eyebrow,\n    title,\n    lead,\n    image,\n    body,\n    seo\n  }\n': SECTION_PAGE_QUERY_RESULT;
+    '\n  *[_type == "sectionPage" && language == $language && section == $section][0]{\n    eyebrow,\n    title,\n    lead,\n    image,\n    body,\n    "featuredService": featuredService->{ title, summary, "slug": slug.current },\n    seo\n  }\n': SECTION_PAGE_QUERY_RESULT;
     '\n  *[_type == "homePage" && language == $language][0]{ steps, booking }\n': CLOSING_CTA_QUERY_RESULT;
     '\n  *[_type == "homePage" && language == $language][0]{\n    "highlights": firm.highlights,\n    "photoLabel": firm.photoLabel,\n    recognition\n  }\n': FIRM_EXTRAS_QUERY_RESULT;
     '\n  *[_type == "teamMember" && language == $language && kind == $kind]\n    | order(order asc, name asc){\n      _id,\n      name,\n      role,\n      photo,\n      bio,\n      spokenLanguages\n    }\n': TEAM_QUERY_RESULT;
     '\n  *[_type == "service" && language == $language && defined(slug.current)]\n    | order(order asc, title asc){ _id, title, summary, "slug": slug.current }\n': SERVICES_QUERY_RESULT;
     '\n  *[_type == "service" && language == $language && defined(slug.current)].slug.current\n': SERVICE_SLUGS_QUERY_RESULT;
-    '\n  *[_type == "service" && language == $language && slug.current == $slug][0]{\n    _id,\n    title,\n    summary,\n    image,\n    body,\n    helpPoints[]{ _key, title, description },\n    "testimonial": select(testimonial->published != false => testimonial->{\n      author,\n      "quote": select($language == "es" => quote.es, $language == "en" => quote.en, quote.fr),\n      "role": select($language == "es" => role.es, $language == "en" => role.en, role.fr)\n    }),\n    seo,\n    "others": *[_type == "service" && language == $language && _id != ^._id && defined(slug.current)]\n      | order(order asc, title asc){ _id, title, "slug": slug.current },\n    "translations": *[_type == "translation.metadata" && references(^._id)][0].translations[].value->{ language, "slug": slug.current }\n  }\n': SERVICE_QUERY_RESULT;
+    '\n  *[_type == "service" && language == $language && slug.current == $slug][0]{\n    _id,\n    title,\n    summary,\n    image,\n    body,\n    audiences[]{\n      _key,\n      eyebrow,\n      title,\n      lead,\n      facts[]{ _key, value, label },\n      steps[]{ _key, title, description },\n      ctaLabel\n    },\n    helpPoints[]{ _key, title, description },\n    faq[]{ _key, question, answer },\n    disclaimer,\n    "testimonial": select(testimonial->published != false => testimonial->{\n      author,\n      "quote": select($language == "es" => quote.es, $language == "en" => quote.en, quote.fr),\n      "role": select($language == "es" => role.es, $language == "en" => role.en, role.fr)\n    }),\n    seo,\n    "others": *[_type == "service" && language == $language && _id != ^._id && defined(slug.current)]\n      | order(order asc, title asc){ _id, title, "slug": slug.current },\n    "translations": *[_type == "translation.metadata" && references(^._id)][0].translations[].value->{ language, "slug": slug.current }\n  }\n': SERVICE_QUERY_RESULT;
     '\n  *[_type == "investGuide" && language == $language && !defined(parent) && defined(slug.current)]\n    | order(order asc, title asc){\n      _id,\n      title,\n      summary,\n      "slug": slug.current,\n      "children": *[_type == "investGuide" && parent._ref == ^._id && defined(slug.current)]\n        | order(order asc, title asc){ _id, title, "slug": slug.current }\n    }\n': GUIDE_INDEX_QUERY_RESULT;
     '\n  *[_type == "investGuide" && language == $language && !defined(parent) && defined(slug.current)]\n    .slug.current\n': GUIDE_TOPIC_SLUGS_QUERY_RESULT;
     '\n  *[_type == "investGuide" && language == $language && defined(slug.current) && defined(parent->slug.current)]{\n    "topic": parent->slug.current,\n    "subtopic": slug.current\n  }\n': GUIDE_SUBTOPIC_PARAMS_QUERY_RESULT;

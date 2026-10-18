@@ -1,16 +1,17 @@
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import type { ComponentProps } from "react";
 import { Link } from "@/i18n/navigation";
+
+export type FooterLink = { label: string; href: ComponentProps<typeof Link>["href"] };
 
 type Props = {
   // Textos del pie por idioma (siteSettings en Sanity).
   body: string;
   rights: string;
+  links: FooterLink[];
 };
 
-export function Footer({ body, rights }: Props) {
-  const t = useTranslations("Navigation");
-
+export function Footer({ body, rights, links }: Props) {
   return (
     // pb-24 deja sitio para que WhatsAppFloat no tape el último texto.
     <footer className="mx-auto flex max-w-[1320px] flex-wrap items-start justify-between gap-x-14 gap-y-8 px-7 pt-14 pb-24">
@@ -27,12 +28,18 @@ export function Footer({ body, rights }: Props) {
         </p>
       </div>
       <div className="flex flex-[1_1_240px] flex-col items-end gap-2.5 text-right text-[13px] text-stone-dim">
-        <Link
-          href="/actualite"
-          className="inline-flex min-h-11 min-w-11 items-center justify-end text-bronze-light underline-offset-4 hover:text-cream hover:underline"
-        >
-          {t("news")}
-        </Link>
+        <ul className="flex flex-wrap justify-end gap-x-6">
+          {links.map((link) => (
+            <li key={link.label}>
+              <Link
+                href={link.href}
+                className="inline-flex min-h-11 min-w-11 items-center justify-end text-bronze-light underline-offset-4 hover:text-cream hover:underline"
+              >
+                {link.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
         <p>{rights}</p>
       </div>
     </footer>

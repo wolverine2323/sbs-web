@@ -14,6 +14,13 @@ export const SITE_SETTINGS_QUERY = defineQuery(`
     bookingUrl,
     mapsUrl,
     mapsEmbedUrl,
+    // Servicio del menú y del pie, en el idioma pedido (la referencia apunta
+    // a la versión francesa).
+    "featuredService": coalesce(
+      *[_type == "translation.metadata" && references(^.featuredService._ref)][0]
+        .translations[language == $language][0].value->{ "label": coalesce(shortTitle, title), "slug": slug.current },
+      select(featuredService->language == $language => featuredService->{ "label": coalesce(shortTitle, title), "slug": slug.current })
+    ),
     gaId,
     social[]{ platform, url },
     "footerBody": ${localized("footerBody")},
@@ -60,6 +67,7 @@ export const SECTION_PAGE_QUERY = defineQuery(`
     lead,
     image,
     body,
+    "featuredService": featuredService->{ title, summary, "slug": slug.current },
     seo
   }
 `);
@@ -109,7 +117,18 @@ export const SERVICE_QUERY = defineQuery(`
     summary,
     image,
     body,
+    audiences[]{
+      _key,
+      eyebrow,
+      title,
+      lead,
+      facts[]{ _key, value, label },
+      steps[]{ _key, title, description },
+      ctaLabel
+    },
     helpPoints[]{ _key, title, description },
+    faq[]{ _key, question, answer },
+    disclaimer,
     "testimonial": select(testimonial->published != false => testimonial->{
       author,
       "quote": ${localized("quote")},

@@ -7,7 +7,7 @@ import { draftMode } from "next/headers";
 import { notFound } from "next/navigation";
 import { locale as rootLocale } from "next/root-params";
 import { Suspense } from "react";
-import { Footer } from "@/components/Footer";
+import { Footer, type FooterLink } from "@/components/Footer";
 import { Header, type NavItem } from "@/components/Header";
 import { AlternatesProvider } from "@/components/LocaleAlternates";
 import { WhatsAppFloat } from "@/components/WhatsAppFloat";
@@ -61,17 +61,40 @@ async function SanityTools() {
   );
 }
 
-// En escritorio el menú muestra las cuatro secciones de la referencia;
-// Actualité y Contact solo en el menú móvil (están en el pie y en la portada).
-async function getNavItems(): Promise<NavItem[]> {
+// Servicio elegido en «Ajustes del sitio → Servicio en el menú».
+type FeaturedService = { label: string | null; slug: string | null } | null | undefined;
+
+const featuredLink = (featured: FeaturedService) =>
+  featured?.label && featured.slug
+    ? {
+        label: featured.label,
+        href: { pathname: "/expertises/[slug]" as const, params: { slug: featured.slug } },
+      }
+    : null;
+
+// En escritorio el menú muestra las secciones de la referencia y el servicio
+// destacado; Actualité y Contact solo en el menú móvil (están en el pie).
+async function getNavItems(featured: FeaturedService): Promise<NavItem[]> {
   const t = await getTranslations("Navigation");
+  const service = featuredLink(featured);
   return [
     { label: t("firm"), href: "/le-cabinet" },
     { label: t("expertise"), href: "/expertises" },
     { label: t("invest"), href: "/investir-au-costa-rica" },
+    ...(service ? [service] : []),
     { label: t("experiences"), href: "/experiences" },
     { label: t("news"), href: "/actualite", mobileOnly: true },
     { label: t("contact"), href: "/contact", mobileOnly: true },
+  ];
+}
+
+async function getFooterLinks(featured: FeaturedService): Promise<FooterLink[]> {
+  const t = await getTranslations("Navigation");
+  const service = featuredLink(featured);
+  return [
+    ...(service ? [service] : []),
+    { label: t("news"), href: "/actualite" },
+    { label: t("contact"), href: "/contact" },
   ];
 }
 
@@ -81,15 +104,16 @@ export default async function LocaleLayout({
   const locale = await rootLocale();
   if (!hasLocale(routing.locales, locale)) notFound();
 
-  const [navItems, { data: settings }] = await Promise.all([
-    getNavItems(),
-    cachedSanity({
-      query: SITE_SETTINGS_QUERY,
-      params: { language: locale },
-      tags: ["siteSettings"],
-      perspective: "published",
-      stega: false,
-    }),
+  const { data: settings } = await cachedSanity({
+    query: SITE_SETTINGS_QUERY,
+    params: { language: locale },
+    tags: ["siteSettings", "service", "translation.metadata"],
+    perspective: "published",
+    stega: false,
+  });
+  const [navItems, footerLinks] = await Promise.all([
+    getNavItems(settings?.featuredService),
+    getFooterLinks(settings?.featuredService),
   ]);
 
   return (
@@ -101,7 +125,11 @@ export default async function LocaleLayout({
             {children}
           </AlternatesProvider>
           {settings && (
-            <Footer body={settings.footerBody ?? ""} rights={settings.footerRights ?? ""} />
+            <Footer
+              body={settings.footerBody ?? ""}
+              rights={settings.footerRights ?? ""}
+              links={footerLinks}
+            />
           )}
           <WhatsAppFloat number={settings?.whatsapp ?? undefined} />
         </NextIntlClientProvider>

@@ -73,7 +73,11 @@
     "label": "Expertise",
     "howWeHelp": "Comment nous vous aidons",
     "otherServices": "Nos autres expertises",
-    "testimonial": "Témoignage"
+    "testimonial": "Témoignage",
+    "audiences": "À qui s’adresse ce service",
+    "steps": "Étapes",
+    "faq": "Questions fréquentes",
+    "disclaimer": "Avertissement"
   },
   "Guide": {
     "onThisPage": "Sur cette page",

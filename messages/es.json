@@ -73,7 +73,11 @@
     "label": "Área de práctica",
     "howWeHelp": "Cómo le ayudamos",
     "otherServices": "Otras áreas de práctica",
-    "testimonial": "Testimonio"
+    "testimonial": "Testimonio",
+    "audiences": "A quién va dirigido",
+    "steps": "Pasos",
+    "faq": "Preguntas frecuentes",
+    "disclaimer": "Aviso legal"
   },
   "Guide": {
     "onThisPage": "En esta página",

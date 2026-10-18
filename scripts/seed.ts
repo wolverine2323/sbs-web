@@ -1,7 +1,8 @@
 /**
  * Carga en Sanity el contenido de la portada a partir del dict() de
- * design/nocturne-reference.html (textos FR/ES/EN), y los textos de las
- * páginas de sección (Le Cabinet, índices, Contact).
+ * design/nocturne-reference.html (textos FR/ES/EN), los textos de las
+ * páginas de sección (Le Cabinet, índices, Contact) y el servicio
+ * «Crédit & investissement» (scripts/content/lending.ts).
  *
  *   npm run seed              crea lo que falta; no toca lo que ya existe
  *   npm run seed -- --dry-run muestra qué haría, sin escribir nada
@@ -10,10 +11,12 @@
  * Necesita SANITY_API_WRITE_TOKEN (token «Editor»).
  */
 import { readFileSync } from "node:fs";
+import type { Patch, SanityClient } from "@sanity/client";
 import { getCliClient } from "sanity/cli";
 import { apiVersion } from "../src/sanity/env";
 import { languages } from "../src/sanity/languages";
 import { slugify } from "../src/lib/slugify";
+import { lending } from "./content/lending";
 
 type Lang = (typeof languages)[number]["id"];
 type Doc = { _id: string; _type: string; [key: string]: unknown };
@@ -28,6 +31,16 @@ const EMAIL = "info@sbs.cr";
 const BOOKING_URL = "https://calendar.app.google/oU4teZWLHRAWEcy67";
 const DISTINCTIONS_LINE = "Chambers & Partners · LACCA";
 const DISTINCTIONS = ["Chambers & Partners", "LACCA Approved"];
+
+// «Crédit & investissement» es el quinto servicio (ids service-xx-5), así que
+// los textos «Quatre pôles…» de la referencia pasan a «Cinq pôles…».
+const LENDING = 5;
+const FIVE: Record<Lang, [from: string, to: string]> = {
+  fr: ["Quatre", "Cinq"],
+  es: ["Cuatro", "Cinco"],
+  en: ["Four", "Five"],
+};
+const servicesLead = (lang: Lang, lead: string) => lead.replace(...FIVE[lang]);
 const MAPS_URL =
   "https://www.google.com/maps/search/?api=1&query=Terra+Campus+Corporativo%2C+La+Uni%C3%B3n%2C+Costa+Rica";
 const MAPS_EMBED_URL =
@@ -169,6 +182,7 @@ function buildDocuments(dict: Record<Lang, ReferenceTexts>): Doc[] {
     bookingUrl: BOOKING_URL,
     mapsUrl: MAPS_URL,
     mapsEmbedUrl: MAPS_EMBED_URL,
+    featuredService: ref(ids.service("fr", LENDING)),
     footerBody: localized("localeText", (lang) => t(lang).footerBody),
     footerRights: localized("localeString", (lang) => t(lang).rights),
   });
@@ -199,7 +213,8 @@ function buildDocuments(dict: Record<Lang, ReferenceTexts>): Doc[] {
       }),
     );
   }
-  for (let n = 1; n <= serviceCount; n++) {
+  for (const { id: lang } of languages) docs.push(lendingService(lang));
+  for (let n = 1; n <= serviceCount + 1; n++) {
     docs.push(translations(`translations-service-${n}`, "service", (lang) => ids.service(lang, n)));
   }
   for (let n = 1; n <= guideCount; n++) {
@@ -251,8 +266,8 @@ function buildDocuments(dict: Record<Lang, ReferenceTexts>): Doc[] {
       services: {
         eyebrow: d.servEyebrow,
         title: d.servTitle,
-        lead: d.servLead,
-        items: Array.from({ length: serviceCount }, (_, i) =>
+        lead: servicesLead(lang, d.servLead),
+        items: Array.from({ length: serviceCount + 1 }, (_, i) =>
           ref(ids.service(lang, i + 1), `s${i + 1}`),
         ),
       },
@@ -301,8 +316,13 @@ function buildDocuments(dict: Record<Lang, ReferenceTexts>): Doc[] {
       firm: { eyebrow: d.nav.firm, title: d.firmTitle, lead: `SBS Abogados ${d.firmBody}` },
       founders: { eyebrow: d.nav.firm, title: extra.founders.title, lead: extra.founders.lead },
       associates: { eyebrow: d.nav.firm, title: extra.associates.title, lead: extra.associates.lead },
-      expertise: { eyebrow: d.servEyebrow, title: d.servTitle, lead: d.servLead },
-      invest: { eyebrow: d.nav.invest, title: d.investTitle, lead: d.investLead },
+      expertise: { eyebrow: d.servEyebrow, title: d.servTitle, lead: servicesLead(lang, d.servLead) },
+      invest: {
+        eyebrow: d.nav.invest,
+        title: d.investTitle,
+        lead: d.investLead,
+        featuredService: ref(ids.service(lang, LENDING)),
+      },
       experiences: { eyebrow: d.testiEyebrow, title: d.testiTitle, lead: extra.experiences.lead },
       news: { eyebrow: d.nav.news, title: extra.news.title, lead: extra.news.lead },
       contact: { eyebrow: d.nav.contact, title: d.contactTitle, lead: d.contactBody },
@@ -328,16 +348,108 @@ function buildDocuments(dict: Record<Lang, ReferenceTexts>): Doc[] {
   return docs;
 }
 
+// Servicio «Crédit & investissement» en un idioma.
+function lendingService(lang: Lang): Doc {
+  const c = lending[lang];
+  const items = (list: [string, string][], type: string) =>
+    list.map(([title, description], i) => ({ _key: `${type}${i + 1}`, _type: type, title, description }));
+  return {
+    _id: ids.service(lang, LENDING),
+    _type: "service",
+    language: lang,
+    title: c.title,
+    shortTitle: c.shortTitle,
+    slug: { _type: "slug", current: c.slug },
+    summary: c.summary,
+    audiences: c.audiences.map((audience, i) => ({
+      _key: `audience${i + 1}`,
+      _type: "audience",
+      eyebrow: audience.eyebrow,
+      title: audience.title,
+      lead: audience.lead,
+      facts: audience.facts.map(([value, label], j) => ({ _key: `fact${j + 1}`, _type: "fact", value, label })),
+      steps: items(audience.steps, "step"),
+      ctaLabel: audience.ctaLabel,
+    })),
+    helpPoints: items(c.helpPoints, "helpPoint"),
+    faq: c.faq.map(([question, answer], i) => ({ _key: `faq${i + 1}`, _type: "faqItem", question, answer })),
+    disclaimer: c.disclaimer,
+    order: LENDING,
+    seo: { _type: "seo", ...c.seo },
+  };
+}
+
 // Campos añadidos después del primer seed: se rellenan en los documentos que
 // ya existen solo si están vacíos (setIfMissing), sin tocar lo editado.
 const newFields: { id: string; fields: Record<string, unknown> }[] = [
-  { id: "siteSettings", fields: { mapsUrl: MAPS_URL, mapsEmbedUrl: MAPS_EMBED_URL } },
+  {
+    id: "siteSettings",
+    fields: {
+      mapsUrl: MAPS_URL,
+      mapsEmbedUrl: MAPS_EMBED_URL,
+      featuredService: ref(ids.service("fr", LENDING)),
+    },
+  },
+  ...languages.map(({ id: lang }) => ({
+    id: ids.section("invest", lang),
+    fields: { featuredService: ref(ids.service(lang, LENDING)) },
+  })),
 ];
+
+type Edit = { id: string; label: string; apply: (patch: Patch) => Patch };
+
+// Ediciones en documentos que ya existen, solo si siguen como los dejó el
+// seed: el quinto servicio en la portada y «Cinq pôles» en lugar de «Quatre».
+async function plannedEdits(client: SanityClient, dict: Record<Lang, ReferenceTexts>) {
+  const current = await client.fetch<{
+    homes: { _id: string; language: Lang; lead?: string; refs?: string[] }[];
+    pages: { _id: string; language: Lang; lead?: string }[];
+  }>(
+    `{
+      "homes": *[_id in $homeIds]{ _id, language, "lead": services.lead, "refs": services.items[]._ref },
+      "pages": *[_id in $pageIds]{ _id, language, lead }
+    }`,
+    {
+      homeIds: languages.map(({ id }) => ids.home(id)),
+      pageIds: languages.map(({ id }) => ids.section("expertise", id)),
+    },
+  );
+  const edits: Edit[] = [];
+  for (const home of current.homes) {
+    const serviceId = ids.service(home.language, LENDING);
+    if (!home.refs?.includes(serviceId)) {
+      edits.push({
+        id: home._id,
+        label: "portada: quinto servicio",
+        apply: (patch) =>
+          patch.setIfMissing({ "services.items": [] }).append("services.items", [ref(serviceId, `s${LENDING}`)]),
+      });
+    }
+    if (home.lead === dict[home.language].servLead) {
+      edits.push({
+        id: home._id,
+        label: "portada: cinco áreas",
+        apply: (patch) => patch.set({ "services.lead": servicesLead(home.language, home.lead!) }),
+      });
+    }
+  }
+  for (const page of current.pages) {
+    if (page.lead === dict[page.language].servLead) {
+      edits.push({
+        id: page._id,
+        label: "Expertises: cinco áreas",
+        apply: (patch) => patch.set({ lead: servicesLead(page.language, page.lead!) }),
+      });
+    }
+  }
+  return edits;
+}
 
 // --- Escribir en Sanity -------------------------------------------------------
 
 async function main() {
-  const docs = buildDocuments(readReferenceDict());
+  const dict = readReferenceDict();
+  const docs = buildDocuments(dict);
   const count = (type: string) => docs.filter((doc) => doc._type === type).length;
   console.log(
     `Documentos preparados: ${docs.length} (` +
@@ -356,11 +468,13 @@ async function main() {
   );
   const toWrite = force ? docs : docs.filter((doc) => !existing.has(doc._id));
   const toPatch = force ? [] : newFields.filter(({ id }) => existing.has(id));
+  const edits = force ? [] : await plannedEdits(client, dict);
   console.log(
     `Ya existen: ${existing.size}. ${force ? "Se sobrescriben todos (--force)" : "Se crean"}: ${toWrite.length}.` +
-      (toPatch.length ? ` Campos nuevos (si están vacíos) en: ${toPatch.map(({ id }) => id).join(", ")}.` : ""),
+      (toPatch.length ? ` Campos nuevos (si están vacíos) en: ${toPatch.map(({ id }) => id).join(", ")}.` : "") +
+      (edits.length ? ` Ediciones: ${edits.map(({ id, label }) => `${id} (${label})`).join(", ")}.` : ""),
   );
-  if (!toWrite.length && !toPatch.length) return;
+  if (!toWrite.length && !toPatch.length && !edits.length) return;
 
   // Una transacción: o se escribe todo, o nada (las referencias fuertes lo exigen).
   const transaction = client.transaction();
@@ -370,6 +484,9 @@ async function main() {
   }
   for (const { id, fields } of toPatch) {
     transaction.patch(id, (patch) => patch.setIfMissing(fields));
+  }
+  for (const { id, apply } of edits) {
+    transaction.patch(id, apply);
   }
   const result = await transaction.commit({ dryRun, visibility: "sync" });
   console.log(dryRun ? `Prueba en seco correcta: ${result.results.length} documentos (no se guardó nada).` : `Guardados: ${result.results.length} documentos.`);
