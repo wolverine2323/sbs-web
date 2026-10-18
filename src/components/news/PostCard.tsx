@@ -53,7 +53,7 @@ export function PostCard({ post }: { post: PostSummary }) {
       <h2 className="mt-3 font-serif text-[clamp(26px,2.2vw,30px)] leading-[1.15] text-on-paper">
         <Link
           href={{ pathname: "/actualite/[slug]", params: { slug: post.slug } }}
-          className="transition-colors after:absolute after:inset-0 group-hover:text-burgundy focus-visible:outline-on-paper"
+          className="inline-block min-h-11 transition-colors after:absolute after:inset-0 group-hover:text-burgundy focus-visible:outline-on-paper"
         >
           {post.title}
         </Link>
