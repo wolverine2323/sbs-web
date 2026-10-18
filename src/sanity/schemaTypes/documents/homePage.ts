@@ -18,6 +18,25 @@ const block = (
   description?: string,
 ) => defineField({ name, title, type: "object", group: name, fields, description });
 
+// Sello de reconocimiento: logo (si lo hay) o texto en un círculo.
+const seal = (example: string, caption: string) =>
+  defineArrayMember({
+    type: "object",
+    name: "seal",
+    fields: [
+      text("name", "Texto del sello", `«${example}». Con logo, es su texto alternativo.`),
+      text("caption", "Leyenda", `«${caption}»`),
+      defineField({
+        name: "logo",
+        title: "Logo",
+        type: "image",
+        description:
+          "SVG (o PNG con fondo transparente) en un solo color, gris #4A4540 como los demás. Sin logo se muestra el sello de texto.",
+      }),
+    ],
+    preview: { select: { title: "name", subtitle: "caption", media: "logo" } },
+  });
+
 export const homePage = defineType({
   name: "homePage",
   title: "Portada",
@@ -144,32 +163,14 @@ export const homePage = defineType({
         name: "embassies",
         title: "Embajadas",
         type: "array",
-        description: "Solo texto: no se usan escudos de embajadas.",
-        of: [
-          defineArrayMember({
-            type: "object",
-            name: "seal",
-            fields: [
-              text("name", "Texto del sello", "«Canada»"),
-              text("caption", "Leyenda", "«Ambassade du Canada»"),
-            ],
-          }),
-        ],
+        description: "Logos autorizados por la firma (18/10/2026).",
+        of: [seal("Canada", "Ambassade du Canada")],
       }),
       defineField({
         name: "distinctions",
         title: "Distinciones",
         type: "array",
-        of: [
-          defineArrayMember({
-            type: "object",
-            name: "seal",
-            fields: [
-              text("name", "Texto del sello", "«Chambers & Partners»"),
-              text("caption", "Leyenda", "«Distinction d’excellence»"),
-            ],
-          }),
-        ],
+        of: [seal("Chambers & Partners", "Distinction d’excellence")],
       }),
     ]),
     block("contact", "Contacto", [

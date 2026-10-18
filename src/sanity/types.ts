@@ -512,12 +512,26 @@ export type HomePage = {
     embassies?: Array<{
       name?: string;
       caption?: string;
+      logo?: {
+        asset?: SanityImageAssetReference;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+      };
       _type: "seal";
       _key: string;
     }>;
     distinctions?: Array<{
       name?: string;
       caption?: string;
+      logo?: {
+        asset?: SanityImageAssetReference;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+      };
       _type: "seal";
       _key: string;
     }>;
@@ -819,12 +833,26 @@ export type HOME_PAGE_QUERY_RESULT = {
     embassies?: Array<{
       name?: string;
       caption?: string;
+      logo?: {
+        asset?: SanityImageAssetReference;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+      };
       _type: "seal";
       _key: string;
     }>;
     distinctions?: Array<{
       name?: string;
       caption?: string;
+      logo?: {
+        asset?: SanityImageAssetReference;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+      };
       _type: "seal";
       _key: string;
     }>;
@@ -889,12 +917,26 @@ export type FIRM_EXTRAS_QUERY_RESULT = {
     embassies?: Array<{
       name?: string;
       caption?: string;
+      logo?: {
+        asset?: SanityImageAssetReference;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+      };
       _type: "seal";
       _key: string;
     }>;
     distinctions?: Array<{
       name?: string;
       caption?: string;
+      logo?: {
+        asset?: SanityImageAssetReference;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+      };
       _type: "seal";
       _key: string;
     }>;
