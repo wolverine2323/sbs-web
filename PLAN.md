@@ -143,6 +143,24 @@ Crea estas plantillas en el estilo Nocturne, todas alimentadas por Sanity y con 
 Los slugs deben estar traducidos por idioma (p. ej. /fr/le-cabinet, /es/la-firma, /en/the-firm).
 Muéstrame primero la estructura de rutas propuesta.
 ```
+**Rutas aprobadas por José Luis (18/10/2026):**
+
+| Página | FR | ES | EN |
+|---|---|---|---|
+| Le Cabinet | `/fr/le-cabinet` | `/es/la-firma` | `/en/the-firm` |
+| Socios fundadores | `…/le-cabinet/associes-fondateurs` | `…/la-firma/socios-fundadores` | `…/the-firm/founding-partners` |
+| Abogados colaboradores | `…/le-cabinet/avocats-collaborateurs` | `…/la-firma/abogados-colaboradores` | `…/the-firm/associate-attorneys` |
+| Expertises (índice / servicio) | `/fr/expertises/(slug)` | `/es/areas-de-practica/(slug)` | `/en/practice-areas/(slug)` |
+| Guía (índice / tema / subtema) | `/fr/investir-au-costa-rica/(tema)/(subtema)` | `/es/invertir-en-costa-rica/…` | `/en/invest-in-costa-rica/…` |
+| Expériences | `/fr/experiences` | `/es/experiencias` | `/en/experiences` |
+| Actualité (lista / página N / categoría / artículo) | `/fr/actualite`, `/page/2`, `/categorie/(slug)`, `/(slug)` | `/es/actualidad`, `/pagina/2`, `/categoria/(slug)` | `/en/news`, `/page/2`, `/category/(slug)` |
+| Contact | `/fr/contact` | `/es/contacto` | `/en/contact` |
+| Páginas generales (Fase 8) | `/fr/(slug)` | `/es/(slug)` | `/en/(slug)` |
+
+- El selector de idioma lleva a la traducción vinculada en Sanity; sin traducción, al índice de la sección en ese idioma.
+- Nuevo tipo «Página de sección» (textos de cada índice, Le Cabinet y Contact); servicio con «Cómo le ayudamos» y testimonio relacionado; mapa de Google en los ajustes.
+- Sin página individual por abogado (fundadores con biografía completa, colaboradores en tarjetas). Mapa que se carga al pulsar (cookies de Google). Guía de 2 niveles como máximo. 9 artículos por página.
+
 **Listo cuando:** todas las rutas funcionan en los 3 idiomas y el selector de idioma lleva a la página equivalente (no a la portada).
 
 ---
