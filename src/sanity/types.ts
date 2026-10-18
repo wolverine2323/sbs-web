@@ -82,19 +82,6 @@ export type AccessibleImage = {
   alt?: string;
 };
 
-export type Testimonial = {
-  _id: string;
-  _type: "testimonial";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  quote?: LocaleText;
-  author: string;
-  role?: LocaleString;
-  order?: number;
-  published?: boolean;
-};
-
 export type SiteSettings = {
   _id: string;
   _type: "siteSettings";
@@ -104,6 +91,8 @@ export type SiteSettings = {
   phone: string;
   email: string;
   address?: LocaleText;
+  mapsUrl?: string;
+  mapsEmbedUrl?: string;
   whatsapp?: string;
   bookingUrl: string;
   gaId?: string;
@@ -163,6 +152,13 @@ export type HomePageReference = {
   [internalGroqTypeReferenceTo]?: "homePage";
 };
 
+export type SectionPageReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "sectionPage";
+};
+
 export type ServiceReference = {
   _ref: string;
   _type: "reference";
@@ -209,6 +205,7 @@ export type InternationalizedArrayReferenceValue = {
   _type: "internationalizedArrayReferenceValue";
   value?:
     | HomePageReference
+    | SectionPageReference
     | ServiceReference
     | InvestGuideReference
     | PageReference
@@ -291,10 +288,18 @@ export type InvestGuide = {
   language?: string;
   title: string;
   slug: Slug;
+  summary?: string;
   parent?: InvestGuideReference;
   order?: number;
   body?: BlockContent;
   seo?: Seo;
+};
+
+export type TestimonialReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "testimonial";
 };
 
 export type Service = {
@@ -309,7 +314,51 @@ export type Service = {
   summary: string;
   image?: AccessibleImage;
   body?: BlockContent;
+  helpPoints?: Array<{
+    title: string;
+    description?: string;
+    _type: "helpPoint";
+    _key: string;
+  }>;
+  testimonial?: TestimonialReference;
   order?: number;
+  seo?: Seo;
+};
+
+export type Testimonial = {
+  _id: string;
+  _type: "testimonial";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  quote?: LocaleText;
+  author: string;
+  role?: LocaleString;
+  order?: number;
+  published?: boolean;
+};
+
+export type SectionPage = {
+  _id: string;
+  _type: "sectionPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  language?: string;
+  section:
+    | "firm"
+    | "founders"
+    | "associates"
+    | "expertise"
+    | "invest"
+    | "experiences"
+    | "news"
+    | "contact";
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  image?: AccessibleImage;
+  body?: BlockContent;
   seo?: Seo;
 };
 
@@ -513,13 +562,13 @@ export type AllSanitySchemaTypes =
   | LocaleString
   | BlockContent
   | AccessibleImage
-  | Testimonial
   | SiteSettings
   | SanityImageCrop
   | SanityImageHotspot
   | TranslationMetadata
   | InternationalizedArrayReference
   | HomePageReference
+  | SectionPageReference
   | ServiceReference
   | InvestGuideReference
   | PageReference
@@ -533,7 +582,10 @@ export type AllSanitySchemaTypes =
   | TeamMember
   | Page
   | InvestGuide
+  | TestimonialReference
   | Service
+  | Testimonial
+  | SectionPage
   | HomePage
   | SanityImagePaletteSwatch
   | SanityImagePalette

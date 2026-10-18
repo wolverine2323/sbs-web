@@ -3,6 +3,7 @@ import { homePage } from "./documents/homePage";
 import { investGuide } from "./documents/investGuide";
 import { page } from "./documents/page";
 import { post } from "./documents/post";
+import { sectionPage } from "./documents/sectionPage";
 import { service } from "./documents/service";
 import { siteSettings } from "./documents/siteSettings";
 import { teamMember } from "./documents/teamMember";
@@ -16,6 +17,7 @@ export const schemaTypes = [
   // Documentos
   siteSettings,
   homePage,
+  sectionPage,
   service,
   investGuide,
   page,
@@ -34,6 +36,7 @@ export const schemaTypes = [
 // Un documento por idioma, con las traducciones vinculadas por el plugin.
 export const translatedTypes = [
   "homePage",
+  "sectionPage",
   "service",
   "investGuide",
   "page",

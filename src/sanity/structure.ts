@@ -6,6 +6,7 @@ import { ComposeIcon } from "@sanity/icons/Compose";
 import { DocumentsIcon } from "@sanity/icons/Documents";
 import { DocumentTextIcon } from "@sanity/icons/DocumentText";
 import { HomeIcon } from "@sanity/icons/Home";
+import { MasterDetailIcon } from "@sanity/icons/MasterDetail";
 import { TagIcon } from "@sanity/icons/Tag";
 import { UsersIcon } from "@sanity/icons/Users";
 import type { ComponentType } from "react";
@@ -66,6 +67,7 @@ export const structure: StructureResolver = (S) =>
             .title("Páginas")
             .items([
               S.documentTypeListItem("homePage").title("Portada").icon(HomeIcon),
+              byLanguage(S, "sectionPage", "Páginas de sección", MasterDetailIcon),
               byLanguage(S, "service", "Servicios", CaseIcon),
               byLanguage(S, "investGuide", "Guía del inversor", BookIcon),
               byLanguage(S, "page", "Páginas generales", DocumentTextIcon),

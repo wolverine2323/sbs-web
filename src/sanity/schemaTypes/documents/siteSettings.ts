@@ -36,6 +36,27 @@ export const siteSettings = defineType({
       validation: (rule) => rule.custom(requireAllLanguages),
     }),
     defineField({
+      name: "mapsUrl",
+      title: "Enlace a Google Maps",
+      type: "url",
+      group: "contact",
+      description: "Se abre al pulsar «Ver en Google Maps» en la página de contacto.",
+    }),
+    defineField({
+      name: "mapsEmbedUrl",
+      title: "Mapa insertado",
+      type: "url",
+      group: "contact",
+      description:
+        "En Google Maps: Compartir → Insertar un mapa, y copia solo la dirección que va en src=\"…\". El mapa se carga cuando el visitante lo pide.",
+      validation: (rule) =>
+        rule.custom((url) =>
+          !url || url.startsWith("https://www.google.com/maps")
+            ? true
+            : "Debe empezar por https://www.google.com/maps",
+        ),
+    }),
+    defineField({
       name: "whatsapp",
       title: "WhatsApp",
       type: "string",
