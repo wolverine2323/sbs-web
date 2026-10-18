@@ -7,6 +7,7 @@
  *   sin volumen de créditos ni número de clientes.
  * - SBS hace la revisión legal, la escritura e inscripción ante notario y
  *   asesora al inversionista extranjero.
+ * - Título corto (menú): «Crédit privé», para que el logo siga centrado.
  */
 
 type Item = [title: string, description: string];
@@ -34,7 +35,7 @@ export type LendingContent = {
 export const lending: Record<"fr" | "es" | "en", LendingContent> = {
   fr: {
     title: "Crédit hypothécaire privé & investissement",
-    shortTitle: "Crédit & investissement",
+    shortTitle: "Crédit privé",
     slug: "credit-hypothecaire-prive-investissement",
     summary:
       "Financement privé garanti par un bien immobilier et investissement dans des prêts hypothécaires au Costa Rica, en alliance avec Trust Capital. SBS assure la sécurité juridique de chaque opération.",
@@ -104,7 +105,7 @@ export const lending: Record<"fr" | "es" | "en", LendingContent> = {
   },
   es: {
     title: "Crédito hipotecario privado e inversión",
-    shortTitle: "Crédito e inversión",
+    shortTitle: "Crédito privado",
     slug: "credito-hipotecario-privado-e-inversion",
     summary:
       "Financiamiento privado con garantía inmobiliaria e inversión en créditos hipotecarios en Costa Rica, en alianza con Trust Capital. SBS asegura la seguridad jurídica de cada operación.",
@@ -174,7 +175,7 @@ export const lending: Record<"fr" | "es" | "en", LendingContent> = {
   },
   en: {
     title: "Private mortgage lending & investment",
-    shortTitle: "Lending & investment",
+    shortTitle: "Private credit",
     slug: "private-mortgage-lending-investment",
     summary:
       "Private financing secured by real estate and investment in mortgage loans in Costa Rica, in alliance with Trust Capital. SBS provides the legal security of every transaction.",

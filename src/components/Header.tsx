@@ -56,7 +56,7 @@ export function Header({ items, bookingUrl }: Props) {
       <div className="mx-auto grid h-[92px] max-w-[1320px] grid-cols-[1fr_auto_1fr] items-center gap-3 px-7 sm:gap-5">
         <nav
           aria-label={t("label")}
-          className="hidden gap-[22px] text-[13px] tracking-[0.08em] whitespace-nowrap uppercase min-[1280px]:flex"
+          className="hidden gap-[18px] text-[13px] tracking-[0.08em] whitespace-nowrap uppercase min-[1280px]:flex"
         >
           {items
             .filter((item) => !item.mobileOnly)

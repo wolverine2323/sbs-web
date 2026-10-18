@@ -165,6 +165,11 @@ Muéstrame primero la estructura de rutas propuesta.
   - Selector de idioma: 24/24 enlaces correctos en 12 tipos de página; al pulsarlo se llega a la traducción exacta. Si aún no hay traducción vinculada, al índice de la sección.
   - Sanity: «Páginas de sección» (24 documentos cargados con `npm run seed`), servicio con «Cómo le ayudamos» y testimonio, resumen en la guía, enlaces de Google Maps en los ajustes. La pestaña «Vista previa» del Studio abre cada documento en su dirección traducida.
   - El contenido real (equipo y fotos, textos de servicios y de la guía, artículos) llega en la Fase 6.
+- [x] **Añadido el 18/10/2026 — servicio «Crédit privé» (crédito hipotecario privado e inversión, en alianza con Trust Capital).** Contenido FR/ES/EN extraído de trustcapital.credit y /investors, con los criterios de José Luis: botones solo a la agenda de SBS, solo cifras prudentes (sin testimonios, sin «aprobación garantizada», sin volumen ni número de clientes), y SBS a cargo de la revisión legal, la escritura e inscripción ante notario y la asesoría al inversionista extranjero.
+  - Página `/fr/expertises/credit-hypothecaire-prive-investissement` (y `/es/areas-de-practica/credito-hipotecario-privado-e-inversion`, `/en/practice-areas/private-mortgage-lending-investment`): dos públicos (solicitantes e inversionistas) con cifras clave y pasos, «Comment nous vous aidons», preguntas frecuentes y aviso legal. Los bloques sirven para cualquier servicio.
+  - Menú: con el logo centrado solo caben 4 enlaces en escritorio, así que «Crédit privé» ocupa el lugar de Expériences, que pasa al menú móvil y al pie (y sigue en la portada). Se cambia en Studio → Configuración → «Servicio en el menú» y en el «Título corto» del servicio.
+  - Portada: quinto servicio («Cinq pôles»). Guía del inversor: recuadro «Servicio destacado».
+  - Fuera por ahora: la calculadora de cuota, el listado de oportunidades (cambia a menudo) y los 10 artículos del blog de Trust Capital (se pueden importar en la Fase 6).
 
 **Listo cuando:** todas las rutas funcionan en los 3 idiomas y el selector de idioma lleva a la página equivalente (no a la portada).
 

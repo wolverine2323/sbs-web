@@ -72,8 +72,9 @@ const featuredLink = (featured: FeaturedService) =>
       }
     : null;
 
-// En escritorio el menú muestra las secciones de la referencia y el servicio
-// destacado; Actualité y Contact solo en el menú móvil (están en el pie).
+// Con el logo centrado solo caben cuatro enlaces en escritorio: Le Cabinet,
+// Expertises, Investir y el servicio destacado. Expériences, Actualité y
+// Contact van en el menú móvil y en el pie (Expériences también en la portada).
 async function getNavItems(featured: FeaturedService): Promise<NavItem[]> {
   const t = await getTranslations("Navigation");
   const service = featuredLink(featured);
@@ -82,7 +83,7 @@ async function getNavItems(featured: FeaturedService): Promise<NavItem[]> {
     { label: t("expertise"), href: "/expertises" },
     { label: t("invest"), href: "/investir-au-costa-rica" },
     ...(service ? [service] : []),
-    { label: t("experiences"), href: "/experiences" },
+    { label: t("experiences"), href: "/experiences", mobileOnly: !!service },
     { label: t("news"), href: "/actualite", mobileOnly: true },
     { label: t("contact"), href: "/contact", mobileOnly: true },
   ];
@@ -93,6 +94,7 @@ async function getFooterLinks(featured: FeaturedService): Promise<FooterLink[]> 
   const service = featuredLink(featured);
   return [
     ...(service ? [service] : []),
+    { label: t("experiences"), href: "/experiences" },
     { label: t("news"), href: "/actualite" },
     { label: t("contact"), href: "/contact" },
   ];
