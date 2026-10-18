@@ -229,7 +229,7 @@ Entrégame un reporte de las redirecciones y de los puntajes.
 
 ---
 
-## Fase 8 — Conversión, medición y cumplimiento
+## Fase 8 — Conversión, medición y cumplimiento ✅
 
 **Pendiente de la Fase 5:** el mapa de Google de Contact ya solo se carga al pulsar; enlazarlo con el consentimiento de cookies. La política de privacidad usará la plantilla de páginas generales (`/fr/(slug)`).
 
@@ -242,6 +242,18 @@ Entrégame un reporte de las redirecciones y de los puntajes.
 5. Botón flotante de WhatsApp con mensaje predefinido según el idioma.
 ```
 **👤 Después:** pide a la firma que revise el texto legal de la política de privacidad.
+
+- [x] **Completada el 18/10/2026** — Decisiones de José Luis: GA4 **G-2G5864TQ67** (el del sitio viejo), medir también las conversiones de Google Ads **AW-16654623512**, banner para todos los visitantes, política de privacidad redactada como borrador, el número de WhatsApp lo pone él en el Studio.
+  - GA4 y Google Ads: IDs en Ajustes del sitio → Enlaces. Con Consent Mode v2, nada de Google se carga hasta que el visitante acepta; cada categoría se puede retirar después (se borran las cookies `_ga`). Cookies de GA4 por 13 meses como máximo.
+  - Eventos `book_click`, `phone_click`, `email_click` y `whatsapp_click` con `page_language` y `section` (hero, header, footer, contact, team, audience, floating-button…). Con «Marketing» aceptado, cada clic en «Prendre rendez-vous» cuenta como conversión de Google Ads cuando se rellena su etiqueta.
+  - Banner de cookies FR/ES/EN (`src/components/consent/`): aceptar, rechazar y configurar con el mismo peso; categorías medición, marketing y mapas; la elección se guarda 6 meses (cookie `sbs_consent`); «Gestion des cookies» en el pie lo reabre. El mapa de Contact se muestra solo con el permiso «Mapas» o al pulsarlo. Ya no se crea la cookie `NEXT_LOCALE`.
+  - Política de privacidad (Ley 8968 y RGPD) como **borrador** de página general en los 3 idiomas (`npm run privacy`, texto en `scripts/content/privacy.ts`), ya elegida en Ajustes del sitio → Enlaces → Política de privacidad. El enlace del pie y del banner aparece al publicarla.
+  - El botón flotante de WhatsApp ya tenía mensaje por idioma (mensajes `WhatsApp.message`); aparece en cuanto haya número.
+  - Comprobado con Playwright: sin elegir o al rechazar, 0 peticiones a Google; con medición, GA4 recibe los eventos con idioma y sección; con todo aceptado, Ads también. Lighthouse móvil: Performance 91–97, Accessibility 100, SEO 100.
+- [ ] 👤 Poner el número de WhatsApp en el Studio (Ajustes del sitio → Contacto).
+- [ ] 👤 Que la firma revise la política de privacidad (completar la cédula jurídica entre corchetes) y publicarla en los 3 idiomas.
+- [ ] 👤 Google Ads: crear la acción de conversión «Cita» y pegar su etiqueta en Ajustes del sitio → Enlaces (o importar los eventos clave de GA4).
+- [ ] 👤 GA4: registrar las dimensiones personalizadas `page_language` y `section`, y marcar los 4 eventos como eventos clave.
 
 ---
 
